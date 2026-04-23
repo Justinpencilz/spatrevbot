@@ -1,3 +1,4 @@
+declare const fbq: any;
 import { useState, useEffect } from 'react'
 import { HeadContent, Scripts } from '@tanstack/react-router'
 import '../styles.css'
@@ -33,6 +34,19 @@ function useCountdown() {
 function LandingPage() {
   const { hours, minutes, seconds } = useCountdown()
   const pad = (n: number) => String(n).padStart(2, '0')
+
+  const handleWhatsAppClick = () => {
+    // Fire Facebook Lead event when button is clicked
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', {
+        content_name: 'WhatsApp Group Join',
+        lead_type: 'WhatsApp Button'
+      });
+      console.log('Facebook Lead event fired');
+    }
+    // Open WhatsApp in new tab
+    window.open('https://chat.whatsapp.com/KSu80BlA3El1USusAolRWw?mode=gi_t', '_blank');
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-4 py-16 text-center">
@@ -72,12 +86,12 @@ function LandingPage() {
         <p className="text-[#00f0ff] text-sm font-semibold">⚡ Limited spots!</p>
       </div>
 
-      <a
-        href="https://chat.whatsapp.com/KSu80BlA3El1USusAolRWw?mode=gi_t"
-        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black font-bold text-lg px-10 py-4 rounded-full transition-all"
+      <button
+        onClick={handleWhatsAppClick}
+        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black font-bold text-lg px-10 py-4 rounded-full transition-all cursor-pointer"
       >
-        👋 Join free whatsapp group now 
-      </a>
+        👋 Join free whatsapp group now
+      </button>
       <span className="text-3xl mt-2">👉</span>
     </div>
   )
@@ -98,8 +112,7 @@ export default function RootLayout() {
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '1482904169891589');
-          fbq('track', 'Lead');`}
+          fbq('init', '1482904169891589');`}
         </script>
         <noscript>
           <img height="1" width="1" style={{display: 'none'}}
