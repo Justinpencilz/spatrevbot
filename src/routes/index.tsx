@@ -81,10 +81,10 @@ function LandingPage() {
 
       {/* CTA Button */}
       <a
-        href="https://t.me/spatrev_ai"
+        href="https://chat.whatsapp.com/KSu80BlA3El1USusAolRWw?mode=gi_t"
         className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black font-bold text-lg px-10 py-4 rounded-full transition-all"
       >
-        👋 Join Telegram to Get Started
+        👋 Join free whatsapp group now 
       </a>
       <span className="text-3xl mt-2">👉</span>
     </div>
