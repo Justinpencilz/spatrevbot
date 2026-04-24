@@ -24,10 +24,228 @@
     <!-- End Meta Pixel Code -->
     
     <style>
-        /* Your CSS styles here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 1rem;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: #00f0ff;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        .countdown {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .countdown-item {
+            background: #111;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            min-width: 70px;
+        }
+        
+        @media (min-width: 768px) {
+            .countdown-item {
+                padding: 1.25rem 2rem;
+                min-width: 90px;
+            }
+        }
+        
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #00f0ff;
+        }
+        
+        @media (min-width: 768px) {
+            .countdown-number {
+                font-size: 3rem;
+            }
+        }
+        
+        .countdown-label {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            letter-spacing: 0.1em;
+        }
+        
+        .warning-text {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2.5rem;
+        }
+        
+        .warning-text span {
+            color: #ef4444;
+        }
+        
+        .exclusive-card {
+            background: #111;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+        }
+        
+        .exclusive-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: #00f0ff;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        @media (min-width: 768px) {
+            .exclusive-title {
+                font-size: 2rem;
+            }
+        }
+        
+        .exclusive-subtitle {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .exclusive-badge {
+            color: #00f0ff;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(to right, #22d3ee, #14b8a6);
+            color: black;
+            font-weight: 700;
+            font-size: 1.125rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .whatsapp-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <!-- Your page content here -->
+    <div class="container">
+        <h1>Opportunity Ends In</h1>
+        
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">04</div>
+                <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">59</div>
+                <div class="countdown-label">MINUTES</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">32</div>
+                <div class="countdown-label">SECONDS</div>
+            </div>
+        </div>
+        
+        <p class="warning-text">
+            In Few Hours You Could <span>Lose</span> This Opportunity
+        </p>
+        
+        <div class="exclusive-card">
+            <div class="exclusive-title">🔥 Exclusive</div>
+            <div class="exclusive-subtitle">Unlock our AI!</div>
+            <div class="exclusive-badge">⚡ Limited spots!</div>
+        </div>
+        
+        <button class="whatsapp-btn" id="whatsappBtn">
+            👋 Join free whatsapp group now
+        </button>
+        <span class="arrow">👉</span>
+    </div>
+
+    <script>
+        let hours = 4, minutes = 59, seconds = 32;
+        
+        function updateCountdown() {
+            seconds--;
+            if (seconds < 0) {
+                seconds = 59;
+                minutes--;
+            }
+            if (minutes < 0) {
+                minutes = 59;
+                hours--;
+            }
+            if (hours < 0) {
+                hours = 0;
+                minutes = 0;
+                seconds = 0;
+            }
+            
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        
+        setInterval(updateCountdown, 1000);
+        
+        document.getElementById('whatsappBtn').addEventListener('click', function() {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Lead', {
+                    content_name: 'WhatsApp Group Join',
+                    lead_type: 'WhatsApp Button'
+                });
+                console.log('Facebook Lead event fired');
+            }
+            window.open('https://chat.whatsapp.com/KSu80BlA3El1USusAolRWw?mode=gi_t', '_blank');
+        });
+    </script>
 </body>
 </html>
