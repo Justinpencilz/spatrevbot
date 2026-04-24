@@ -1,4 +1,3 @@
-declare const fbq: any;
 import { useState, useEffect } from 'react'
 import { HeadContent, Scripts } from '@tanstack/react-router'
 import '../styles.css'
@@ -36,15 +35,10 @@ function LandingPage() {
   const pad = (n: number) => String(n).padStart(2, '0')
 
   const handleWhatsAppClick = () => {
-    // Fire Facebook Lead event when button is clicked
     if (typeof fbq !== 'undefined') {
-      fbq('track', 'Lead', {
-        content_name: 'WhatsApp Group Join',
-        lead_type: 'WhatsApp Button'
-      });
-      console.log('Facebook Lead event fired');
+      fbq('track', 'Lead');
+      console.log('✅ Lead event fired');
     }
-    // Open WhatsApp in new tab
     window.open('https://chat.whatsapp.com/KSu80BlA3El1USusAolRWw?mode=gi_t', '_blank');
   }
 
@@ -53,45 +47,25 @@ function LandingPage() {
       <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-[#00f0ff] uppercase mb-10">
         Opportunity Ends In
       </h1>
-
       <div className="flex gap-4 md:gap-6 mb-10">
         {[
           { value: pad(hours), label: 'HOURS' },
           { value: pad(minutes), label: 'MINUTES' },
           { value: pad(seconds), label: 'SECONDS' },
         ].map((item) => (
-          <div
-            key={item.label}
-            className="flex flex-col items-center border border-[#00f0ff]/30 rounded-xl bg-[#111] px-6 py-4 md:px-8 md:py-5 min-w-[80px] md:min-w-[100px]"
-          >
-            <span className="text-4xl md:text-5xl font-extrabold text-[#00f0ff] tabular-nums">
-              {item.value}
-            </span>
-            <span className="text-xs md:text-sm text-gray-400 mt-1 tracking-widest">
-              {item.label}
-            </span>
+          <div key={item.label} className="flex flex-col items-center border border-[#00f0ff]/30 rounded-xl bg-[#111] px-6 py-4 md:px-8 md:py-5 min-w-[80px] md:min-w-[100px]">
+            <span className="text-4xl md:text-5xl font-extrabold text-[#00f0ff] tabular-nums">{item.value}</span>
+            <span className="text-xs md:text-sm text-gray-400 mt-1 tracking-widest">{item.label}</span>
           </div>
         ))}
       </div>
-
-      <p className="text-lg md:text-xl font-bold text-white mb-10">
-        In Few Hours You Could <span className="text-red-500">Lose</span> This Opportunity
-      </p>
-
+      <p className="text-lg md:text-xl font-bold text-white mb-10">In Few Hours You Could <span className="text-red-500">Lose</span> This Opportunity</p>
       <div className="w-full max-w-xl border border-[#00f0ff]/20 rounded-2xl bg-[#111] px-8 py-8 mb-10">
-        <p className="text-2xl md:text-3xl font-extrabold tracking-widest text-[#00f0ff] uppercase mb-3">
-          🔥 Exclusive
-        </p>
+        <p className="text-2xl md:text-3xl font-extrabold tracking-widest text-[#00f0ff] uppercase mb-3">🔥 Exclusive</p>
         <p className="text-white text-lg font-semibold mb-2">Unlock our AI!</p>
         <p className="text-[#00f0ff] text-sm font-semibold">⚡ Limited spots!</p>
       </div>
-
-      <button
-        onClick={handleWhatsAppClick}
-        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black font-bold text-lg px-10 py-4 rounded-full transition-all cursor-pointer"
-      >
-        👋 Join free whatsapp group now
-      </button>
+      <button onClick={handleWhatsAppClick} className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black font-bold text-lg px-10 py-4 rounded-full transition-all cursor-pointer">👋 Join free whatsapp group now</button>
       <span className="text-3xl mt-2">👉</span>
     </div>
   )
@@ -102,25 +76,23 @@ export default function RootLayout() {
     <html lang="en">
       <head>
         <HeadContent />
-        {/* Meta Pixel Code */}
-        <script>
-          {`!function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '1482904169891589');
-          fbq('track', 'PageView');`}
-        </script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '1482904169891589');
+            fbq('track', 'PageView');
+          `
+        }} />
         <noscript>
-          <img height="1" width="1" style={{display: 'none'}}
-            src="https://www.facebook.com/tr?id=1482904169891589&ev=PageView&noscript=1"
-          />
+          <img height="1" width="1" style={{display: 'none'}} src="https://www.facebook.com/tr?id=1482904169891589&ev=PageView&noscript=1" />
         </noscript>
-        {/* End Meta Pixel Code */}
       </head>
       <body>
         <LandingPage />
