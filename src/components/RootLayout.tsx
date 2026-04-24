@@ -112,7 +112,8 @@ export default function RootLayout() {
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '1482904169891589');`}
+          fbq('init', '1482904169891589');
+          fbq('track', 'PageView');`}
         </script>
         <noscript>
           <img height="1" width="1" style={{display: 'none'}}
