@@ -243,13 +243,31 @@
         setInterval(updateCountdown, 1000);
         
         document.getElementById('whatsappBtn').addEventListener('click', function() {
+            // Browser-side Pixel event
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead', {
                     content_name: 'WhatsApp Group Join',
                     lead_type: 'WhatsApp Button'
                 });
-                console.log('Facebook Lead event fired');
             }
+            
+            // Server-side CAPI event (improves ad delivery + lowers cost)
+            // NOTE: Add A record capi.spatrevbot.online → 130.185.118.47 for HTTPS
+            try {
+                const fbp = document.cookie.split('; ').find(r => r.startsWith('_fbp='))?.split('=')[1] || '';
+                const fbc = document.cookie.split('; ').find(r => r.startsWith('_fbc='))?.split('=')[1] || '';
+                    
+                // Use sendBeacon — fire-and-forget, works after page unload
+                const blob = new Blob([JSON.stringify({
+                    content_name: 'WhatsApp Group Join',
+                    fbp: fbp,
+                    fbc: fbc
+                })], { type: 'application/json' });
+                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', blob);
+            } catch(e) {
+                // CAPI is a bonus — don't block user if it fails
+            }
+            
             window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx?mode=gi_t', '_blank');
         });
     </script>
