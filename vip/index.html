@@ -243,16 +243,19 @@
         setInterval(updateCountdown, 1000);
         
         document.getElementById('whatsappBtn').addEventListener('click', function() {
-            // Browser-side Pixel event
+            // Generate unique event_id for dedup between browser Pixel + CAPI
+            const eventId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+            
+            // Browser-side Pixel event (with event_id for dedup)
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead', {
                     content_name: 'WhatsApp Group Join',
-                    lead_type: 'WhatsApp Button'
+                    lead_type: 'WhatsApp Button',
+                    event_id: eventId
                 });
             }
             
-            // Server-side CAPI event (improves ad delivery + lowers cost)
-            // NOTE: Add A record capi.spatrevbot.online → 130.185.118.47 for HTTPS
+            // Server-side CAPI event (same event_id for dedup)
             try {
                 const fbp = document.cookie.split('; ').find(r => r.startsWith('_fbp='))?.split('=')[1] || '';
                 const fbc = document.cookie.split('; ').find(r => r.startsWith('_fbc='))?.split('=')[1] || '';
@@ -260,6 +263,7 @@
                 // Use sendBeacon — fire-and-forget, works after page unload
                 const blob = new Blob([JSON.stringify({
                     content_name: 'WhatsApp Group Join',
+                    event_id: eventId,
                     fbp: fbp,
                     fbc: fbc
                 })], { type: 'application/json' });
