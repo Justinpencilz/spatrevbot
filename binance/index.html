@@ -120,7 +120,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
   <div class="sig-bar">
     <span style="color:#848e9c">⚡</span>
     <span class="tag n" id="sigTag">Ready</span>
-    <span style="color:#848e9c;font-size:9px" id="sigInfo">150+ crypto/forex/deriv/indices/commodities</span>
+    <span style="color:#848e9c;font-size:9px" id="sigInfo">All crypto • forex • deriv • indices • commodities</span>
     <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpd"></span>
   </div>
 
@@ -248,22 +248,69 @@ const PAIRS = [
   {l:'EUR/TRY',s:'FOREXCOM:EURTRY',g:'💱'},
   {l:'GBP/TRY',s:'FOREXCOM:GBPTRY',g:'💱'},
 
-  // === DERIV SYNTHETIC INDICES ===
-  {l:'VIX75 — Volatility 75',s:'TVC:VIX75',g:'📈'},
-  {l:'VIX25 — Volatility 25',s:'TVC:VIX25',g:'📈'},
-  {l:'VIX10 — Volatility 10',s:'TVC:VIX10',g:'📈'},
-  {l:'VIX100 — Volatility 100',s:'TVC:VIX100',g:'📈'},
-  {l:'VIX50 — Volatility 50',s:'TVC:VIX50',g:'📈'},
+  // === DERIV SYNTHETIC INDICES (ALL) ===
+  // Volatility Range
   {l:'VIX1 — Volatility 1',s:'TVC:VIX1',g:'📈'},
+  {l:'VIX5 — Volatility 5',s:'TVC:VIX5',g:'📈'},
+  {l:'VIX10 — Volatility 10',s:'TVC:VIX10',g:'📈'},
+  {l:'VIX10Z — Vol 10 (1s)',s:'TVC:VIX10Z',g:'📈'},
+  {l:'VIX25 — Volatility 25',s:'TVC:VIX25',g:'📈'},
+  {l:'VIX25Z — Vol 25 (1s)',s:'TVC:VIX25Z',g:'📈'},
+  {l:'VIX50 — Volatility 50',s:'TVC:VIX50',g:'📈'},
+  {l:'VIX50Z — Vol 50 (1s)',s:'TVC:VIX50Z',g:'📈'},
+  {l:'VIX75 — Volatility 75',s:'TVC:VIX75',g:'📈'},
+  {l:'VIX75Z — Vol 75 (1s)',s:'TVC:VIX75Z',g:'📈'},
+  {l:'VIX100 — Volatility 100',s:'TVC:VIX100',g:'📈'},
+  {l:'VIX100Z — Vol 100 (1s)',s:'TVC:VIX100Z',g:'📈'},
+  {l:'VIX150 — Volatility 150',s:'TVC:VIX150',g:'📈'},
   {l:'VIX200 — Volatility 200',s:'TVC:VIX200',g:'📈'},
-  {l:'BOOM1000 — Boom 1000',s:'TVC:BOOM1000',g:'📈'},
-  {l:'BOOM500 — Boom 500',s:'TVC:BOOM500',g:'📈'},
+  {l:'VIX300 — Volatility 300',s:'TVC:VIX300',g:'📈'},
+  {l:'VIX400 — Volatility 400',s:'TVC:VIX400',g:'📈'},
+  // Boom Range
+  {l:'BOOM100 — Boom 100',s:'TVC:BOOM100',g:'📈'},
   {l:'BOOM300 — Boom 300',s:'TVC:BOOM300',g:'📈'},
-  {l:'CRASH1000 — Crash 1000',s:'TVC:CRASH1000',g:'📈'},
-  {l:'CRASH500 — Crash 500',s:'TVC:CRASH500',g:'📈'},
+  {l:'BOOM500 — Boom 500',s:'TVC:BOOM500',g:'📈'},
+  {l:'BOOM1000 — Boom 1000',s:'TVC:BOOM1000',g:'📈'},
+  // Crash Range
+  {l:'CRASH100 — Crash 100',s:'TVC:CRASH100',g:'📈'},
   {l:'CRASH300 — Crash 300',s:'TVC:CRASH300',g:'📈'},
-  {l:'DEX900 — Dex 900',s:'TVC:DEX900',g:'📈'},
+  {l:'CRASH500 — Crash 500',s:'TVC:CRASH500',g:'📈'},
+  {l:'CRASH1000 — Crash 1000',s:'TVC:CRASH1000',g:'📈'},
+  // Dex Range
+  {l:'DEX300 — Dex 300',s:'TVC:DEX300',g:'📈'},
   {l:'DEX600 — Dex 600',s:'TVC:DEX600',g:'📈'},
+  {l:'DEX900 — Dex 900',s:'TVC:DEX900',g:'📈'},
+  // Jump Range
+  {l:'JUMP10 — Jump 10',s:'TVC:JUMP10',g:'📈'},
+  {l:'JUMP25 — Jump 25',s:'TVC:JUMP25',g:'📈'},
+  {l:'JUMP50 — Jump 50',s:'TVC:JUMP50',g:'📈'},
+  {l:'JUMP75 — Jump 75',s:'TVC:JUMP75',g:'📈'},
+  {l:'JUMP100 — Jump 100',s:'TVC:JUMP100',g:'📈'},
+  // Step Range
+  {l:'STEP100 — Step 100',s:'TVC:STEP100',g:'📈'},
+  {l:'STEP200 — Step 200',s:'TVC:STEP200',g:'📈'},
+  {l:'STEP300 — Step 300',s:'TVC:STEP300',g:'📈'},
+  {l:'STEP500 — Step 500',s:'TVC:STEP500',g:'📈'},
+  {l:'STEP1000 — Step 1000',s:'TVC:STEP1000',g:'📈'},
+  {l:'STEP2000 — Step 2000',s:'TVC:STEP2000',g:'📈'},
+  // Range Break Indices
+  {l:'RANGE100 — Range Break 100',s:'TVC:RANGE100',g:'📈'},
+  {l:'RANGE200 — Range Break 200',s:'TVC:RANGE200',g:'📈'},
+  {l:'RANGE300 — Range Break 300',s:'TVC:RANGE300',g:'📈'},
+  // Continuous Indices
+  {l:'CRASH1000C — Crash 1000 Cont',s:'TVC:CRASH1000C',g:'📈'},
+  {l:'BOOM1000C — Boom 1000 Cont',s:'TVC:BOOM1000C',g:'📈'},
+  // Additional Volatility Indices
+  {l:'VOL10 — Volatility 10 IDX',s:'TVC:VOL10',g:'📈'},
+  {l:'VOL25 — Volatility 25 IDX',s:'TVC:VOL25',g:'📈'},
+  {l:'VOL50 — Volatility 50 IDX',s:'TVC:VOL50',g:'📈'},
+  {l:'VOL75 — Volatility 75 IDX',s:'TVC:VOL75',g:'📈'},
+  {l:'VOL100 — Volatility 100 IDX',s:'TVC:VOL100',g:'📈'},
+  {l:'VOL200 — Volatility 200 IDX',s:'TVC:VOL200',g:'📈'},
+  // Indices Variations
+  {l:'IND100 — Indices 100',s:'TVC:IND100',g:'📈'},
+  {l:'IND200 — Indices 200',s:'TVC:IND200',g:'📈'},
+  {l:'IND300 — Indices 300',s:'TVC:IND300',g:'📈'},
 
   // === COMMODITIES ===
   {l:'XAU/USD — Gold',s:'FOREXCOM:XAUUSD',g:'🥇'},
