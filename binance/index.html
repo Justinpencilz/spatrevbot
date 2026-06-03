@@ -277,11 +277,18 @@ function getCanvasPos(e){
   return {x:t.clientX-r.left,y:t.clientY-r.top};
 }
 
-// Mouse/Touch events
+// Mouse/Touch events — only on canvas, not buttons/dropdowns
 function startDraw(e){
-  e.preventDefault();
+  // Only capture if target is the canvas or inside .cw chart area
   const c=document.getElementById('drawCanvas');
   if(!c||c.style.display==='none'||S.tool==='cursor')return;
+  // Ignore clicks on buttons, dropdowns, nav items
+  if(e.target.closest&&(e.target.closest('.nav')||e.target.closest('.dd-wrap')||e.target.closest('.pd')||e.target.closest('.sb2')||e.target.closest('.ib')||e.target.closest('.tb')))return;
+  // Only start drawing if clicking on or near the canvas area
+  const cwEl=document.querySelector('.cw');
+  if(!cwEl||!cwEl.contains(e.target))return;
+
+  e.preventDefault();
   const pos=getCanvasPos(e);
   if(S.tool==='text'){
     const txt=prompt('Enter text:','');
