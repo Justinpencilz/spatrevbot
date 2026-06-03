@@ -137,16 +137,22 @@ function initTV() {
     loading_screen: { backgroundColor: '#131722' },
   });
 
-  // Listen for chart ready via TradingView callback
-  try {
-    widget.onChartReady(function() {
-      chartReady = true;
-      onChartReady();
-    });
-  } catch(e) {}
-
   // Fallback: still hide loading
   setTimeout(hideLoad, 5000);
+}
+
+// Poll for chart readiness
+function waitForChart() {
+  if (!widget) { setTimeout(waitForChart, 500); return; }
+  try {
+    const c = widget.chart();
+    if (c && typeof c.setResolution === 'function') {
+      chartReady = true;
+      onChartReady();
+      return;
+    }
+  } catch(e) {}
+  setTimeout(waitForChart, 500);
 }
 
 function hideLoad() {
@@ -230,6 +236,7 @@ window.addEventListener('resize', () => {
 // START
 // =============================================
 initTV();
+setTimeout(waitForChart, 1000);
 </script>
 </body>
 </html>
