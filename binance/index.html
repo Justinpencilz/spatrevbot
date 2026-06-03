@@ -45,7 +45,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 /* Chart + Canvas overlay */
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
-#drawCanvas{position:absolute;inset:0;z-index:6;cursor:crosshair}
+#drawCanvas{position:absolute;inset:0;z-index:15;cursor:crosshair;pointer-events:auto;touch-action:none}
 
 /* Signal overlay */
 .so{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
@@ -256,7 +256,12 @@ function setTool(t){
   const c=document.getElementById('drawCanvas');
   if(!c)return;
   if(t==='cursor'){c.style.display='none';c.style.cursor='default'}
-  else{c.style.display='block';c.style.cursor='crosshair';resizeCanvas()}
+  else{
+    c.style.display='block';c.style.cursor='crosshair';
+    // Ensure canvas is properly sized
+    const cwEl=document.querySelector('.cw');
+    if(cwEl){c.width=cwEl.clientWidth;c.height=cwEl.clientHeight}
+  }
   // Update active menu item
   document.querySelectorAll('#ddm .dmi').forEach(el=>el.classList.remove('act'));
   document.querySelectorAll('#ddm .dmi').forEach(el=>{
@@ -273,10 +278,10 @@ function getCanvasPos(e){
 }
 
 // Mouse/Touch events
-document.addEventListener('mousedown',e=>{
+function startDraw(e){
+  e.preventDefault();
   const c=document.getElementById('drawCanvas');
   if(!c||c.style.display==='none'||S.tool==='cursor')return;
-  if(e.target!==c)return;
   const pos=getCanvasPos(e);
   if(S.tool==='text'){
     const txt=prompt('Enter text:','');
@@ -284,26 +289,22 @@ document.addEventListener('mousedown',e=>{
     return;
   }
   S.drawing={type:S.tool,start:pos,end:pos,color:'#0ecb81'};
-  // Set default colors per tool
   if(S.tool==='fib')S.drawing.color='#f0b90b';
   
   function onMove(ev){
+    ev.preventDefault();
     const p=getCanvasPos(ev);
-    S.drawing.end=p;
     if(S.tool==='line'||S.tool==='arrow'||S.tool==='fib'){S.drawing.end=p}
     else if(S.tool==='horizontal'){S.drawing.end={x:p.x,y:S.drawing.start.y}}
     else if(S.tool==='vertical'){S.drawing.end={x:S.drawing.start.x,y:p.y}}
+    else S.drawing.end=p;
     redraw();
-    if(S.drawing._prev)cancelAnimationFrame(S.drawing._prev);
-    S.drawing._prev=requestAnimationFrame(()=>{});
   }
   function onUp(ev){
+    ev.preventDefault();
     const p=getCanvasPos(ev);
     S.drawing.end=p;
-    if(S.tool==='line'||S.tool==='arrow'||S.tool==='fib'){S.drawing.end=p}
-    else if(S.tool==='horizontal'){S.drawing.end={x:p.x,y:S.drawing.start.y}}
-    else if(S.tool==='vertical'){S.drawing.end={x:S.drawing.start.x,y:p.y}}
-    S.drawings.push(S.drawing);
+    S.drawings.push({...S.drawing});
     S.drawing=null;
     redraw();
     document.removeEventListener('mousemove',onMove);
@@ -313,9 +314,12 @@ document.addEventListener('mousedown',e=>{
   }
   document.addEventListener('mousemove',onMove);
   document.addEventListener('mouseup',onUp);
-  document.addEventListener('touchmove',onMove,{passive:true});
+  document.addEventListener('touchmove',onMove,{passive:false});
   document.addEventListener('touchend',onUp);
-});
+}
+
+document.addEventListener('mousedown',startDraw);
+document.addEventListener('touchstart',startDraw,{passive:false});
 
 function redraw(){
   const c=document.getElementById('drawCanvas');
