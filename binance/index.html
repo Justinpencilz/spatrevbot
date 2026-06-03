@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Veltrix AI — Live Charts</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
   :root{--go:#f0b90b;--s1:#1e2329;--s2:#2b3139;--b:#2b3139;--t2:#848e9c}
   
   .hdr{display:flex;align-items:center;padding:0 12px;height:40px;background:#161b22;border-bottom:1px solid #30363d}
   .hdr .l{font-weight:700;font-size:13px;display:flex;align-items:center;gap:4px;color:#eaecef}
   .hdr .l span{color:var(--go)}
-  .hdr .l small{font-size:10px;color:var(--t2);font-weight:400;margin-left:4px}
+  .hdr .l small{font-size:10px;color:var(--t2);font-weight:400}
   .hdr .n{margin-left:auto;display:flex;gap:12px}
   .hdr .n a{color:var(--t2);text-decoration:none;font-size:11px}
   .hdr .n a:hover{color:#eaecef}
@@ -20,15 +20,18 @@
   
   .bar{display:flex;align-items:center;gap:4px;padding:4px 8px;background:var(--s1);border-bottom:1px solid var(--b);flex-wrap:wrap;min-height:34px}
   
-  .ib{padding:2px 6px;font-size:10px;background:var(--s2);border:1px solid var(--b);border-radius:3px;color:var(--t2);cursor:pointer}
+  .ib{padding:3px 10px;font-size:11px;background:var(--s2);border:1px solid var(--b);border-radius:4px;color:var(--t2);cursor:pointer;font-weight:500;white-space:nowrap}
   .ib:hover{border-color:var(--t2)}
   .ib.on{background:#1a2332;border-color:var(--go);color:var(--go)}
   
-  .tb{padding:2px 6px;font-size:10px;background:transparent;border:1px solid transparent;border-radius:3px;color:var(--t2);cursor:pointer}
+  .sep{width:1px;height:16px;background:var(--b);margin:0 4px;flex-shrink:0}
+  
+  .tb{padding:3px 8px;font-size:10px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--t2);cursor:pointer;font-weight:500;white-space:nowrap}
   .tb:hover{color:#eaecef;background:var(--s2)}
   .tb.act{background:var(--go);color:#0b0e11}
   
-  .pp{margin-left:auto;font-size:11px;font-family:monospace;color:var(--t2)}
+  .hint{font-size:9px;color:var(--t2);margin-left:auto;white-space:nowrap;opacity:0.6}
+  @media(max-width:600px){.hint{display:none}}
   
   .w{flex:1;position:relative;min-height:0}
   #tv{position:absolute;inset:0;width:100%;height:100%}
@@ -46,7 +49,7 @@
 <div class="app">
 
   <div class="hdr">
-    <div class="l"><span>◆</span> Veltrix AI <small>/ Live Charts</small></div>
+    <div class="l"><span>◆</span> Veltrix AI <small>/ Charts</small></div>
     <div class="n">
       <a href="/">Home</a>
       <a href="/vip/">VIP</a>
@@ -57,14 +60,12 @@
   <div class="bar">
     <button class="ib on" id="iv" onclick="tog(0)">Veltrix AI</button>
     <button class="ib" id="is" onclick="tog(1)">Spatrev AI</button>
-    <div style="width:1px;height:14px;background:var(--b);margin:0 3px"></div>
-    <button class="tb" onclick="chTF('1')">1m</button>
-    <button class="tb" onclick="chTF('3')">3m</button>
-    <button class="tb" onclick="chTF('5')">5m</button>
-    <button class="tb act" onclick="chTF('15')">15m</button>
-    <button class="tb" onclick="chTF('60')">1h</button>
-    <button class="tb" onclick="chTF('240')">4h</button>
-    <button class="tb" onclick="chTF('1D')">1D</button>
+    <span class="sep"></span>
+    <button class="tb act" id="tf_15" onclick="chTF('15',this)">15m</button>
+    <button class="tb" id="tf_60" onclick="chTF('60',this)">1h</button>
+    <button class="tb" id="tf_240" onclick="chTF('240',this)">4h</button>
+    <button class="tb" id="tf_1D" onclick="chTF('1D',this)">1D</button>
+    <span class="hint">Use TV toolbar for: indicators · drawings · more timeframes</span>
   </div>
 
   <div class="w">
@@ -80,15 +81,16 @@
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
 // =============================================
-// TRADINGVIEW ADVANCED CHART — FULL FEATURES
+// TRADINGVIEW ADVANCED CHART
 // =============================================
 let widget = null;
 let currentTF = '15';
 let studyIds = [];
+let chartReady = false;
 
 function initTV() {
   if (typeof TradingView === 'undefined') {
-    setTimeout(initTV, 500);
+    setTimeout(initTV, 400);
     return;
   }
   
@@ -112,13 +114,14 @@ function initTV() {
       { text: '3m', resolution: '3' },
       { text: '5m', resolution: '5' },
       { text: '15m', resolution: '15' },
+      { text: '30m', resolution: '30' },
       { text: '1h', resolution: '60' },
+      { text: '2h', resolution: '120' },
       { text: '4h', resolution: '240' },
       { text: '1D', resolution: '1D' },
+      { text: '1W', resolution: '1W' },
     ],
-    disabled_features: [
-      'header_compare', 'header_undo_redo'
-    ],
+    disabled_features: [],
     enabled_features: [
       'show_hide_button_on_legend',
       'move_logo_to_main_pane',
@@ -133,61 +136,94 @@ function initTV() {
     },
     loading_screen: { backgroundColor: '#131722' },
   });
-  
-  setTimeout(hideLoad, 4000);
+
+  // Hide loading
+  setTimeout(hideLoad, 5000);
 }
 
 function hideLoad() {
   document.getElementById('ld').classList.add('h');
 }
 
+function onChartReady() {
+  chartReady = true;
+  // Add default studies
+  addStudies();
+}
+
 // =============================================
-// CUSTOM INDICATORS (Veltrix AI / Spatrev AI)
+// TIMEFRAMES (use TradingView's built-in system)
+// =============================================
+function chTF(tf, btn) {
+  currentTF = tf;
+  
+  // Update button states
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
+  if (btn) btn.classList.add('act');
+  
+  // Change chart resolution
+  if (widget && chartReady) {
+    try { widget.chart().setResolution(tf); } catch(e) { console.log(e); }
+  } else if (widget) {
+    // Chart not ready yet, will apply when ready
+    try { widget.setSymbol('BINANCE:BTCUSDT', tf); } catch(e) { console.log(e); }
+  }
+}
+
+// =============================================
+// CUSTOM INDICATORS
 // =============================================
 function addStudies() {
-  if (!widget) return;
-  const v = document.getElementById('iv').classList.contains('on');
-  const s = document.getElementById('is').classList.contains('on');
-  
-  // Remove old studies
   studyIds.forEach(id => {
     try { widget.chart().removeEntity(id); } catch(e) {}
   });
   studyIds = [];
   
-  // Add Veltrix AI: SMA9 + SMA21
-  if (v) {
-    try {
+  if (!chartReady) return;
+  
+  const v = document.getElementById('iv').classList.contains('on');
+  const s = document.getElementById('is').classList.contains('on');
+  
+  try {
+    if (v) {
       const s1 = widget.chart().createStudy('Moving Average', false, false, [9, 'close', 0, '#2962FF']);
       const s2 = widget.chart().createStudy('Moving Average', false, false, [21, 'close', 0, '#FF6D00']);
       studyIds.push(s1.id, s2.id);
-    } catch(e) { console.log(e); }
-  }
-  
-  // Add Spatrev AI: EMA20 + EMA50
-  if (s) {
-    try {
+    }
+    if (s) {
       const s3 = widget.chart().createStudy('Moving Average Exponential', false, false, [20, 'close', 0, '#0ECB81']);
       const s4 = widget.chart().createStudy('Moving Average Exponential', false, false, [50, 'close', 0, '#F6465D']);
       studyIds.push(s3.id, s4.id);
-    } catch(e) { console.log(e); }
+    }
+  } catch(e) {
+    console.log('Study error:', e);
   }
 }
 
 function tog(idx) {
   const btn = idx === 0 ? document.getElementById('iv') : document.getElementById('is');
   btn.classList.toggle('on');
-  // Wait for chart to be ready
-  setTimeout(addStudies, 300);
+  
+  if (chartReady) {
+    addStudies();
+  }
 }
 
-function chTF(tf) {
-  currentTF = tf;
-  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
-  event.target.classList.add('act');
-  if (widget) {
-    try { widget.chart().setResolution(tf); } catch(e) {}
-  }
+// =============================================
+// LISTEN FOR CHART READY
+// =============================================
+// Poll for chart readiness
+function checkReady() {
+  if (!widget) { setTimeout(checkReady, 500); return; }
+  try {
+    const c = widget.chart();
+    if (c && c.symbol) {
+      chartReady = true;
+      onChartReady();
+      return;
+    }
+  } catch(e) {}
+  setTimeout(checkReady, 500);
 }
 
 // =============================================
@@ -203,6 +239,7 @@ window.addEventListener('resize', () => {
 // START
 // =============================================
 initTV();
+setTimeout(checkReady, 3000);
 </script>
 </body>
 </html>
