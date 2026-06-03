@@ -58,14 +58,14 @@
   </div>
 
   <div class="bar">
-    <button class="ib on" id="iv" onclick="tog(0)">Veltrix AI</button>
-    <button class="ib" id="is" onclick="tog(1)">Spatrev AI</button>
+    <button class="ib on" id="iv" onclick="tog('iv')">Veltrix AI</button>
+    <button class="ib" id="is" onclick="tog('is')">Spatrev AI</button>
     <span class="sep"></span>
-    <button class="tb act" id="tf_15" onclick="chTF('15',this)">15m</button>
-    <button class="tb" id="tf_60" onclick="chTF('60',this)">1h</button>
-    <button class="tb" id="tf_240" onclick="chTF('240',this)">4h</button>
-    <button class="tb" id="tf_1D" onclick="chTF('1D',this)">1D</button>
-    <span class="hint">Use TV toolbar for: indicators · drawings · more timeframes</span>
+    <button class="tb act" onclick="chTF('15',this)">15m</button>
+    <button class="tb" onclick="chTF('60',this)">1h</button>
+    <button class="tb" onclick="chTF('240',this)">4h</button>
+    <button class="tb" onclick="chTF('1D',this)">1D</button>
+    <span class="hint">TV toolbar: indicators · drawings · more</span>
   </div>
 
   <div class="w">
@@ -80,24 +80,15 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-// =============================================
-// TRADINGVIEW ADVANCED CHART
-// =============================================
-let widget = null;
-let currentTF = '15';
-let studyIds = [];
-let chartReady = false;
+let w = null, sIds = [], curTF = '15';
 
 function initTV() {
-  if (typeof TradingView === 'undefined') {
-    setTimeout(initTV, 400);
-    return;
-  }
+  if (typeof TradingView === 'undefined') { setTimeout(initTV, 400); return; }
   
-  widget = new TradingView.widget({
+  w = new TradingView.widget({
     container_id: 'tv',
     symbol: 'BINANCE:BTCUSDT',
-    interval: currentTF,
+    interval: curTF,
     theme: 'dark',
     style: '1',
     locale: 'en',
@@ -109,18 +100,6 @@ function initTV() {
     save_image: false,
     autosize: true,
     studies: [],
-    time_frames: [
-      { text: '1m', resolution: '1' },
-      { text: '3m', resolution: '3' },
-      { text: '5m', resolution: '5' },
-      { text: '15m', resolution: '15' },
-      { text: '30m', resolution: '30' },
-      { text: '1h', resolution: '60' },
-      { text: '2h', resolution: '120' },
-      { text: '4h', resolution: '240' },
-      { text: '1D', resolution: '1D' },
-      { text: '1W', resolution: '1W' },
-    ],
     disabled_features: [],
     enabled_features: [
       'show_hide_button_on_legend',
@@ -136,107 +115,70 @@ function initTV() {
     },
     loading_screen: { backgroundColor: '#131722' },
   });
-
-  // Fallback: still hide loading
-  setTimeout(hideLoad, 5000);
+  
+  setTimeout(() => document.getElementById('ld').classList.add('h'), 6000);
 }
 
-// Poll for chart readiness
-function waitForChart() {
-  if (!widget) { setTimeout(waitForChart, 500); return; }
+// ======== GET CHART OBJECT (with retry) ========
+function getC(retries, cb) {
+  if (!w || !w.chart) { if (retries > 0) setTimeout(() => getC(retries-1, cb), 500); return; }
   try {
-    const c = widget.chart();
-    if (c && typeof c.setResolution === 'function') {
-      chartReady = true;
-      onChartReady();
-      return;
-    }
+    const c = w.chart();
+    if (c) { cb(c); return; }
   } catch(e) {}
-  setTimeout(waitForChart, 500);
+  if (retries > 0) setTimeout(() => getC(retries-1, cb), 500);
 }
 
-function hideLoad() {
-  document.getElementById('ld').classList.add('h');
+// ======== INDICATORS ========
+function addStudies() {
+  getC(10, function(c) {
+    // Remove old
+    sIds.forEach(id => { try { c.removeEntity(id); } catch(e) {} });
+    sIds = [];
+    
+    const v = document.getElementById('iv').classList.contains('on');
+    const s = document.getElementById('is').classList.contains('on');
+    
+    try {
+      if (v) {
+        sIds.push(c.createStudy('Moving Average', false, false, [9, 'close', 0, '#2962FF']).id);
+        sIds.push(c.createStudy('Moving Average', false, false, [21, 'close', 0, '#FF6D00']).id);
+      }
+      if (s) {
+        sIds.push(c.createStudy('Moving Average Exponential', false, false, [20, 'close', 0, '#0ECB81']).id);
+        sIds.push(c.createStudy('Moving Average Exponential', false, false, [50, 'close', 0, '#F6465D']).id);
+      }
+    } catch(e) { console.log('Study err:', e); }
+  });
 }
 
-function onChartReady() {
-  chartReady = true;
-  // Add default studies
+function tog(id) {
+  document.getElementById(id).classList.toggle('on');
   addStudies();
 }
 
-// =============================================
-// TIMEFRAMES (use TradingView's built-in system)
-// =============================================
+// ======== TIMEFRAMES ========
 function chTF(tf, btn) {
-  currentTF = tf;
-  
-  // Update button states
+  curTF = tf;
   document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
   if (btn) btn.classList.add('act');
   
-  // Change chart resolution
-  if (widget && chartReady) {
-    try { widget.chart().setResolution(tf); } catch(e) { console.log(e); }
-  } else if (widget) {
-    // Chart not ready yet, will apply when ready
-    try { widget.setSymbol('BINANCE:BTCUSDT', tf); } catch(e) { console.log(e); }
-  }
-}
-
-// =============================================
-// CUSTOM INDICATORS
-// =============================================
-function addStudies() {
-  studyIds.forEach(id => {
-    try { widget.chart().removeEntity(id); } catch(e) {}
+  getC(10, function(c) {
+    try { c.setResolution(tf); } catch(e) {
+      try { w.setSymbol('BINANCE:BTCUSDT', tf); } catch(e2) {}
+    }
   });
-  studyIds = [];
-  
-  if (!chartReady) return;
-  
-  const v = document.getElementById('iv').classList.contains('on');
-  const s = document.getElementById('is').classList.contains('on');
-  
-  try {
-    if (v) {
-      const s1 = widget.chart().createStudy('Moving Average', false, false, [9, 'close', 0, '#2962FF']);
-      const s2 = widget.chart().createStudy('Moving Average', false, false, [21, 'close', 0, '#FF6D00']);
-      studyIds.push(s1.id, s2.id);
-    }
-    if (s) {
-      const s3 = widget.chart().createStudy('Moving Average Exponential', false, false, [20, 'close', 0, '#0ECB81']);
-      const s4 = widget.chart().createStudy('Moving Average Exponential', false, false, [50, 'close', 0, '#F6465D']);
-      studyIds.push(s3.id, s4.id);
-    }
-  } catch(e) {
-    console.log('Study error:', e);
-  }
 }
 
-function tog(idx) {
-  const btn = idx === 0 ? document.getElementById('iv') : document.getElementById('is');
-  btn.classList.toggle('on');
-  
-  if (chartReady) {
-    addStudies();
-  }
-}
-
-// =============================================
-// RESIZE
-// =============================================
+// ======== RESIZE ========
 let rt;
 window.addEventListener('resize', () => {
   clearTimeout(rt);
-  rt = setTimeout(() => { if (widget) try { widget.resize(); } catch(e) {} }, 200);
+  rt = setTimeout(() => { if (w) try { w.resize(); } catch(e) {} }, 200);
 });
 
-// =============================================
-// START
-// =============================================
+// ======== START ========
 initTV();
-setTimeout(waitForChart, 1000);
 </script>
 </body>
 </html>
