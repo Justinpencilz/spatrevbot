@@ -86,12 +86,12 @@ let w = null, curTF = '15', curSym = 'BINANCE:BTCUSDT';
 function getStudies() {
   var s = [];
   if (document.getElementById('iv').classList.contains('on')) {
-    s.push('MA@tv-basicstudies');
-    s.push('MA@tv-basicstudies');
+    s.push({ id: 'MA@tv-basicstudies', inputs: { length: 9 } });
+    s.push({ id: 'MA@tv-basicstudies', inputs: { length: 21 } });
   }
   if (document.getElementById('is').classList.contains('on')) {
-    s.push('EMA@tv-basicstudies');
-    s.push('EMA@tv-basicstudies');
+    s.push({ id: 'MASimple@tv-basicstudies', inputs: { length: 20 } });
+    s.push({ id: 'MASimple@tv-basicstudies', inputs: { length: 50 } });
   }
   return s;
 }
