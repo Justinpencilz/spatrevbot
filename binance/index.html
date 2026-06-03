@@ -2,317 +2,159 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veltrix AI — Live Scanner</title>
-<script src="https://s3.tradingview.com/tv.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Veltrix AI — Live Charts</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0b0e11;color:#eaecef;font-size:14px;overflow:hidden;height:100vh}
-  :root{--bg:#0b0e11;--surface:#1e2329;--surface2:#2b3139;--border:#2b3139;--text:#eaecef;--text2:#848e9c;--green:#0ecb81;--red:#f6465d;--gold:#f0b90b}
-
-  /* HEADER */
-  .hdr{display:flex;align-items:center;padding:0 16px;height:44px;background:#161b22;border-bottom:1px solid #30363d}
-  .hdr .logo{font-weight:700;font-size:14px;color:var(--text);display:flex;align-items:center;gap:5px}
-  .hdr .logo span{color:var(--gold)}
-  .hdr .logo small{font-size:10px;color:var(--text2);font-weight:400}
-  .hdr .nav{margin-left:auto;display:flex;gap:14px}
-  .hdr .nav a{color:var(--text2);text-decoration:none;font-size:12px}
-  .hdr .nav a:hover{color:var(--text)}
-  .hdr .nav a.active{color:var(--gold)}
-  .hdr .status{font-size:11px;color:var(--text2);margin-left:16px;display:flex;align-items:center;gap:4px}
-  .hdr .status .dot{width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block}
-
-  /* CONTROLS BAR */
-  .controls{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;min-height:36px}
-
-  .ind-btn{display:flex;align-items:center;gap:3px;padding:3px 8px;font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text2);cursor:pointer;transition:all 0.15s}
-  .ind-btn:hover{border-color:var(--text2)}
-  .ind-btn.on{background:#1a2332;border-color:var(--gold);color:var(--gold)}
-  .ind-btn .dot{width:5px;height:5px;border-radius:50%;background:var(--text2)}
-  .ind-btn.on .dot{background:var(--gold)}
-
-  .tf-btn{padding:3px 8px;font-size:11px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--text2);cursor:pointer}
-  .tf-btn:hover{color:var(--text);background:var(--surface2)}
-  .tf-btn.active{background:var(--gold);color:#0b0e11}
-
-  .action-btn{padding:3px 8px;font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text2);cursor:pointer}
-  .action-btn:hover{background:var(--border);color:var(--text)}
-  .action-btn.primary{background:var(--gold);color:#0b0e11;border-color:var(--gold);font-weight:600}
-
-  /* FULL TradingView toolbar above chart = default, we keep it all */
-
-  /* CHART */
-  .chart-wrap{flex:1;position:relative;min-height:0}
-  #tv-chart{width:100%;height:100%;position:absolute;inset:0}
-
-  /* LOADING */
-  .loading-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#131722;z-index:20;transition:opacity 0.5s;flex-direction:column;gap:10px}
-  .loading-overlay.hidden{opacity:0;pointer-events:none}
-  .spinner{width:26px;height:26px;border:3px solid #30363d;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .load-text{font-size:12px;color:var(--text2)}
-
-  /* STATUS */
-  .status-bar{display:flex;justify-content:space-between;padding:2px 16px;background:var(--surface);border-top:1px solid var(--border);font-size:10px;color:var(--text2)}
+  html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
   
-  ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  /* HEADER */
+  .hdr{display:flex;align-items:center;padding:0 12px;height:40px;background:#161b22;border-bottom:1px solid #30363d}
+  .hdr .l{font-weight:700;font-size:13px;display:flex;align-items:center;gap:4px;color:#eaecef}
+  .hdr .l span{color:#f0b90b}
+  .hdr .l small{font-size:10px;color:#848e9c;font-weight:400;margin-left:4px}
+  .hdr .nav{margin-left:auto;display:flex;gap:12px}
+  .hdr .nav a{color:#848e9c;text-decoration:none;font-size:11px}
+  .hdr .nav a:hover{color:#eaecef}
+  .hdr .nav a.act{color:#f0b90b}
+  
+  /* CONTROLS BAR */
+  .bar{display:flex;align-items:center;gap:4px;padding:4px 8px;background:#1e2329;border-bottom:1px solid #2b3139;flex-wrap:wrap;min-height:32px}
+  .ib{padding:2px 6px;font-size:10px;background:#2b3139;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
+  .ib:hover{border-color:#848e9c}
+  .ib.on{background:#1a2332;border-color:#f0b90b;color:#f0b90b}
+  .ib .d{display:inline-block;width:4px;height:4px;border-radius:50%;background:#848e9c;margin-right:2px;vertical-align:middle}
+  .ib.on .d{background:#f0b90b}
+  .sep{width:1px;height:12px;background:#2b3139;margin:0 2px}
+  .tb{padding:2px 6px;font-size:10px;background:transparent;border:1px solid transparent;border-radius:3px;color:#848e9c;cursor:pointer}
+  .tb:hover{color:#eaecef;background:#2b3139}
+  .tb.act{background:#f0b90b;color:#0b0e11}
+  .pl{font-size:11px;color:#f0b90b;font-weight:500;margin-left:4px}
+  .pp{font-size:11px;font-family:'SF Mono',monospace;margin-left:auto;color:#848e9c}
+
+  /* CHART WRAPPER - full remaining height */
+  .cw{flex:1;width:100%;position:relative}
+  .cw iframe{width:100%;height:100%;border:none;display:block}
+  
+  /* LOADING */
+  .ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#131722;z-index:10;flex-direction:column;gap:8px;transition:opacity 0.4s}
+  .ld.h{opacity:0;pointer-events:none}
+  .sp{width:22px;height:22px;border:2px solid #30363d;border-top-color:#f0b90b;border-radius:50%;animation:s 0.7s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .lt{font-size:11px;color:#848e9c}
+  
+  /* Make layout fill screen */
+  .app{display:flex;flex-direction:column;height:100vh;width:100vw}
 </style>
 </head>
 <body>
+<div class="app">
 
-<!-- HEADER -->
-<div class="hdr">
-  <div class="logo"><span>◆</span> Veltrix AI <small>/ Live Charts</small></div>
-  <div class="nav">
-    <a href="/">Home</a>
-    <a href="/vip/">VIP</a>
-    <a href="/binance/" class="active">Charts</a>
-    <a href="https://binance.com" target="_blank">Binance</a>
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="l"><span>◆</span> Veltrix AI <small>/ Charts</small></div>
+    <div class="nav">
+      <a href="/">Home</a>
+      <a href="/vip/">VIP</a>
+      <a href="/binance/" class="act">Charts</a>
+    </div>
   </div>
-  <div class="status"><span class="dot"></span><span id="statusText">Live</span></div>
-</div>
 
-<!-- CONTROLS (minimal overlay, full TV toolbar remains) -->
-<div class="controls">
-  <button class="ind-btn on" id="indVeltrix" onclick="toggleIndicator('veltrix')">
-    <span class="dot"></span> Veltrix AI
-  </button>
-  <button class="ind-btn" id="indSpatrev" onclick="toggleIndicator('spatrev')">
-    <span class="dot"></span> Spatrev AI
-  </button>
-  <div style="width:1px;height:16px;background:var(--border);margin:0 2px"></div>
-  <button class="tf-btn active" onclick="setTF('15')">15m</button>
-  <button class="tf-btn" onclick="setTF('60')">1h</button>
-  <button class="tf-btn" onclick="setTF('240')">4h</button>
-  <button class="tf-btn" onclick="setTF('1D')">1D</button>
-  <div style="flex:1"></div>
-  <span id="pairLabel" style="font-size:12px;color:var(--gold);font-weight:500">BTC/USDT</span>
-  <span id="priceLabel" style="font-size:12px;font-family:monospace">—</span>
-  <button class="action-btn" onclick="alert('Settings panel coming')">⚙️</button>
-</div>
-
-<!-- CHART -->
-<div class="chart-wrap">
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner"></div>
-    <div class="load-text" id="loadText">Loading TradingView chart...</div>
+  <!-- CONTROLS -->
+  <div class="bar">
+    <button class="ib on" onclick="this.classList.toggle('on')"><span class="d"></span>Veltrix AI</button>
+    <button class="ib" onclick="this.classList.toggle('on')"><span class="d"></span>Spatrev AI</button>
+    <span class="sep"></span>
+    <button class="tb" onclick="setTF('1')">1m</button>
+    <button class="tb" onclick="setTF('5')">5m</button>
+    <button class="tb act" onclick="setTF('15')">15m</button>
+    <button class="tb" onclick="setTF('60')">1h</button>
+    <button class="tb" onclick="setTF('240')">4h</button>
+    <button class="tb" onclick="setTF('1D')">1D</button>
+    <span class="sep"></span>
+    <span class="pl" id="pl">BTC/USDT</span>
+    <span class="pp" id="pp">—</span>
   </div>
-  <div id="tv-chart"></div>
-</div>
 
-<!-- STATUS -->
-<div class="status-bar">
-  <span id="statusLeft">TradingView — All Markets</span>
-  <span id="statusRight">spatrevbot.online</span>
+  <!-- TRADINGVIEW DIRECT IFRAME -->
+  <div class="cw">
+    <div class="ld" id="ld">
+      <div class="sp"></div>
+      <div class="lt" id="lt">Loading TradingView chart...</div>
+    </div>
+    <iframe id="tvframe" src="about:blank" allowfullscreen></iframe>
+  </div>
+
 </div>
 
 <script>
 // =============================================
-// STATE
+// DIRECT TRADINGVIEW IFRAME - NO TV.JS DEPENDENCY
 // =============================================
-const state = {
-  widget: null,
-  currentSymbol: 'BINANCE:BTCUSDT',
-  currentTF: '15',
-  indVeltrix: true,
-  indSpatrev: false,
-  studyIds: [],
-  tickers: {}
-};
+// We load the full TradingView chart page directly.
+// This gives ALL TradingView features: symbol search,
+// all studies, drawing tools, timeframes, everything.
 
-// =============================================
-// BINANCE TICKERS (for price display)
-// =============================================
-async function fetchTickers() {
-  try {
-    const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
-    if (!res.ok) throw Error();
-    const stats = await res.json();
-    state.tickers = {};
-    stats.forEach(s => { state.tickers[s.symbol] = parseFloat(s.lastPrice) });
-    updatePriceDisplay(state.currentSymbol.replace('BINANCE:', ''));
-  } catch(e) {}
+let currentSymbol = 'BINANCE:BTCUSDT';
+let currentTF = '15';
+
+function buildChartURL(sym, tf) {
+  // Use the full TradingView chart page in an iframe
+  // This is the same as going to tradingview.com/chart
+  return 'https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(sym) + 
+         '&interval=' + tf + 
+         '&theme=dark' +
+         '&toolbarbg=0b0e11' +
+         '&studies=[]';
 }
 
-function fmtPrice(p) {
-  if (p >= 1000) return '$' + p.toLocaleString(undefined, {maximumFractionDigits:2});
-  if (p >= 1) return '$' + p.toFixed(4);
-  if (p >= 0.01) return '$' + p.toFixed(6);
-  return '$' + p.toFixed(8);
-}
-
-function updatePriceDisplay(sym) {
-  sym = sym.replace('BINANCE:', '').replace('USDT', '');
-  const price = state.tickers[sym + 'USDT'];
-  if (price) {
-    document.getElementById('priceLabel').textContent = fmtPrice(price);
-    document.getElementById('pairLabel').textContent = sym + '/USDT';
-  }
-}
-
-// =============================================
-// TRADINGVIEW CHART (FULL FEATURES)
-// =============================================
-function initTV() {
-  if (typeof TradingView === 'undefined') {
-    document.getElementById('loadText').textContent = 'Loading TradingView engine...';
-    setTimeout(initTV, 600);
-    return;
-  }
+function loadChart() {
+  const iframe = document.getElementById('tvframe');
+  iframe.src = buildChartURL(currentSymbol, currentTF);
   
-  document.getElementById('loadText').textContent = 'Launching chart...';
-  
-  state.widget = new TradingView.widget({
-    container_id: "tv-chart",
-    symbol: "BINANCE:BTCUSDT",
-    interval: "15",
-    theme: "dark",
-    style: "1",
-    locale: "en",
-    toolbar_bg: "#0b0e11",
-    enable_publishing: false,
-    allow_symbol_change: true,
-    hide_top_toolbar: false,
-    hide_legend: false,
-    save_image: false,
-    autosize: true,
-    studies: [],
-    time_frames: [
-      { text: "1m", resolution: "1" },
-      { text: "3m", resolution: "3" },
-      { text: "5m", resolution: "5" },
-      { text: "15m", resolution: "15" },
-      { text: "1h", resolution: "60" },
-      { text: "4h", resolution: "240" },
-      { text: "1D", resolution: "1D" },
-      { text: "1W", resolution: "1W" },
-    ],
-    disabled_features: [
-      "header_compare",
-      "header_undo_redo"
-    ],
-    enabled_features: [
-      "show_hide_button_on_legend",
-      "move_logo_to_main_pane",
-      "study_templates",
-      "use_localstorage_for_settings",
-    ],
-    overrides: {
-      "paneProperties.background": "#131722",
-      "paneProperties.vertGridProperties.color": "#1e222d",
-      "paneProperties.horzGridProperties.color": "#1e222d",
-      "scalesProperties.textColor": "#8b949e",
-    },
-    loading_screen: { backgroundColor: "#131722" },
-  });
-
-  // Hide loading after chart loads or timeout
-  setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 4000);
-  
-  // Listen for symbol changes
+  // Hide loading after chart loads (or 5s timeout)
   setTimeout(() => {
-    try {
-      state.widget.chart().onSymbolChanged().subscribe(null, (sym) => {
-        state.currentSymbol = sym;
-        updatePriceDisplay(sym);
-      });
-    } catch(e) {}
-  }, 3000);
-}
-
-// =============================================
-// INDICATORS
-// =============================================
-function removeAllStudies() {
-  if (!state.widget) return;
-  try {
-    const chart = state.widget.chart();
-    chart.getAllStudies().forEach(s => {
-      try { chart.removeEntity(s.id); } catch(e2) {}
-    });
-  } catch(e) {}
-}
-
-function toggleIndicator(name) {
-  if (name === 'veltrix') {
-    state.indVeltrix = !state.indVeltrix;
-    document.getElementById('indVeltrix').classList.toggle('on', state.indVeltrix);
-  } else if (name === 'spatrev') {
-    state.indSpatrev = !state.indSpatrev;
-    document.getElementById('indSpatrev').classList.toggle('on', state.indSpatrev);
-  }
+    document.getElementById('ld').classList.add('h');
+    document.getElementById('lt').textContent = 'Chart loaded ✓';
+  }, 5000);
   
-  // Apply indicators
-  if (!state.widget) return;
-  
-  // Wait a tiny bit for chart to be ready
-  setTimeout(() => {
-    // First remove all our custom studies
-    if (state.studyIds.length) {
-      try {
-        const chart = state.widget.chart();
-        state.studyIds.forEach(id => {
-          try { chart.removeEntity(id); } catch(e) {}
-        });
-      } catch(e) {}
-      state.studyIds = [];
-    }
-    
-    try {
-      const chart = state.widget.chart();
-      
-      // Add Veltrix AI: SMA9 + SMA21
-      if (state.indVeltrix) {
-        const s1 = chart.createStudy('Moving Average', false, false, [9, 'close', 0, '#2962FF']);
-        const s2 = chart.createStudy('Moving Average', false, false, [21, 'close', 0, '#FF6D00']);
-        state.studyIds.push(s1.id, s2.id);
-      }
-      
-      // Add Spatrev AI: EMA20 + EMA50 + RSI
-      if (state.indSpatrev) {
-        const s3 = chart.createStudy('Moving Average Exponential', false, false, [20, 'close', 0, '#0ECB81']);
-        const s4 = chart.createStudy('Moving Average Exponential', false, false, [50, 'close', 0, '#F6465D']);
-        const s5 = chart.createStudy('Relative Strength Index', false, false, [14, 'close', 0, '#787B86']);
-        state.studyIds.push(s3.id, s4.id, s5.id);
-      }
-    } catch(e) {
-      console.log('Study error (harmless):', e);
-    }
-  }, 200);
+  // Also hide loading when iframe loads
+  iframe.onload = function() {
+    document.getElementById('ld').classList.add('h');
+  };
 }
 
 function setTF(tf) {
-  state.currentTF = tf;
-  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  if (state.widget) {
-    try { state.widget.chart().setResolution(tf); } catch(e) {}
-  }
+  currentTF = tf;
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
+  event.target.classList.add('act');
+  
+  // Reload iframe with new timeframe
+  const iframe = document.getElementById('tvframe');
+  iframe.src = buildChartURL(currentSymbol, tf);
 }
 
 // =============================================
-// RESIZE
+// BINANCE TICKERS (for price display only)
 // =============================================
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    if (state.widget) try { state.widget.resize(); } catch(e) {}
-  }, 200);
-});
+async function fetchPrice() {
+  try {
+    const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+    if (!res.ok) throw Error();
+    const d = await res.json();
+    const p = parseFloat(d.price);
+    const fmt = p >= 1000 ? '$' + p.toLocaleString(undefined, {maximumFractionDigits:2}) : '$' + p.toFixed(4);
+    document.getElementById('pp').textContent = fmt;
+  } catch(e) {}
+}
 
 // =============================================
 // INIT
 // =============================================
-async function start() {
-  fetchTickers();
-  setInterval(fetchTickers, 10000);
-  initTV();
-}
-
-start();
+document.getElementById('lt').textContent = 'Launching full TradingView chart...';
+loadChart();
+fetchPrice();
+setInterval(fetchPrice, 10000);
 </script>
 </body>
 </html>
