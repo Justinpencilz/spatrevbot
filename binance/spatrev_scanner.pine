@@ -1,5 +1,5 @@
 //@version=6
-indicator("Spatrev EMA-RSI-ADX Scanner", overlay=true, format=format.price, precision=4)
+indicator("Spatrev AI", overlay=true, format=format.price, precision=4)
 
 // ─── Inputs ───────────────────────────────────
 emaF_len = input.int(20,  "EMA Fast")
