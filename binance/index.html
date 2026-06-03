@@ -99,32 +99,23 @@ const PAIRS = [
   'PEPEUSDT','INJUSDT','FETUSDT','HBARUSDT','TONUSDT','TRXUSDT'
 ];
 
-// CoinGecko IDs
-const CG = {
-  'BTCUSDT':'bitcoin','ETHUSDT':'ethereum','BNBUSDT':'binancecoin','SOLUSDT':'solana',
-  'XRPUSDT':'ripple','DOGEUSDT':'dogecoin','ADAUSDT':'cardano','AVAXUSDT':'avalanche-2',
-  'DOTUSDT':'polkadot','LINKUSDT':'chainlink','MATICUSDT':'matic-network','UNIUSDT':'uniswap',
-  'LTCUSDT':'litecoin','BCHUSDT':'bitcoin-cash','XLMUSDT':'stellar','NEARUSDT':'near',
-  'APTUSDT':'aptos','SUIUSDT':'sui','PEPEUSDT':'pepe','INJUSDT':'injective-protocol',
-  'FETUSDT':'fetch-ai','HBARUSDT':'hedera-hashgraph','TONUSDT':'the-open-network','TRXUSDT':'tron'
-};
+const TFS = {'15m':'15','1h':'60','4h':'240','1D':'D'};
 
-const TFS = {'15m':'15m','1h':'1h','4h':'4h','1D':'1d'};
-const CG_DAYS = {'15m':2,'1h':7,'4h':30,'1D':90};
+const S = { sym:'BTCUSDT', tf:'15', ch:null, cs:null, data:[], sl:[], src:'' };
 
-const S = { sym:'BTCUSDT', tf:'15m', ch:null, cs:null, vs:null, data:[], sl:[], src:'' };
-
-// ======== DATA ========
+// ======== DATA (Bybit API) ========
 async function fetchOHLC() {
-  const id = CG[S.sym];
-  if (!id) throw Error('No coin ID for ' + S.sym);
-  const days = CG_DAYS[S.tf] || 2;
-  const intv = S.tf === '1D' ? 'daily' : S.tf;
-  const r = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/ohlc?vs_currency=usd&days=${days}`);
+  const r = await fetch(`https://api.bybit.com/v5/market/kline?category=spot&symbol=${S.sym}&interval=${S.tf}&limit=200`);
   if (!r.ok) throw Error('HTTP ' + r.status);
-  const d = await r.json();
-  S.src = 'coingecko';
-  return d.map(k => ({ time: Math.floor(k[0]/1000), open: k[1], high: k[2], low: k[3], close: k[4], volume: 0 }));
+  const j = await r.json();
+  if (j.retCode !== 0) throw Error(j.retMsg);
+  S.src = 'bybit';
+  return j.result.list.reverse().map(k => ({
+    time: Math.floor(parseInt(k[0])/1000),
+    open: parseFloat(k[1]), high: parseFloat(k[2]),
+    low: parseFloat(k[3]), close: parseFloat(k[4]),
+    volume: parseFloat(k[5])
+  }));
 }
 
 async function load() {
@@ -238,14 +229,16 @@ function sp(sym) {
   load();
 }
 
-// ======== PRICE ========
+// ======== PRICE (Bybit) ========
 async function fetchPrice() {
   try {
-    const r = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${CG[S.sym]}&vs_currencies=usd`);
+    const r = await fetch(`https://api.bybit.com/v5/market/tickers?category=spot&symbol=${S.sym}`);
     if (!r.ok) return;
-    const d = await r.json();
-    const p = d[CG[S.sym]]?.usd;
-    if (p) document.getElementById('pp').textContent = '$'+(p>=1000?p.toLocaleString(undefined,{maximumFractionDigits:2}):p.toFixed(4));
+    const j = await r.json();
+    if (j.retCode === 0) {
+      const p = parseFloat(j.result.list[0].lastPrice);
+      document.getElementById('pp').textContent = '$'+(p>=1000?p.toLocaleString(undefined,{maximumFractionDigits:2}):p>=1?p.toFixed(4):p.toFixed(6));
+    }
   } catch(e) {}
 }
 
