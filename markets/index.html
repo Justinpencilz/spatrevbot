@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Crypto Market Prices | Spatrev Tradebot</title>
+
+<!-- Facebook Open Graph Tags -->
+<meta property="og:title" content="Live Crypto Market Prices | Spatrev Tradebot" />
+<meta property="og:description" content="Real-time Binance price tickers for all USDT pairs — live crypto market data" />
+<meta property="og:image" content="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?w=1200&h=630&fit=crop" />
+<meta property="og:url" content="https://www.spatrevbot.online/markets/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Tradebot" />
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1674222590397905');
+fbq('track', 'PageView');
+</script>
+<noscript>
+<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg: #0b0e11;
+    --surface: #1e2329;
+    --surface2: #2b3139;
+    --border: #2b3139;
+    --text: #eaecef;
+    --text2: #848e9c;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --accent: #6c5ce7;
+    --accent2: #a29bfe;
+    --header-h: 64px;
+  }
+  
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  
+  /* Header */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  
+  .logo:hover {
+    opacity: 0.9;
+  }
+  
+  .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo-text {
+    font-size: 14px;
+    color: var(--text2);
+    font-weight: 400;
+  }
+  
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-size: 13px;
+  }
+  
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text2);
+  }
+  
+  .stat-value {
+    color: var(--text);
+    font-weight: 600;
+  }
+  
+  .conn-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+  .conn-status.connected { background: var(--green); }
+  .conn-status.disconnected { background: var(--red); }
+  .conn-status.connecting { background: #f0b90b; }
+  
+  /* Nav bar */
+  .nav-bar {
+    padding: 8px 24px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  
+  .nav-bar a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  
+  .nav-bar a:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+  
+  .nav-bar a.active {
+    color: var(--accent2);
+    font-weight: 600;
+  }
+  
+  /* Controls */
+  .controls {
+    padding: 16px 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  
+  .search-box input:focus {
+    border-color: var(--accent);
+  }
+  
+  .search-box input::placeholder {
+    color: var(--text2);
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text2);
+    font-size: 16px;
+  }
+  
+  .filter-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  
+  .filter-btn:hover {
+    border-color: var(--text2);
+    color: var(--text);
+  }
+  
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  
+  /* Table */
+  .table-wrap {
+    padding: 0 24px 24px;
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  thead {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 50;
+  }
+  
+  th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  
+  th:hover {
+    color: var(--text);
+  }
+  
+  th .sort-icon {
+    margin-left: 4px;
+    opacity: 0.4;
+  }
+  
+  th.sorted .sort-icon {
+    opacity: 1;
+  }
+  
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  
+  tr:hover td {
+    background: var(--surface);
+  }
+  
+  .pair-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .pair-name {
+    font-weight: 600;
+  }
+  
+  .pair-base {
+    font-size: 11px;
+    color: var(--text2);
+  }
+  
+  .price {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .change {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .change.positive { color: var(--green); }
+  .change.negative { color: var(--red); }
+  
+  .vol {
+    color: var(--text2);
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .sparkline {
+    width: 100px;
+    height: 28px;
+  }
+  
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text2);
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--surface2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  /* Count */
+  .count-bar {
+    padding: 8px 24px;
+    font-size: 12px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text2);
+    border-top: 1px solid var(--border);
+  }
+  
+  .footer a {
+    color: var(--accent2);
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 4px; }
+  
+  /* Mobile */
+  @media (max-width: 768px) {
+    .header-stats .stat-hide { display: none; }
+    .controls { flex-direction: column; align-items: stretch; }
+    .search-box { max-width: 100%; }
+    .table-wrap { padding: 0 8px 16px; }
+    th, td { padding: 8px; font-size: 12px; }
+    .sparkline { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="https://spatrevbot.online" class="logo">
+    <svg class="logo-img" viewBox="0 0 28 28" fill="none">
+      <rect width="28" height="28" rx="8" fill="url(#lg)"/>
+      <text x="14" y="19" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold" font-family="Inter">T</text>
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#6c5ce7"/><stop offset="1" stop-color="#a29bfe"/></linearGradient></defs>
+    </svg>
+    Tradebot
+    <span class="logo-text">/ Markets</span>
+  </a>
+  <div class="header-stats">
+    <div class="stat">
+      <span class="conn-status disconnected" id="connDot"></span>
+      <span id="connText">Connecting...</span>
+    </div>
+    <div class="stat stat-hide">
+      Pairs: <span class="stat-value" id="pairCount">0</span>
+    </div>
+    <div class="stat stat-hide">
+      Updated: <span class="stat-value" id="lastUpdate">—</span>
+    </div>
+  </div>
+</div>
+
+<div class="nav-bar">
+  <a href="https://spatrevbot.online">Home</a>
+  <a href="https://spatrevbot.online/vip">VIP</a>
+  <a href="https://spatrevbot.online/markets" class="active">Markets</a>
+</div>
+
+<div class="controls">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search coin (BTC, ETH, SOL...)">
+  </div>
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="gainers">🚀 Gainers</button>
+    <button class="filter-btn" data-filter="losers">📉 Losers</button>
+    <button class="filter-btn" data-filter="volume">🔥 High Vol</button>
+  </div>
+</div>
+
+<div class="count-bar">
+  Showing <strong id="showingCount">0</strong> pairs
+</div>
+
+<div class="table-wrap">
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Loading live market data from Binance...</p>
+  </div>
+  <table id="tickerTable" style="display:none;">
+    <thead>
+      <tr>
+        <th data-sort="pair" class="sorted">Pair <span class="sort-icon">▲</span></th>
+        <th data-sort="price">Price <span class="sort-icon">⇅</span></th>
+        <th data-sort="change24h">24h Change <span class="sort-icon">⇅</span></th>
+        <th data-sort="high">24h High <span class="sort-icon">⇅</span></th>
+        <th data-sort="low">24h Low <span class="sort-icon">⇅</span></th>
+        <th data-sort="volume">Volume <span class="sort-icon">⇅</span></th>
+        <th data-sort="quoteVol">Turnover <span class="sort-icon">⇅</span></th>
+        <th>7d</th>
+      </tr>
+    </thead>
+    <tbody id="tickerBody"></tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Data sourced from <a href="https://www.binance.com" target="_blank" rel="noopener">Binance</a> • 
+  Powered by <a href="https://spatrevbot.online">Spatrev Tradebot</a> • 
+  Prices update in real-time via WebSocket
+</div>
+
+<script>
+// ===== STATE =====
+let allData = [];
+let filteredData = [];
+let currentFilter = 'all';
+let searchQuery = '';
+let sortKey = 'pair';
+let sortAsc = true;
+let sparklineCache = {};
+
+// ===== HELPERS =====
+function fmtPrice(price) {
+  const p = parseFloat(price);
+  if (p >= 1000) return p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (p >= 1) return p.toFixed(4);
+  if (p >= 0.01) return p.toFixed(6);
+  return p.toFixed(8);
+}
+
+function fmtVolume(v) {
+  if (!v) return '0';
+  const n = parseFloat(v);
+  if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(2) + 'K';
+  return n.toFixed(2);
+}
+
+function fmtTime(ts) {
+  return new Date(ts).toLocaleTimeString('en-US', { hour12: false });
+}
+
+// ===== SPARKLINE =====
+async function fetchSparkline(symbol) {
+  if (sparklineCache[symbol]) return sparklineCache[symbol];
+  try {
+    const r = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=7`);
+    const data = await r.json();
+    const closes = data.map(k => parseFloat(k[4]));
+    const min = Math.min(...closes), max = Math.max(...closes), range = max - min || 1;
+    const points = closes.map((c, i) => {
+      const x = (i / (closes.length - 1)) * 100;
+      const y = 100 - ((c - min) / range) * 100;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    const color = closes[closes.length-1] >= closes[0] ? '#0ecb81' : '#f6465d';
+    sparklineCache[symbol] = { path: points.join(' '), color };
+    return sparklineCache[symbol];
+  } catch {
+    return { path: '', color: '#848e9c' };
+  }
+}
+
+// ===== RENDER =====
+function getFiltered() {
+  let data = currentFilter === 'all' ? allData :
+             currentFilter === 'gainers' ? allData.filter(d => parseFloat(d.priceChangePercent) > 5) :
+             currentFilter === 'losers' ? allData.filter(d => parseFloat(d.priceChangePercent) < -5) :
+             currentFilter === 'volume' ? [...allData].sort((a,b) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume)).slice(0, 50) :
+             allData;
+  if (searchQuery) {
+    const q = searchQuery.toUpperCase();
+    data = data.filter(d => d.symbol.includes(q) || d.baseAsset.toUpperCase().includes(q));
+  }
+  return data;
+}
+
+function applySort(data) {
+  const sorted = [...data];
+  sorted.sort((a, b) => {
+    let va, vb;
+    switch(sortKey) {
+      case 'pair': va = a.symbol; vb = b.symbol; break;
+      case 'price': va = parseFloat(a.lastPrice); vb = parseFloat(b.lastPrice); break;
+      case 'change24h': va = parseFloat(a.priceChangePercent); vb = parseFloat(b.priceChangePercent); break;
+      case 'high': va = parseFloat(a.highPrice); vb = parseFloat(b.highPrice); break;
+      case 'low': va = parseFloat(a.lowPrice); vb = parseFloat(b.lowPrice); break;
+      case 'volume': va = parseFloat(a.volume); vb = parseFloat(b.volume); break;
+      case 'quoteVol': va = parseFloat(a.quoteVolume); vb = parseFloat(b.quoteVolume); break;
+      default: va = a.symbol; vb = b.symbol;
+    }
+    return typeof va === 'string' ? (sortAsc ? va.localeCompare(vb) : vb.localeCompare(va)) : (sortAsc ? va - vb : vb - va);
+  });
+  return sorted;
+}
+
+async function render() {
+  filteredData = getFiltered();
+  filteredData = applySort(filteredData);
+  
+  const tbody = document.getElementById('tickerBody');
+  const table = document.getElementById('tickerTable');
+  const loading = document.getElementById('loading');
+  const showingCount = document.getElementById('showingCount');
+  const pairCount = document.getElementById('pairCount');
+  
+  if (allData.length === 0) {
+    loading.style.display = 'block';
+    table.style.display = 'none';
+    return;
+  }
+  
+  loading.style.display = 'none';
+  table.style.display = '';
+  showingCount.textContent = filteredData.length;
+  pairCount.textContent = allData.length;
+  
+  // Batch sparkline fetches for first 100
+  const sparkPromises = filteredData.slice(0, 100).map(d => fetchSparkline(d.symbol));
+  const sparkResults = await Promise.all(sparkPromises);
+  const sparkMap = {};
+  filteredData.slice(0, 100).forEach((d, i) => { sparkMap[d.symbol] = sparkResults[i]; });
+  
+  const fragment = document.createDocumentFragment();
+  for (const d of filteredData) {
+    const change = parseFloat(d.priceChangePercent);
+    const changeClass = change >= 0 ? 'positive' : 'negative';
+    const arrow = change >= 0 ? '▲' : '▼';
+    const spark = sparkMap[d.symbol] || { path: '', color: '#848e9c' };
+    const base = d.baseAsset || d.symbol.replace('USDT', '');
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="pair-cell"><span class="pair-name">${base}</span><span class="pair-base">USDT</span></div></td>
+      <td class="price">$${fmtPrice(d.lastPrice)}</td>
+      <td class="change ${changeClass}">${arrow} ${change.toFixed(2)}%</td>
+      <td>$${fmtPrice(d.highPrice)}</td>
+      <td>$${fmtPrice(d.lowPrice)}</td>
+      <td class="vol">${fmtVolume(d.volume)} ${base}</td>
+      <td class="vol">$${fmtVolume(d.quoteVolume)}</td>
+      <td><svg class="sparkline" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline fill="none" stroke="${spark.color}" stroke-width="2" vector-effect="non-scaling-stroke" points="${spark.path}"/></svg></td>
+    `;
+    fragment.appendChild(tr);
+  }
+  
+  tbody.innerHTML = '';
+  tbody.appendChild(fragment);
+}
+
+// ===== LOAD DATA =====
+async function loadFromRest() {
+  document.getElementById('connText').textContent = 'Loading...';
+  document.getElementById('connDot').className = 'conn-status connecting';
+  
+  try {
+    const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+    const data = await res.json();
+    
+    allData = data
+      .filter(d => d.symbol.endsWith('USDT'))
+      .map(d => ({
+        symbol: d.symbol,
+        baseAsset: d.symbol.replace('USDT', ''),
+        lastPrice: d.lastPrice,
+        priceChangePercent: d.priceChangePercent,
+        highPrice: d.highPrice,
+        lowPrice: d.lowPrice,
+        volume: d.volume,
+        quoteVolume: d.quoteVolume,
+        count: d.count
+      }));
+    
+    document.getElementById('connText').textContent = 'Live';
+    document.getElementById('connDot').className = 'conn-status connected';
+    document.getElementById('lastUpdate').textContent = fmtTime(Date.now());
+    await render();
+    connectWebSocket();
+    
+  } catch (err) {
+    document.getElementById('connText').textContent = 'Error';
+    document.getElementById('connDot').className = 'conn-status disconnected';
+    document.getElementById('loading').innerHTML = `
+      <p style="color:var(--red)">Failed to load data from Binance API</p>
+      <p style="font-size:13px;margin-top:8px">${err.message}</p>
+      <button onclick="location.reload()" style="margin-top:16px;padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer">Retry</button>`;
+  }
+}
+
+// ===== WEBSOCKET =====
+let ws = null, wsReconnectTimer = null, lastRenderTime = 0;
+
+function connectWebSocket() {
+  if (ws) { ws.close(); ws = null; }
+  document.getElementById('connText').textContent = 'Connecting WS...';
+  document.getElementById('connDot').className = 'conn-status connecting';
+  
+  ws = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr');
+  
+  ws.onopen = () => {
+    document.getElementById('connText').textContent = 'Live';
+    document.getElementById('connDot').className = 'conn-status connected';
+  };
+  
+  ws.onmessage = (event) => {
+    try {
+      const tickers = JSON.parse(event.data);
+      if (!Array.isArray(tickers)) return;
+      let updated = false;
+      for (const t of tickers) {
+        if (!t.s.endsWith('USDT')) continue;
+        const idx = allData.findIndex(d => d.symbol === t.s);
+        if (idx !== -1) {
+          allData[idx].lastPrice = t.c;
+          allData[idx].priceChangePercent = t.P;
+          allData[idx].highPrice = t.h;
+          allData[idx].lowPrice = t.l;
+          allData[idx].volume = t.v;
+          allData[idx].quoteVolume = t.q;
+          updated = true;
+        }
+      }
+      if (updated) {
+        const now = Date.now();
+        if (now - lastRenderTime > 1000) {
+          lastRenderTime = now;
+          document.getElementById('lastUpdate').textContent = fmtTime(now);
+          render();
+        }
+      }
+    } catch(e) {}
+  };
+  
+  ws.onclose = () => {
+    document.getElementById('connText').textContent = 'Disconnected';
+    document.getElementById('connDot').className = 'conn-status disconnected';
+    if (wsReconnectTimer) clearTimeout(wsReconnectTimer);
+    wsReconnectTimer = setTimeout(connectWebSocket, 3000);
+  };
+  
+  ws.onerror = () => ws.close();
+}
+
+// ===== SORT =====
+document.querySelectorAll('th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.sort;
+    if (sortKey === key) { sortAsc = !sortAsc; }
+    else { sortKey = key; sortAsc = true; }
+    document.querySelectorAll('th').forEach(t => t.classList.remove('sorted'));
+    th.classList.add('sorted');
+    th.querySelector('.sort-icon').textContent = sortAsc ? '▲' : '▼';
+    render();
+  });
+});
+
+// ===== SEARCH =====
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  render();
+});
+
+// ===== FILTER =====
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    render();
+  });
+});
+
+// ===== REST FALLBACK =====
+setInterval(() => {
+  fetch('https://api.binance.com/api/v3/ticker/24hr')
+    .then(r => r.json())
+    .then(data => {
+      const usdt = data.filter(d => d.symbol.endsWith('USDT')).map(d => ({
+        symbol: d.symbol, baseAsset: d.symbol.replace('USDT', ''),
+        lastPrice: d.lastPrice, priceChangePercent: d.priceChangePercent,
+        highPrice: d.highPrice, lowPrice: d.lowPrice, volume: d.volume,
+        quoteVolume: d.quoteVolume, count: d.count
+      }));
+      for (const d of usdt) {
+        const idx = allData.findIndex(x => x.symbol === d.symbol);
+        if (idx !== -1) allData[idx] = d;
+      }
+      document.getElementById('lastUpdate').textContent = fmtTime(Date.now());
+      render();
+    }).catch(() => {});
+}, 300000);
+
+setInterval(() => { sparklineCache = {}; }, 600000);
+
+// ===== GO =====
+loadFromRest();
+</script>
+</body>
+</html>
