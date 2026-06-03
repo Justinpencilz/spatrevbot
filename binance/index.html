@@ -3,178 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spatrev Binance - Live Market Data</title>
+<title>Veltrix AI — Live Scanner</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d1117;color:#c9d1d9;min-height:100vh}
-  .header{background:#161b22;border-bottom:1px solid #30363d;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
-  .header h1{font-size:20px;color:#f0f6fc;display:flex;align-items:center;gap:8px}
-  .header h1 span{color:#f0b90b}
-  .header .last-update{font-size:12px;color:#8b949e}
-  .layout{display:flex;height:calc(100vh - 52px)}
-  .sidebar{width:300px;min-width:300px;background:#0d1117;border-right:1px solid #30363d;overflow-y:auto;display:flex;flex-direction:column}
-  .sidebar .search-box{padding:10px;border-bottom:1px solid #30363d}
-  .sidebar .search-box input{width:100%;padding:8px 12px;background:#21262d;border:1px solid #30363d;border-radius:6px;color:#c9d1d9;font-size:13px;outline:none}
-  .sidebar .search-box input:focus{border-color:#f0b90b}
-  .sidebar .ticker-header{display:flex;padding:8px 12px;font-size:11px;color:#8b949e;text-transform:uppercase;border-bottom:1px solid #21262d;font-weight:600}
-  .sidebar .ticker-header .col-pair{flex:1}
-  .sidebar .ticker-header .col-price{width:80px;text-align:right}
-  .sidebar .ticker-header .col-change{width:70px;text-align:right}
-  .ticker-list{flex:1;overflow-y:auto}
-  .ticker-item{display:flex;align-items:center;padding:6px 12px;cursor:pointer;border-bottom:1px solid #161b22;transition:background 0.15s}
-  .ticker-item:hover{background:#161b22}
-  .ticker-item.active{background:#1a2332;border-left:3px solid #f0b90b}
-  .ticker-item .pair{flex:1;font-size:13px;font-weight:500}
-  .ticker-item .pair .base{color:#f0f6fc}
-  .ticker-item .pair .quote{color:#8b949e;font-size:11px}
-  .ticker-item .price{width:80px;text-align:right;font-size:13px;font-family:'SF Mono','Consolas',monospace}
-  .ticker-item .change{width:70px;text-align:right;font-size:12px;font-weight:500}
-  .ticker-item .change.up{color:#3fb950}
-  .ticker-item .change.down{color:#f85149}
-  .ticker-item .change.flat{color:#8b949e}
-  .main{flex:1;display:flex;flex-direction:column;background:#131722}
-  .chart-toolbar{display:flex;align-items:center;gap:8px;padding:8px 16px;background:#131722;border-bottom:1px solid #2a2e39}
-  .chart-toolbar .symbol-name{font-size:18px;font-weight:600;color:#f0f6fc;margin-right:8px}
-  .chart-toolbar .symbol-price{font-size:16px;font-weight:600;margin-right:12px}
-  .chart-toolbar .symbol-price.up{color:#3fb950}
-  .chart-toolbar .symbol-price.down{color:#f85149}
-  .chart-container{flex:1;position:relative;min-height:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0b0e11;color:#eaecef;font-size:14px;overflow:hidden;height:100vh}
+  
+  /* Colors */
+  :root{--bg:#0b0e11;--surface:#1e2329;--surface2:#2b3139;--border:#2b3139;--text:#eaecef;--text2:#848e9c;--green:#0ecb81;--red:#f6465d;--gold:#f0b90b}
+
+  /* Header */
+  .hdr{display:flex;align-items:center;padding:0 20px;height:48px;background:#161b22;border-bottom:1px solid #30363d}
+  .hdr .logo{font-weight:700;font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px}
+  .hdr .logo span{color:var(--gold)}
+  .hdr .logo small{font-size:10px;color:var(--text2);font-weight:400}
+  .hdr .nav{margin-left:auto;display:flex;gap:16px}
+  .hdr .nav a{color:var(--text2);text-decoration:none;font-size:13px;transition:color 0.2s}
+  .hdr .nav a:hover{color:var(--text)}
+  .hdr .nav a.active{color:var(--gold)}
+  .hdr .status{font-size:11px;color:var(--text2);margin-left:20px;display:flex;align-items:center;gap:4px}
+  .hdr .status .dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}
+
+  /* Controls Bar */
+  .controls{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap}
+  
+  /* Pair Selector */
+  .pair-select{position:relative;min-width:160px}
+  .pair-select .sel-btn{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap}
+  .pair-select .sel-btn:hover{border-color:var(--gold)}
+  .pair-select .sel-btn .arrow{margin-left:auto;font-size:10px;color:var(--text2)}
+  .pair-select .dropdown{display:none;position:absolute;top:100%;left:0;z-index:100;width:280px;max-height:320px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-top:4px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+  .pair-select .dropdown.open{display:block}
+  .pair-select .dropdown .search{padding:8px;border-bottom:1px solid var(--border)}
+  .pair-select .dropdown .search input{width:100%;padding:6px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:12px;outline:none}
+  .pair-select .dropdown .search input:focus{border-color:var(--gold)}
+  .pair-select .dropdown .list{overflow-y:auto;max-height:250px}
+  .pair-select .dropdown .list .opt{padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;transition:background 0.15s}
+  .pair-select .dropdown .list .opt:hover{background:var(--surface2)}
+  .pair-select .dropdown .list .opt.active{background:#1a2332;color:var(--gold)}
+  .pair-select .dropdown .list .opt .pr{font-family:'SF Mono',monospace;font-size:11px;color:var(--text2)}
+  
+  /* Timeframes */
+  .tf-group{display:flex;gap:2px}
+  .tf-btn{padding:5px 10px;font-size:11px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--text2);cursor:pointer;font-weight:500;transition:all 0.15s}
+  .tf-btn:hover{color:var(--text);background:var(--surface2)}
+  .tf-btn.active{background:var(--gold);color:#0b0e11;border-color:var(--gold)}
+
+  /* Indicator Toggles */
+  .indicator-group{display:flex;gap:4px}
+  .ind-btn{display:flex;align-items:center;gap:4px;padding:5px 10px;font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text2);cursor:pointer;transition:all 0.15s}
+  .ind-btn:hover{border-color:var(--text2)}
+  .ind-btn.on{background:#1a2332;border-color:var(--gold);color:var(--gold)}
+  .ind-btn .toggle-dot{width:6px;height:6px;border-radius:50%;background:var(--text2);transition:all 0.2s}
+  .ind-btn.on .toggle-dot{background:var(--gold)}
+
+  /* Action Buttons */
+  .action-btn{padding:5px 10px;font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;color:var(--text2);cursor:pointer}
+  .action-btn:hover{background:var(--border);color:var(--text)}
+  .action-btn.primary{background:var(--gold);color:#0b0e11;border-color:var(--gold);font-weight:600}
+  .action-btn.primary:hover{background:#dba50a}
+
+  /* Chart Area */
+  .chart-wrap{flex:1;position:relative;min-height:0}
   #tv-chart{width:100%;height:100%;position:absolute;inset:0}
-  .status-bar{display:flex;justify-content:space-between;padding:4px 16px;background:#131722;border-top:1px solid #2a2e39;font-size:11px;color:#8b949e}
-  .loading-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#131722;z-index:10;transition:opacity 0.5s}
+  
+  /* Loading */
+  .loading-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#131722;z-index:10;transition:opacity 0.5s;flex-direction:column;gap:12px}
   .loading-overlay.hidden{opacity:0;pointer-events:none}
-  .spinner{width:32px;height:32px;border:3px solid #30363d;border-top-color:#f0b90b;border-radius:50%;animation:spin 0.8s linear infinite}
+  .spinner{width:28px;height:28px;border:3px solid #30363d;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px}
-  .status-dot.green{background:#3fb950}
-  .sidebar::-webkit-scrollbar,.ticker-list::-webkit-scrollbar{width:4px}
-  .sidebar::-webkit-scrollbar-track,.ticker-list::-webkit-scrollbar-track{background:transparent}
-  .sidebar::-webkit-scrollbar-thumb,.ticker-list::-webkit-scrollbar-thumb{background:#30363d;border-radius:2px}
+  .load-text{font-size:12px;color:var(--text2)}
+
+  /* Error State */
   .chart-error{display:none;position:absolute;inset:0;background:#131722;flex-direction:column;align-items:center;justify-content:center;z-index:5;text-align:center;padding:20px;gap:12px}
   .chart-error.visible{display:flex}
-  .chart-error h3{color:#f0b90b;font-size:16px}
-  .chart-error p{color:#8b949e;font-size:13px;max-width:400px}
-  .chart-error .retry-btn{padding:8px 20px;background:#f0b90b;color:#0d1117;border:none;border-radius:6px;font-weight:600;cursor:pointer}
+  .chart-error .err-title{color:var(--gold);font-size:15px}
+  .chart-error .err-msg{color:var(--text2);font-size:12px;max-width:400px}
+  .chart-error .retry{padding:8px 20px;background:var(--gold);color:#0b0e11;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:13px}
+
+  /* Status Bar */
+  .status-bar{display:flex;justify-content:space-between;padding:3px 16px;background:var(--surface);border-top:1px solid var(--border);font-size:11px;color:var(--text2)}
+  .status-bar .right{display:flex;gap:16px}
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1><span>◆</span> Spatrev Binance <span style="font-size:12px;color:#8b949e;font-weight:400">Live Market Data</span></h1>
-  <div class="last-update" id="updateStatus">Connecting...</div>
+<!-- Header -->
+<div class="hdr">
+  <div class="logo"><span>◆</span> Veltrix AI <small>/ Scanner</small></div>
+  <div class="nav">
+    <a href="/">Home</a>
+    <a href="/vip/">VIP</a>
+    <a href="/binance/" class="active">Scanner</a>
+    <a href="https://binance.com" target="_blank">Binance</a>
+  </div>
+  <div class="status">
+    <span class="dot"></span>
+    <span id="statusText">Live</span>
+  </div>
 </div>
 
-<div class="layout">
-  <div class="sidebar">
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search pairs..." oninput="filterPairs()">
-    </div>
-    <div class="ticker-header">
-      <span class="col-pair">Pair</span>
-      <span class="col-price">Price</span>
-      <span class="col-change">24h%</span>
-    </div>
-    <div class="ticker-list" id="tickerList"></div>
+<!-- Controls -->
+<div class="controls" id="controlsBar">
+  <!-- Indicators first (above pair dropdown) -->
+  <div class="indicator-group">
+    <button class="ind-btn on" id="indVeltrix" onclick="toggleIndicator('veltrix')">
+      <span class="toggle-dot"></span> Veltrix AI
+    </button>
+    <button class="ind-btn" id="indSpatrev" onclick="toggleIndicator('spatrev')">
+      <span class="toggle-dot"></span> Spatrev AI
+    </button>
   </div>
 
-  <div class="main">
-    <div class="chart-toolbar">
-      <span class="symbol-name" id="symbolName">BTCUSDT</span>
-      <span class="symbol-price up" id="symbolPrice">—</span>
-      <span style="flex:1"></span>
-      <span style="font-size:11px;color:#8b949e">TradingView Chart</span>
+  <!-- Pair Selector -->
+  <div class="pair-select" id="pairSelect">
+    <button class="sel-btn" onclick="toggleDropdown()">
+      <span id="selPair">BTC/USDT</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="dropdown" id="pairDropdown">
+      <div class="search"><input type="text" id="pairSearch" placeholder="Search pair..." oninput="filterPairs()"></div>
+      <div class="list" id="pairList"></div>
     </div>
+  </div>
 
-    <div class="chart-container">
-      <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner"></div>
-        <div style="margin-top:12px;font-size:12px;color:#8b949e" id="loadMsg">Loading TradingView chart...</div>
-      </div>
-      <div class="chart-error" id="chartError">
-        <h3>⚠️ Chart Not Loading</h3>
-        <p id="errorMsg">TradingView widget could not load. Try refreshing or check your ad blocker.</p>
-        <button class="retry-btn" onclick="location.reload()">Retry</button>
-      </div>
-      <div id="tv-chart"></div>
-    </div>
+  <!-- Timeframes -->
+  <div class="tf-group">
+    <button class="tf-btn" data-tf="1" onclick="setTF('1',this)">1m</button>
+    <button class="tf-btn" data-tf="3" onclick="setTF('3',this)">3m</button>
+    <button class="tf-btn active" data-tf="15" onclick="setTF('15',this)">15m</button>
+    <button class="tf-btn" data-tf="60" onclick="setTF('60',this)">1h</button>
+    <button class="tf-btn" data-tf="240" onclick="setTF('240',this)">4h</button>
+    <button class="tf-btn" data-tf="1D" onclick="setTF('1D',this)">1D</button>
+  </div>
 
-    <div class="status-bar">
-      <span><span class="status-dot green"></span>Binance Live</span>
-      <span id="pairsCount">0 pairs</span>
-      <span id="statusTime"></span>
-    </div>
+  <div style="flex:1;min-width:4px"></div>
+
+  <!-- Action Buttons -->
+  <button class="action-btn" onclick="alert('Settings panel coming soon')">⚙️ Settings</button>
+  <button class="action-btn primary" onclick="alert('Scanning 24 top pairs...')">🔍 Scan</button>
+  <span style="font-size:10px;color:var(--text2)" id="tickerCount">0 pairs</span>
+</div>
+
+<!-- Chart -->
+<div class="chart-wrap">
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="load-text" id="loadText">Loading market data...</div>
+  </div>
+  <div class="chart-error" id="chartError">
+    <div class="err-title">⚠️ Chart Unavailable</div>
+    <div class="err-msg" id="errMsg">TradingView could not load</div>
+    <button class="retry" onclick="location.reload()">Retry</button>
+  </div>
+  <div id="tv-chart"></div>
+</div>
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <span id="pairsStatus">Connecting to Binance...</span>
+  <div class="right">
+    <span id="price24h">—</span>
+    <span id="lastUpdate">—</span>
   </div>
 </div>
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
+// =============================================
+// STATE
+// =============================================
 const state = {
-  allTickers: [],
-  tickersMap: {},
+  allPairs: [],
+  pairsMap: {},
   currentSymbol: 'BTCUSDT',
+  currentTF: '15',
   chartWidget: null,
-  initAttempts: 0
+  indVeltrix: true,
+  indSpatrev: false
 };
 
-// ======== BINANCE TICKERS ========
+// =============================================
+// BINANCE API
+// =============================================
 async function fetchTickers() {
   try {
-    const [tickerRes, statsRes] = await Promise.all([
+    const [priceRes, statRes] = await Promise.all([
       fetch('https://api.binance.com/api/v3/ticker/price'),
       fetch('https://api.binance.com/api/v3/ticker/24hr')
     ]);
-    if (!tickerRes.ok || !statsRes.ok) throw new Error('API error');
-    const prices = await tickerRes.json();
-    const stats = await statsRes.json();
-    const statsMap = {};
-    stats.forEach(s => { statsMap[s.symbol] = s });
+    if (!priceRes.ok || !statRes.ok) throw new Error('API error');
+    const prices = await priceRes.json();
+    const stats = await statRes.json();
+    const statMap = {};
+    stats.forEach(s => { statMap[s.symbol] = s });
 
-    state.allTickers = prices
+    state.allPairs = prices
       .filter(p => p.symbol.endsWith('USDT'))
       .map(p => {
-        const stat = statsMap[p.symbol];
+        const s = statMap[p.symbol];
         return {
           symbol: p.symbol,
           base: p.symbol.replace('USDT', ''),
           price: parseFloat(p.price),
-          priceChangePercent: stat ? parseFloat(stat.priceChangePercent) : 0,
-          quoteVolume: stat ? parseFloat(stat.quoteVolume) : 0
+          change: s ? parseFloat(s.priceChangePercent) : 0,
+          high: s ? parseFloat(s.highPrice) : 0,
+          low: s ? parseFloat(s.lowPrice) : 0,
+          vol: s ? parseFloat(s.quoteVolume) : 0
         };
       })
-      .sort((a, b) => b.quoteVolume - a.quoteVolume);
+      .sort((a, b) => b.vol - a.vol);
 
-    state.allTickers.forEach(t => { state.tickersMap[t.symbol] = t });
-    renderTickers();
+    state.allPairs.forEach(p => { state.pairsMap[p.symbol] = p });
+    renderDropdown();
     updateStatus();
-    document.getElementById('loadMsg').textContent = `Loaded ${state.allTickers.length} pairs. Loading chart...`;
-  } catch (err) {
-    console.error('Ticker fetch failed:', err);
-    document.getElementById('loadMsg').textContent = 'Fetching market data...';
+    document.getElementById('loadText').textContent = `${state.allPairs.length} pairs loaded. Loading chart...`;
+  } catch(e) {
+    console.error('Fetch failed:', e);
+    document.getElementById('loadText').textContent = 'Retrying connection...';
   }
 }
 
-function renderTickers(filter) {
-  const list = document.getElementById('tickerList');
-  let items = state.allTickers;
+// =============================================
+// PAIR DROPDOWN
+// =============================================
+function renderDropdown(filter) {
+  const list = document.getElementById('pairList');
+  let items = state.allPairs;
   if (filter) {
     const f = filter.toLowerCase();
-    items = items.filter(t => t.base.toLowerCase().includes(f));
+    items = items.filter(p => p.base.toLowerCase().includes(f));
   }
-  list.innerHTML = items.map(t => {
-    const change = t.priceChangePercent;
-    const changeClass = change > 0 ? 'up' : change < 0 ? 'down' : 'flat';
-    const changeSign = change > 0 ? '+' : '';
-    const active = t.symbol === state.currentSymbol ? 'active' : '';
-    return `<div class="ticker-item ${active}" data-symbol="${t.symbol}" onclick="selectPair('${t.symbol}')">
-      <div class="pair"><span class="base">${t.base}</span><span class="quote">/USDT</span></div>
-      <div class="price">${fmtPrice(t.price)}</div>
-      <div class="change ${changeClass}">${changeSign}${change.toFixed(2)}%</div>
+  list.innerHTML = items.map(p => {
+    const active = p.symbol === state.currentSymbol ? 'active' : '';
+    const cl = p.change >= 0 ? 'color:var(--green)' : 'color:var(--red)';
+    return `<div class="opt ${active}" data-sym="${p.symbol}" onclick="selectPair('${p.symbol}')">
+      <span>${p.base}/USDT</span>
+      <span class="pr" style="${cl}">$${fmtPrice(p.price)}</span>
     </div>`;
   }).join('');
-  document.getElementById('pairsCount').textContent = `${items.length} pairs`;
 }
 
-function filterPairs() { renderTickers(document.getElementById('searchInput').value); }
+function filterPairs() {
+  renderDropdown(document.getElementById('pairSearch').value);
+}
+
+function toggleDropdown() {
+  document.getElementById('pairDropdown').classList.toggle('open');
+  if (document.getElementById('pairDropdown').classList.contains('open')) {
+    document.getElementById('pairSearch').value = '';
+    renderDropdown();
+    setTimeout(() => document.getElementById('pairSearch').focus(), 100);
+  }
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  const sel = document.getElementById('pairSelect');
+  if (!sel.contains(e.target)) {
+    document.getElementById('pairDropdown').classList.remove('open');
+  }
+});
+
+function selectPair(symbol) {
+  state.currentSymbol = symbol;
+  document.getElementById('pairDropdown').classList.remove('open');
+  document.getElementById('selPair').textContent = symbol.replace('USDT', '/USDT');
+  updatePriceDisplay();
+  updateChart(symbol);
+}
+
+// =============================================
+// TIMEFRAMES
+// =============================================
+function setTF(tf, btn) {
+  state.currentTF = tf;
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (state.chartWidget) {
+    try { state.chartWidget.chart().setResolution(tf); } catch(e) {}
+  }
+}
+
+// =============================================
+// INDICATORS
+// =============================================
+function toggleIndicator(name) {
+  if (name === 'veltrix') {
+    state.indVeltrix = !state.indVeltrix;
+    document.getElementById('indVeltrix').classList.toggle('on', state.indVeltrix);
+  } else if (name === 'spatrev') {
+    state.indSpatrev = !state.indSpatrev;
+    document.getElementById('indSpatrev').classList.toggle('on', state.indSpatrev);
+  }
+  updateStudies();
+}
+
+function updateStudies() {
+  if (!state.chartWidget) return;
+  try {
+    const chart = state.chartWidget.chart();
+    // Remove existing studies
+    const existing = chart.getAllStudies();
+    existing.forEach(s => { try { chart.removeEntity(s.id); } catch(e) {} });
+    
+    // Add based on toggles
+    if (state.indVeltrix) {
+      chart.createStudy('Moving Average', false, false, [9, 'close']);
+      chart.createStudy('Moving Average', false, false, [21, 'close']);
+    }
+    if (state.indSpatrev) {
+      chart.createStudy('Moving Average', false, false, [20, 'close']);
+      chart.createStudy('Moving Average', false, false, [50, 'close']);
+      chart.createStudy('Relative Strength Index', false, false, [14]);
+    }
+  } catch(e) {}
+}
+
+// =============================================
+// PRICE DISPLAY
+// =============================================
+function updatePriceDisplay() {
+  const p = state.pairsMap[state.currentSymbol];
+  if (!p) return;
+  const cl = p.change >= 0 ? 'color:var(--green)' : 'color:var(--red)';
+  document.getElementById('pairsStatus').innerHTML = 
+    `<b>${p.base}/USDT</b> <span style="${cl}">$${fmtPrice(p.price)}</span>`;
+  document.getElementById('price24h').textContent = `24h: ${p.change >= 0 ? '+' : ''}${p.change.toFixed(2)}%`;
+}
 
 function fmtPrice(p) {
   if (p >= 1000) return p.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2});
@@ -183,90 +343,53 @@ function fmtPrice(p) {
   return p.toFixed(8);
 }
 
-function fmtPriceShort(p) {
-  if (p >= 1000) return p.toLocaleString(undefined, {maximumFractionDigits:2});
-  if (p >= 1) return p.toFixed(2);
-  if (p >= 0.01) return p.toFixed(4);
-  return p.toFixed(6);
-}
-
-function selectPair(symbol) {
-  state.currentSymbol = symbol;
-  document.querySelectorAll('.ticker-item').forEach(el => {
-    el.classList.toggle('active', el.dataset.symbol === symbol);
-  });
-  const t = state.tickersMap[symbol];
-  if (t) {
-    document.getElementById('symbolName').textContent = symbol;
-    const el = document.getElementById('symbolPrice');
-    el.textContent = '$' + fmtPriceShort(t.price);
-    el.className = 'symbol-price ' + (t.priceChangePercent >= 0 ? 'up' : 'down');
-  }
-  updateChart(symbol);
-}
-
-// ======== TRADINGVIEW CHART ========
+// =============================================
+// TRADINGVIEW CHART
+// =============================================
 function initTV() {
-  state.initAttempts++;
-  
   if (typeof TradingView === 'undefined') {
-    if (state.initAttempts < 50) {
-      document.getElementById('loadMsg').textContent = 'Loading TradingView engine...';
-      setTimeout(initTV, 500);
-      return;
-    }
-    showError('TradingView library failed to load. Check your internet connection or ad blocker.');
+    document.getElementById('loadText').textContent = 'Loading TradingView engine...';
+    setTimeout(initTV, 500);
     return;
   }
-  
-  document.getElementById('loadMsg').textContent = 'Rendering chart...';
+  document.getElementById('loadText').textContent = 'Rendering chart...';
   createWidget(state.currentSymbol);
-  
-  // Always hide loading after a delay
-  setTimeout(hideLoading, 5000);
+  setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 6000);
 }
 
 function createWidget(symbol) {
   const container = document.getElementById('tv-chart');
-  
   if (state.chartWidget) {
     try { state.chartWidget.remove(); } catch(e) {}
     container.innerHTML = '';
   }
-  
-  // Hide error if visible
   document.getElementById('chartError').classList.remove('visible');
-  
+
   try {
     state.chartWidget = new TradingView.widget({
       container_id: "tv-chart",
       symbol: `BINANCE:${symbol}`,
-      interval: "15",
+      interval: state.currentTF,
       theme: "dark",
       style: "1",
       locale: "en",
-      toolbar_bg: "#131722",
+      toolbar_bg: "#0b0e11",
       enable_publishing: false,
       allow_symbol_change: false,
       hide_top_toolbar: false,
       hide_legend: false,
       save_image: false,
-      studies: [],
       autosize: true,
-      time_frames: [
-        { text: "1m", resolution: "1" },
-        { text: "3m", resolution: "3" },
-        { text: "5m", resolution: "5" },
-        { text: "15m", resolution: "15" },
-        { text: "1h", resolution: "60" },
-        { text: "4h", resolution: "240" },
-        { text: "1D", resolution: "1D" },
-      ],
+      studies: [],
       disabled_features: [
         "use_localstorage_for_settings",
         "header_symbol_search",
         "symbol_search_hot_key",
         "header_compare",
+        "header_undo_redo",
+        "header_screenshot",
+        "save_shortcut",
+        "show_logo_on_all_charts",
       ],
       enabled_features: [
         "show_hide_button_on_legend",
@@ -280,69 +403,42 @@ function createWidget(symbol) {
       },
       loading_screen: { backgroundColor: "#131722" },
     });
-    
-    // Hide loading when widget fires chart_ready
-    state.chartWidget.onChartReady && state.chartWidget.onChartReady(hideLoading);
-    
   } catch(e) {
-    console.error('TV widget create error:', e);
-    showError('Could not create chart: ' + e.message);
+    console.error('TV error:', e);
+    document.getElementById('chartError').classList.add('visible');
+    document.getElementById('errMsg').textContent = e.message;
   }
 }
 
 function updateChart(symbol) {
-  if (!state.chartWidget) {
-    createWidget(symbol);
-    return;
-  }
-  try {
-    state.chartWidget.setSymbol(`BINANCE:${symbol}`);
-  } catch(e) {
-    createWidget(symbol);
-  }
+  if (!state.chartWidget) { createWidget(symbol); return; }
+  try { state.chartWidget.setSymbol(`BINANCE:${symbol}`); } catch(e) { createWidget(symbol); }
 }
 
-function hideLoading() {
-  document.getElementById('loadingOverlay').classList.add('hidden');
-}
-
-function showError(msg) {
-  hideLoading();
-  document.getElementById('errorMsg').textContent = msg || 'TradingView widget could not load. Try refreshing.';
-  document.getElementById('chartError').classList.add('visible');
-}
-
-// ======== PRICE UPDATE ========
-async function updatePrice() {
-  try {
-    const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${state.currentSymbol}`);
-    if (res.ok) {
-      const d = await res.json();
-      const price = parseFloat(d.lastPrice);
-      const change = parseFloat(d.priceChangePercent);
-      const el = document.getElementById('symbolPrice');
-      el.textContent = '$' + fmtPriceShort(price);
-      el.className = 'symbol-price ' + (change >= 0 ? 'up' : 'down');
-    }
-  } catch(e) {}
-}
-
+// =============================================
+// STATUS
+// =============================================
 function updateStatus() {
-  document.getElementById('updateStatus').textContent = `Live • ${state.allTickers.length} pairs`;
-  document.getElementById('statusTime').textContent = `Updated: ${new Date().toLocaleTimeString()}`;
+  document.getElementById('tickerCount').textContent = `${state.allPairs.length} pairs`;
+  document.getElementById('pairsStatus').textContent = `${state.allPairs.length} pairs from Binance`;
+  document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+  updatePriceDisplay();
 }
 
+// =============================================
+// RESIZE
+// =============================================
 window.addEventListener('resize', () => {
-  if (state.chartWidget) {
-    try { state.chartWidget.resize(); } catch(e) {}
-  }
+  if (state.chartWidget) try { state.chartWidget.resize(); } catch(e) {}
 });
 
-// ======== INIT ========
+// =============================================
+// INIT
+// =============================================
 async function start() {
   await fetchTickers();
   setInterval(fetchTickers, 10000);
-  setInterval(updatePrice, 3000);
+  setInterval(updatePriceDisplay, 3000);
   initTV();
 }
 
