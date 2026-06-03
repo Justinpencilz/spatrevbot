@@ -6,35 +6,22 @@
 <title>Veltrix AI — Live Charts</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,sans-serif;font-size:14px}
-  :root{--go:#f0b90b;--t2:#848e9c;--b:#2b3139;--s2:#2b3139}
+  html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+  :root{--go:#f0b90b;--s1:#1e2329;--s2:#2b3139;--b:#2b3139;--t2:#848e9c}
   
-  .h{display:flex;align-items:center;padding:0 12px;height:40px;background:#161b22;border-bottom:1px solid #30363d}
-  .h .l{font-size:13px;font-weight:700;display:flex;align-items:center;gap:4px}
-  .h .l span{color:var(--go)}
-  .h .l s{font-size:10px;color:var(--t2);font-weight:400}
-  .h .n{margin-left:auto;display:flex;gap:12px}
-  .h .n a{color:var(--t2);text-decoration:none;font-size:11px}
-  .h .n a:hover{color:#eaecef}
-  .h .n a.act{color:var(--go)}
+  .hdr{display:flex;align-items:center;padding:0 12px;height:40px;background:#161b22;border-bottom:1px solid #30363d}
+  .hdr .l{font-weight:700;font-size:13px;display:flex;align-items:center;gap:4px;color:#eaecef}
+  .hdr .l span{color:var(--go)}
+  .hdr .l small{font-size:10px;color:var(--t2);font-weight:400;margin-left:4px}
+  .hdr .n{margin-left:auto;display:flex;gap:12px}
+  .hdr .n a{color:var(--t2);text-decoration:none;font-size:11px}
+  .hdr .n a:hover{color:#eaecef}
+  .hdr .n a.act{color:var(--go)}
   
-  .c{display:flex;align-items:center;gap:4px;padding:4px 8px;background:#1e2329;border-bottom:1px solid var(--b);flex-wrap:wrap;min-height:34px}
+  .bar{display:flex;align-items:center;gap:4px;padding:4px 8px;background:var(--s1);border-bottom:1px solid var(--b);flex-wrap:wrap;min-height:34px}
   
-  .pd{position:relative}
-  .pd .pb{display:flex;align-items:center;gap:6px;padding:4px 10px;background:var(--s2);border:1px solid var(--b);border-radius:5px;color:#eaecef;cursor:pointer;font-size:12px;font-weight:600}
-  .pd .pb:hover{border-color:var(--go)}
-  .pd .pb .ar{font-size:8px;color:var(--t2)}
-  .pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:240px;max-height:360px;background:#1e2329;border:1px solid var(--b);border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-  .pd .dd.o{display:block}
-  .pd .dd input{width:100%;padding:6px 10px;background:var(--s2);border:none;border-bottom:1px solid var(--b);color:#eaecef;font-size:12px;outline:none}
-  .pd .dd .dl{overflow-y:auto;max-height:300px}
-  .pd .dd .dl .o{padding:5px 10px;cursor:pointer;font-size:11px;display:flex;justify-content:space-between;transition:background .12s}
-  .pd .dd .dl .o:hover{background:var(--s2)}
-  .pd .dd .dl .o.act{background:#1a2332;color:var(--go)}
-  .pd .dd .dl .o .pr{font-family:monospace;font-size:10px;color:var(--t2)}
-
   .ib{padding:2px 6px;font-size:10px;background:var(--s2);border:1px solid var(--b);border-radius:3px;color:var(--t2);cursor:pointer}
-  .ib:hover{border-color:#eaecef}
+  .ib:hover{border-color:var(--t2)}
   .ib.on{background:#1a2332;border-color:var(--go);color:var(--go)}
   
   .tb{padding:2px 6px;font-size:10px;background:transparent;border:1px solid transparent;border-radius:3px;color:var(--t2);cursor:pointer}
@@ -44,26 +31,22 @@
   .pp{margin-left:auto;font-size:11px;font-family:monospace;color:var(--t2)}
   
   .w{flex:1;position:relative;min-height:0}
-  #chart{position:absolute;inset:0;width:100%;height:100%}
+  #tv{position:absolute;inset:0;width:100%;height:100%}
   
-  .ld{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#131722;z-index:10;flex-direction:column;gap:6px;padding:20px;text-align:center}
-  .ld.s{display:flex}
-  .sp{width:20px;height:20px;border:2px solid #30363d;border-top-color:var(--go);border-radius:50%;animation:ss .7s linear infinite}
-  @keyframes ss{to{transform:rotate(360deg)}}
-  .lt{font-size:11px;color:var(--t2);max-width:300px}
-  .lt .er{color:#f6465d;display:block;margin-top:8px;font-size:10px}
+  .ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#131722;z-index:10;flex-direction:column;gap:8px;transition:opacity .4s}
+  .ld.h{opacity:0;pointer-events:none}
+  .sp{width:22px;height:22px;border:2px solid #30363d;border-top-color:var(--go);border-radius:50%;animation:s .7s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .lt{font-size:11px;color:var(--t2)}
   
   .app{display:flex;flex-direction:column;height:100vh;width:100vw}
-  ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <div class="h">
-    <div class="l"><span>◆</span> Veltrix AI <s>/ Charts</s></div>
+  <div class="hdr">
+    <div class="l"><span>◆</span> Veltrix AI <small>/ Live Charts</small></div>
     <div class="n">
       <a href="/">Home</a>
       <a href="/vip/">VIP</a>
@@ -71,423 +54,155 @@
     </div>
   </div>
 
-  <div class="c">
-    <div class="pd" id="pd">
-      <button class="pb" onclick="dd()"><span id="ps">BTC/USDT</span><span class="ar">▼</span></button>
-      <div class="dd" id="dd">
-        <input type="text" id="ds" placeholder="Search..." oninput="fd()">
-        <div class="dl" id="dl"></div>
-      </div>
-    </div>
-
-    <button class="ib on" id="iv" onclick="tg(0)"><span style="display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--go);margin-right:2px;vertical-align:middle"></span>Veltrix</button>
-    <button class="ib" id="is" onclick="tg(1)"><span style="display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--t2);margin-right:2px;vertical-align:middle"></span>Spatrev</button>
-    
-    <div style="width:1px;height:14px;background:var(--b);margin:0 2px"></div>
-    
-    <button class="tb" onclick="tf('1')">1m</button>
-    <button class="tb" onclick="tf('3')">3m</button>
-    <button class="tb act" onclick="tf('15')">15m</button>
-    <button class="tb" onclick="tf('60')">1h</button>
-    <button class="tb" onclick="tf('240')">4h</button>
-    <button class="tb" onclick="tf('1D')">1D</button>
-
-    <span class="pp" id="pp">—</span>
+  <div class="bar">
+    <button class="ib on" id="iv" onclick="tog(0)">Veltrix AI</button>
+    <button class="ib" id="is" onclick="tog(1)">Spatrev AI</button>
+    <div style="width:1px;height:14px;background:var(--b);margin:0 3px"></div>
+    <button class="tb" onclick="chTF('1')">1m</button>
+    <button class="tb" onclick="chTF('3')">3m</button>
+    <button class="tb" onclick="chTF('5')">5m</button>
+    <button class="tb act" onclick="chTF('15')">15m</button>
+    <button class="tb" onclick="chTF('60')">1h</button>
+    <button class="tb" onclick="chTF('240')">4h</button>
+    <button class="tb" onclick="chTF('1D')">1D</button>
   </div>
 
   <div class="w">
-    <div class="ld s" id="ld">
+    <div class="ld" id="ld">
       <div class="sp"></div>
-      <div class="lt" id="lt">
-        Initializing...
-        <span class="er" id="er"></span>
-      </div>
+      <div class="lt">Loading TradingView chart...</div>
     </div>
-    <div id="chart"></div>
+    <div id="tv"></div>
   </div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.7/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://s3.tradingview.com/tv.js"></script>
 <script>
 // =============================================
-// PAIRS
+// TRADINGVIEW ADVANCED CHART — FULL FEATURES
 // =============================================
-const PAIRS = [
-  'BTCUSDT','ETHUSDT','BNBUSDT','SOLUSDT','XRPUSDT','DOGEUSDT',
-  'ADAUSDT','AVAXUSDT','DOTUSDT','LINKUSDT','MATICUSDT','UNIUSDT',
-  'LTCUSDT','BCHUSDT','XLMUSDT','NEARUSDT','APTUSDT','SUIUSDT',
-  'PEPEUSDT','INJUSDT','FETUSDT','HBARUSDT','TONUSDT','ONDOUSDT',
-  'WLDUSDT','TRXUSDT','ZECUSDT','EGLDUSDT','STXUSDT','FILUSDT',
-  'ATOMUSDT','ETCUSDT','SHIBUSDT','ALGOUSDT','AAVEUSDT','SANDUSDT'
-];
+let widget = null;
+let currentTF = '15';
+let studyIds = [];
 
-// CoinGecko IDs for the same coins
-const CG_IDS = {
-  'BTCUSDT':'bitcoin','ETHUSDT':'ethereum','BNBUSDT':'binancecoin','SOLUSDT':'solana',
-  'XRPUSDT':'ripple','DOGEUSDT':'dogecoin','ADAUSDT':'cardano','AVAXUSDT':'avalanche-2',
-  'DOTUSDT':'polkadot','LINKUSDT':'chainlink','MATICUSDT':'matic-network','UNIUSDT':'uniswap',
-  'LTCUSDT':'litecoin','BCHUSDT':'bitcoin-cash','XLMUSDT':'stellar','NEARUSDT':'near',
-  'APTUSDT':'aptos','SUIUSDT':'sui','PEPEUSDT':'pepe','INJUSDT':'injective-protocol',
-  'FETUSDT':'fetch-ai','HBARUSDT':'hedera-hashgraph','TONUSDT':'the-open-network','ONDOUSDT':'ondo-finance',
-  'WLDUSDT':'worldcoin-wld','TRXUSDT':'tron','ZECUSDT':'zcash','EGLDUSDT':'elrond-erd-2',
-  'STXUSDT':'blockstack','FILUSDT':'filecoin','ATOMUSDT':'cosmos','ETCUSDT':'ethereum-classic',
-  'SHIBUSDT':'shiba-inu','ALGOUSDT':'algorand','AAVEUSDT':'aave','SANDUSDT':'the-sandbox'
-};
-
-const TFS = {'1m':'1m','3m':'3m','5m':'5m','15m':'15m','1h':'1h','4h':'4h','1D':'1d'};
-const CG_DAYS = {'1m':1,'3m':1,'5m':1,'15m':1,'1h':7,'4h':30,'1D':90};
-
-// =============================================
-// STATE
-// =============================================
-const S = {
-  sym: 'BTCUSDT',
-  tf: '15m',
-  ch: null,
-  cs: null,
-  vs: null,
-  data: [],
-  sl: [],
-  ws: null,
-  src: 'binance'
-};
-
-// =============================================
-// FETCH WITH TIMEOUT
-// =============================================
-async function fetchWithTimeout(url, ms = 10000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), ms);
-  try {
-    const r = await fetch(url, { signal: controller.signal });
-    clearTimeout(id);
-    return r;
-  } catch(e) {
-    clearTimeout(id);
-    throw e;
+function initTV() {
+  if (typeof TradingView === 'undefined') {
+    setTimeout(initTV, 500);
+    return;
   }
-}
-
-// =============================================
-// DATA SOURCES
-// =============================================
-// Source 1: Binance REST API
-async function fetchFromBinance() {
-  const tf = TFS[S.tf];
-  setMsg('Fetching from Binance...');
-  const res = await fetchWithTimeout(`https://api.binance.com/api/v3/klines?symbol=${S.sym}&interval=${tf}&limit=300`);
-  if (!res.ok) throw new Error('Binance HTTP ' + res.status);
-  const raw = await res.json();
-  S.src = 'binance';
-  return raw.map(k => ({
-    time: Math.floor(k[0] / 1000),
-    open: parseFloat(k[1]),
-    high: parseFloat(k[2]),
-    low: parseFloat(k[3]),
-    close: parseFloat(k[4]),
-    volume: parseFloat(k[5])
-  }));
-}
-
-// Source 2: Binance alternative endpoint
-async function fetchFromBinanceAlt() {
-  const tf = TFS[S.tf];
-  setMsg('Trying alternate Binance endpoint...');
-  const res = await fetchWithTimeout(`https://api1.binance.com/api/v3/klines?symbol=${S.sym}&interval=${tf}&limit=300`);
-  if (!res.ok) throw new Error('Alt Binance HTTP ' + res.status);
-  const raw = await res.json();
-  S.src = 'binance';
-  return raw.map(k => ({
-    time: Math.floor(k[0] / 1000),
-    open: parseFloat(k[1]),
-    high: parseFloat(k[2]),
-    low: parseFloat(k[3]),
-    close: parseFloat(k[4]),
-    volume: parseFloat(k[5])
-  }));
-}
-
-// Source 3: CoinGecko API (works where Binance is blocked)
-async function fetchFromCoinGecko() {
-  const cgId = CG_IDS[S.sym];
-  if (!cgId) throw new Error('No CoinGecko ID for ' + S.sym);
   
-  const days = CG_DAYS[S.tf] || 1;
-  setMsg(`Fetching from CoinGecko (${cgId})...`);
-  
-  const res = await fetchWithTimeout(`https://api.coingecko.com/api/v3/coins/${cgId}/ohlc?vs_currency=usd&days=${days}`);
-  if (!res.ok) throw new Error('CoinGecko HTTP ' + res.status);
-  
-  const raw = await res.json();
-  S.src = 'coingecko';
-  
-  return raw.map(k => {
-    const ms = k[0];
-    const o = k[1];
-    const h = k[2];
-    const l = k[3];
-    const c = k[4];
-    return {
-      time: Math.floor(ms / 1000),
-      open: o, high: h, low: l, close: c,
-      volume: 0
-    };
-  });
-}
-
-// Master fetch with fallback chain
-async function fetchData() {
-  const errors = [];
-  
-  // Try Binance
-  try {
-    const d = await fetchFromBinance();
-    if (d.length > 0) return d;
-  } catch(e) { errors.push('Binance: ' + e.message); }
-  
-  // Try Binance alt
-  try {
-    const d = await fetchFromBinanceAlt();
-    if (d.length > 0) return d;
-  } catch(e) { errors.push('BinanceAlt: ' + e.message); }
-  
-  // Try CoinGecko
-  try {
-    const d = await fetchFromCoinGecko();
-    if (d.length > 0) return d;
-  } catch(e) { errors.push('CoinGecko: ' + e.message); }
-  
-  throw new Error('All sources failed:\n' + errors.join('\n'));
-}
-
-// =============================================
-// CHART
-// =============================================
-function initChart() {
-  const box = document.getElementById('chart');
-  box.style.width = box.parentElement.clientWidth + 'px';
-  box.style.height = box.parentElement.clientHeight + 'px';
-  
-  const ch = LightweightCharts.createChart(box, {
-    width: box.clientWidth, height: box.clientHeight,
-    layout: { background: { type: 'solid', color: '#131722' }, textColor: '#848e9c' },
-    grid: { vertLines: { color: '#1e222d' }, horzLines: { color: '#1e222d' } },
-    rightPriceScale: { borderColor: '#2b3139' },
-    timeScale: { borderColor: '#2b3139', timeVisible: true, secondsVisible: false },
+  widget = new TradingView.widget({
+    container_id: 'tv',
+    symbol: 'BINANCE:BTCUSDT',
+    interval: currentTF,
+    theme: 'dark',
+    style: '1',
+    locale: 'en',
+    toolbar_bg: '#0b0e11',
+    enable_publishing: false,
+    allow_symbol_change: true,
+    hide_top_toolbar: false,
+    hide_legend: false,
+    save_image: false,
+    autosize: true,
+    studies: [],
+    time_frames: [
+      { text: '1m', resolution: '1' },
+      { text: '3m', resolution: '3' },
+      { text: '5m', resolution: '5' },
+      { text: '15m', resolution: '15' },
+      { text: '1h', resolution: '60' },
+      { text: '4h', resolution: '240' },
+      { text: '1D', resolution: '1D' },
+    ],
+    disabled_features: [
+      'header_compare', 'header_undo_redo'
+    ],
+    enabled_features: [
+      'show_hide_button_on_legend',
+      'move_logo_to_main_pane',
+      'study_templates',
+      'use_localstorage_for_settings',
+    ],
+    overrides: {
+      'paneProperties.background': '#131722',
+      'paneProperties.vertGridProperties.color': '#1e222d',
+      'paneProperties.horzGridProperties.color': '#1e222d',
+      'scalesProperties.textColor': '#848e9c',
+    },
+    loading_screen: { backgroundColor: '#131722' },
   });
   
-  S.cs = ch.addCandlestickSeries({
-    upColor: '#0ecb81', downColor: '#f6465d',
-    borderDownColor: '#f6465d', borderUpColor: '#0ecb81',
-    wickDownColor: '#f6465d', wickUpColor: '#0ecb81',
-  });
-  
-  S.vs = ch.addHistogramSeries({
-    color: '#26a69a', priceFormat: { type: 'volume' },
-    priceScaleId: 'volume', scaleMargins: { top: 0.85, bottom: 0 },
-  });
-  
-  S.ch = ch;
-  
-  window.addEventListener('resize', () => {
-    const w = box.parentElement.clientWidth;
-    const h = box.parentElement.clientHeight;
-    box.style.width = w + 'px'; box.style.height = h + 'px';
-    ch.applyOptions({ width: w, height: h });
-  });
+  setTimeout(hideLoad, 4000);
+}
+
+function hideLoad() {
+  document.getElementById('ld').classList.add('h');
 }
 
 // =============================================
-// LOAD
+// CUSTOM INDICATORS (Veltrix AI / Spatrev AI)
 // =============================================
-function setMsg(m, err) {
-  document.getElementById('lt').innerHTML = m + (err ? '<span class="er">' + err + '</span>' : '');
-}
-
-async function loadData() {
-  document.getElementById('ld').classList.add('s');
-  const sym = S.sym.replace('USDT', '');
-  
-  try {
-    setMsg(`Fetching ${sym}/USDT data...`);
-    const data = await fetchData();
-    
-    S.data = data;
-    
-    if (!S.ch) initChart();
-    
-    S.cs.setData(data);
-    
-    if (data[0] && data[0].volume) {
-      S.vs.setData(data.map(d => ({
-        time: d.time, value: d.volume,
-        color: d.close >= d.open ? '#0ecb8140' : '#f6465d40'
-      })));
-    }
-    
-    S.ch.timeScale().fitContent();
-    requestAnimationFrame(() => S.ch.timeScale().fitContent());
-    setTimeout(() => S.ch.timeScale().fitContent(), 300);
-    
-    setMsg(`✓ ${data.length} bars (${S.src})`);
-    setTimeout(() => document.getElementById('ld').classList.remove('s'), 500);
-    
-    recalc();
-    connectWS();
-    
-  } catch(e) {
-    setMsg('⚠ Failed to load', e.message);
-    console.error(e);
-    setTimeout(loadData, 5000);
-  }
-}
-
-// =============================================
-// WEBSOCKET - Binance only, silent if blocked
-// =============================================
-function connectWS() {
-  if (S.ws) { try { S.ws.close(); } catch(e) {} S.ws = null; }
-  if (S.src !== 'binance') return; // No WS for CoinGecko
-  
-  const wsMap = {'1m':'1m','3m':'3m','5m':'5m','15m':'15m','1h':'60m','4h':'240m','1D':'1d'};
-  const iv = wsMap[S.tf] || '15m';
-  
-  try {
-    const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${S.sym.toLowerCase()}@kline_${iv}`);
-    ws.onmessage = e => {
-      try {
-        const k = JSON.parse(e.data).k;
-        const c = {
-          time: Math.floor(k.t / 1000), open: parseFloat(k.o),
-          high: parseFloat(k.h), low: parseFloat(k.l),
-          close: parseFloat(k.c), volume: parseFloat(k.v)
-        };
-        S.cs.update(c);
-        S.vs.update({ time: c.time, value: c.volume, color: c.close >= c.open ? '#0ecb8140' : '#f6465d40' });
-        updatePrice(c.close);
-      } catch(e2) {}
-    };
-    ws.onclose = () => { setTimeout(connectWS, 10000); };
-    S.ws = ws;
-  } catch(e) {}
-}
-
-function updatePrice(p) {
-  const fmt = p >= 1000 ? '$' + p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
-    : p >= 1 ? '$' + p.toFixed(4) : '$' + p.toFixed(6);
-  document.getElementById('pp').textContent = fmt;
-}
-
-// =============================================
-// PAIR DROPDOWN
-// =============================================
-function renderDL(f) {
-  const dl = document.getElementById('dl');
-  let items = PAIRS;
-  if (f) items = items.filter(p => p.toLowerCase().includes(f.toLowerCase()));
-  dl.innerHTML = items.map(p => {
-    const a = p === S.sym ? 'act' : '';
-    return `<div class="o ${a}" onclick="sp('${p}')"><span>${p.replace('USDT','')}/USDT</span></div>`;
-  }).join('');
-}
-
-function dd() {
-  const el = document.getElementById('dd');
-  el.classList.toggle('o');
-  if (el.classList.contains('o')) { document.getElementById('ds').value = ''; renderDL(); document.getElementById('ds').focus(); }
-}
-function fd() { renderDL(document.getElementById('ds').value); }
-document.addEventListener('click', e => { if (!document.getElementById('pd').contains(e.target)) document.getElementById('dd').classList.remove('o'); });
-
-function sp(sym) {
-  S.sym = sym;
-  document.getElementById('ps').textContent = sym.replace('USDT','/USDT');
-  document.getElementById('dd').classList.remove('o');
-  document.getElementById('pp').textContent = '—';
-  if (S.ws) { try { S.ws.close(); } catch(e) {} S.ws = null; }
-  document.getElementById('ld').classList.add('s');
-  loadData();
-}
-
-// =============================================
-// TIMEFRAMES
-// =============================================
-function tf(t) {
-  S.tf = t;
-  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
-  event.target.classList.add('act');
-  if (S.ws) { try { S.ws.close(); } catch(e) {} S.ws = null; }
-  document.getElementById('ld').classList.add('s');
-  loadData();
-}
-
-// =============================================
-// INDICATORS
-// =============================================
-function calcSMA(data, n) {
-  const r = [];
-  for (let i = 0; i < data.length; i++) {
-    if (i < n-1) continue;
-    let s = 0; for (let j = i-n+1; j <= i; j++) s += data[j].close;
-    r.push({ time: data[i].time, value: s/n });
-  }
-  return r;
-}
-
-function calcEMA(data, n) {
-  const k = 2/(n+1); let ema = data[0].close;
-  return data.map((d,i) => {
-    ema = i === 0 ? d.close : (d.close-ema)*k+ema;
-    return { time: d.time, value: ema };
-  });
-}
-
-function recalc() {
-  S.sl.forEach(l => { try { S.ch.removeSeries(l); } catch(e) {} });
-  S.sl = [];
-  const d = S.data; if (d.length < 5) return;
+function addStudies() {
+  if (!widget) return;
   const v = document.getElementById('iv').classList.contains('on');
   const s = document.getElementById('is').classList.contains('on');
   
+  // Remove old studies
+  studyIds.forEach(id => {
+    try { widget.chart().removeEntity(id); } catch(e) {}
+  });
+  studyIds = [];
+  
+  // Add Veltrix AI: SMA9 + SMA21
   if (v) {
-    S.sl.push(S.ch.addLineSeries({color:'#2962FF',lineWidth:1.5,lastValueVisible:true,priceLineVisible:false}).setData(calcSMA(d,9)));
-    S.sl.push(S.ch.addLineSeries({color:'#FF6D00',lineWidth:1.5,lastValueVisible:true,priceLineVisible:false}).setData(calcSMA(d,21)));
-    S.sl = [...S.ch._series || []];
+    try {
+      const s1 = widget.chart().createStudy('Moving Average', false, false, [9, 'close', 0, '#2962FF']);
+      const s2 = widget.chart().createStudy('Moving Average', false, false, [21, 'close', 0, '#FF6D00']);
+      studyIds.push(s1.id, s2.id);
+    } catch(e) { console.log(e); }
   }
   
-  // Better approach - get line references properly
-  const lines = S.ch._series || [];
-  S.sl = [];
-  
-  if (v) {
-    const l1 = S.ch.addLineSeries({color:'#2962FF',lineWidth:1.5,lastValueVisible:true,priceLineVisible:false});
-    l1.setData(calcSMA(d,9)); S.sl.push(l1);
-    const l2 = S.ch.addLineSeries({color:'#FF6D00',lineWidth:1.5,lastValueVisible:true,priceLineVisible:false});
-    l2.setData(calcSMA(d,21)); S.sl.push(l2);
-  }
+  // Add Spatrev AI: EMA20 + EMA50
   if (s) {
-    const l3 = S.ch.addLineSeries({color:'#0ecb81',lineWidth:1.5,lastValueVisible:true,priceLineVisible:false});
-    l3.setData(calcEMA(d,20)); S.sl.push(l3);
-    const l4 = S.ch.addLineSeries({color:'#f6465d',lineWidth:1.5,lastValueVisible:true,priceLineVisible:false});
-    l4.setData(calcEMA(d,50)); S.sl.push(l4);
+    try {
+      const s3 = widget.chart().createStudy('Moving Average Exponential', false, false, [20, 'close', 0, '#0ECB81']);
+      const s4 = widget.chart().createStudy('Moving Average Exponential', false, false, [50, 'close', 0, '#F6465D']);
+      studyIds.push(s3.id, s4.id);
+    } catch(e) { console.log(e); }
   }
-  
-  // Update price
-  const last = d[d.length-1];
-  if (last) updatePrice(last.close);
 }
 
-function tg(idx) {
+function tog(idx) {
   const btn = idx === 0 ? document.getElementById('iv') : document.getElementById('is');
   btn.classList.toggle('on');
-  recalc();
+  // Wait for chart to be ready
+  setTimeout(addStudies, 300);
+}
+
+function chTF(tf) {
+  currentTF = tf;
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
+  event.target.classList.add('act');
+  if (widget) {
+    try { widget.chart().setResolution(tf); } catch(e) {}
+  }
 }
 
 // =============================================
-// INIT
+// RESIZE
 // =============================================
-loadData();
+let rt;
+window.addEventListener('resize', () => {
+  clearTimeout(rt);
+  rt = setTimeout(() => { if (widget) try { widget.resize(); } catch(e) {} }, 200);
+});
+
+// =============================================
+// START
+// =============================================
+initTV();
 </script>
 </body>
 </html>
