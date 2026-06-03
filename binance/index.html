@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spatrev Binance — Live Charts</title>
+<title>Spatrev Pro — Live Charts</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
-:root{--go:#f0b90b;--s2:#2b3139;--b:#2b3139;--t2:#848e9c;--green:#0ecb81;--red:#f6465d}
+:root{--go:#f0b90b;--s2:#2b3139;--b:#2b3139;--t2:#848e9c;--gr:#0ecb81;--rd:#f6465d}
 
 .layout{display:flex;height:100vh}
 
-/* Sidebar */
 .sidebar{width:260px;min-width:260px;background:#0b0e11;border-right:1px solid #2b3139;display:flex;flex-direction:column;height:100vh}
 .sidebar .sb{padding:8px;border-bottom:1px solid #2b3139}
 .sidebar .sb input{width:100%;padding:6px 10px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;font-size:12px;outline:none}
@@ -21,73 +20,74 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .sidebar .th .c2{width:80px;text-align:right}
 .sidebar .th .c3{width:60px;text-align:right}
 .tl{flex:1;overflow-y:auto}
-.ti{display:flex;align-items:center;padding:5px 10px;cursor:pointer;border-bottom:1px solid #1e2329;transition:background 0.1s}
+.ti{display:flex;align-items:center;padding:5px 10px;cursor:pointer;border-bottom:1px solid #1e2329}
 .ti:hover{background:#1e2329}
 .ti.act{background:#1a2332;border-left:3px solid var(--go)}
 .ti .p{flex:1;font-size:12px;font-weight:500}
 .ti .pr{width:80px;text-align:right;font-size:12px;font-family:'SF Mono','Consolas',monospace}
 .ti .ch{width:60px;text-align:right;font-size:11px;font-weight:500}
-.ti .ch.g{color:var(--green)}
-.ti .ch.r{color:var(--red)}
+.ti .ch.g{color:var(--gr)}
+.ti .ch.r{color:var(--rd)}
 .ti .ch.f{color:#848e9c}
 
-/* Main Column */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
 
-/* Nav */
-.nav{display:flex;align-items:center;gap:5px;padding:5px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px;flex-shrink:0}
-.nav .sp{font-size:14px;font-weight:600;margin-right:8px}
-.nav .sp.g{color:var(--green)}
-.nav .sp.r{color:var(--red)}
-.sp1{width:1px;height:20px;background:#2b3139;margin:0 3px;flex-shrink:0}
+.nav{display:flex;align-items:center;gap:4px;padding:5px 8px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px;flex-shrink:0}
+.nav .sp{font-size:14px;font-weight:600;margin-right:6px}
+.nav .sp.g{color:var(--gr)}
+.nav .sp.r{color:var(--rd)}
+.sp1{width:1px;height:18px;background:#2b3139;margin:0 2px;flex-shrink:0}
 
-.tb{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
+.tb{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
 .tb:hover{border-color:var(--go);color:#eaecef}
 .tb.act{background:var(--go);color:#0b0e11;border-color:var(--go)}
 
-.ib{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
+.ib{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500}
 .ib:hover{border-color:var(--go);color:#eaecef}
-.ib.on{background:#1a3a2a;border-color:var(--green);color:var(--green)}
-.ib.off{background:#3a1a2a;border-color:var(--red);color:var(--red)}
-.sb2{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer}
+.ib.on{background:#1a3a2a;border-color:var(--gr);color:var(--gr)}
+.ib.off{background:#3a1a2a;border-color:var(--rd);color:var(--rd)}
+.sb2{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
 
-/* Chart Area */
+/* Draw tools dropdown */
+.dd-wrap{position:relative}
+.dd-btn{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
+.dd-btn:hover{border-color:var(--go);color:#eaecef}
+.dd-menu{display:none;position:absolute;top:100%;left:0;z-index:100;width:160px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;box-shadow:0 8px 24px rgba(0,0,0,.5);max-height:300px;overflow-y:auto}
+.dd-menu.o{display:block}
+.dd-menu .dmi{display:flex;align-items:center;gap:6px;padding:6px 10px;cursor:pointer;font-size:11px;color:#eaecef}
+.dd-menu .dmi:hover{background:#2b3139}
+.dd-menu .dmi .ic{width:16px;text-align:center;font-size:14px}
+
+/* Chart */
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
 
+/* Signal overlays on chart */
+.sig-overlay{position:absolute;inset:0;pointer-events:none;z-index:5}
+.sig-overlay .sl{position:absolute;left:0;right:0;height:1.5px}
+.sig-overlay .sl .lb{position:absolute;right:0;transform:translateY(-50%);padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap;font-family:'SF Mono','Consolas',monospace;line-height:1}
+.sig-overlay .sl .lb.b{color:#fff;background:#0ecb81}
+.sig-overlay .sl .lb.s{color:#fff;background:#f6465d}
+.sig-overlay .sl .lb.n{color:#fff;background:#848e9c}
+.sig-overlay .sl .lb.tp{color:#fff;background:#f0b90b}
+.sig-overlay .sl.entry{height:2px;border-top:1.5px dashed rgba(240,185,11,.7)}
+.sig-overlay .sl.tp{height:1.5px;border-top:1px dashed rgba(14,203,129,.6)}
+.sig-overlay .sl.sl{height:1.5px;border-top:1px dashed rgba(246,69,93,.6)}
+.sig-overlay .sl-label{position:absolute;left:5px;padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;font-family:'SF Mono','Consolas',monospace}
+.sig-overlay .sl-label.buy{background:#0ecb81;color:#fff}
+.sig-overlay .sl-label.sell{background:#f6465d;color:#fff}
+
 /* Loading */
-.lo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0b0e11;z-index:10;transition:opacity 0.5s}
-.lo.h{opacity:0;pointer-events:none}
+.lo{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0b0e11;z-index:10}
+.lo.h{display:none}
 .sp2{width:30px;height:30px;border:3px solid #2b3139;border-top-color:var(--go);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* Signal Dashboard */
-.sig-panel{background:#0d1117;border-top:2px solid #1e2329;flex-shrink:0;max-height:140px;overflow-y:auto;padding:6px 10px}
-.sig-panel .sph{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px;color:#848e9c}
-.sig-panel .sph span{font-weight:600}
-.sig-panel .sig-row{display:flex;align-items:center;gap:6px;padding:4px 8px;margin-bottom:3px;border-radius:4px;font-size:11px;font-family:'SF Mono','Consolas',monospace}
-.sig-panel .sig-row.buy{background:#0a2a1a;border-left:3px solid var(--green)}
-.sig-panel .sig-row.sell{background:#2a0a1a;border-left:3px solid var(--red)}
-.sig-panel .sig-row .s-icon{font-size:14px;width:20px;text-align:center}
-.sig-panel .sig-row .s-icon.b{color:var(--green)}
-.sig-panel .sig-row .s-icon.s{color:var(--red)}
-.sig-panel .sig-row .s-src{color:#848e9c;font-size:10px;padding:1px 5px;background:#1e2329;border-radius:3px}
-.sig-panel .sig-row .s-tf{color:#848e9c;font-size:10px}
-.sig-panel .sig-row .s-price{color:#eaecef;font-weight:500;margin-left:auto}
-.sig-panel .sig-row .s-time{color:#848e9c;font-size:10px;margin-left:8px}
-
-/* Live Signal Badges */
-.sig-badges{display:flex;gap:10px;align-items:center;padding:4px 0}
-.sig-badge{padding:3px 10px;border-radius:4px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}
-.sig-badge.buy{background:linear-gradient(135deg,#0a2a1a,#1a4a2a);color:var(--green);border:1px solid #1a4a2a}
-.sig-badge.sell{background:linear-gradient(135deg,#2a0a1a,#4a1a2a);color:var(--red);border:1px solid #4a1a2a}
-.sig-badge.neutral{background:#1e2329;color:#848e9c;border:1px solid #2b3139}
 
 /* Status */
 .st{display:flex;justify-content:space-between;padding:3px 12px;background:#0b0e11;border-top:1px solid #2b3139;font-size:10px;color:#848e9c;flex-shrink:0}
 .st .dt{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px}
-.st .dt.g{background:var(--green)}
-.st .dt.r{background:var(--red)}
+.st .dt.g{background:var(--gr)}
+.st .dt.r{background:var(--rd)}
 
 /* Settings Modal */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center}
@@ -101,34 +101,25 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .mw .ac{display:flex;gap:10px;margin-top:16px}
 .mw .ac button{flex:1;padding:8px;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer}
 .mw .ac .sv{background:var(--go);color:#0b0e11}
-.mw .ac .sv:hover{background:#dba40a}
 .mw .ac .cl{background:#2b3139;color:#848e9c}
-.mw .ac .cl:hover{background:#30363d}
 
 /* Pair dropdown */
 .pd{position:relative}
-.pd .pb{display:flex;align-items:center;gap:6px;padding:4px 10px;background:#1e2329;border:1px solid #2b3139;border-radius:5px;color:#eaecef;cursor:pointer;font-size:12px;font-weight:600}
+.pd .pb{display:flex;align-items:center;gap:4px;padding:3px 8px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;cursor:pointer;font-size:12px;font-weight:600}
 .pd .pb:hover{border-color:var(--go)}
-.pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:220px;max-height:300px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:200px;max-height:300px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .pd .dd.o{display:block}
-.pd .dd input{width:100%;padding:6px 8px;background:#2b3139;border:none;border-bottom:1px solid #2b3139;color:#eaecef;font-size:11px;outline:none}
+.pd .dd input{width:100%;padding:5px 8px;background:#2b3139;border:none;border-bottom:1px solid #2b3139;color:#eaecef;font-size:11px;outline:none}
 .pd .dd .dl{overflow-y:auto;max-height:260px}
-.pd .dd .di{display:flex;justify-content:space-between;padding:6px 10px;cursor:pointer;font-size:12px}
+.pd .dd .di{display:flex;justify-content:space-between;padding:5px 10px;cursor:pointer;font-size:11px}
 .pd .dd .di:hover{background:#2b3139}
 .pd .dd .di .dp{color:#eaecef;font-weight:500}
 .pd .dd .di .dv{color:#848e9c;font-family:'SF Mono','Consolas',monospace}
 
-.tl::-webkit-scrollbar,.pd .dd .dl::-webkit-scrollbar{width:4px}
-.tl::-webkit-scrollbar-track,
-.pd .dd .dl::-webkit-scrollbar-track{background:transparent}
-.tl::-webkit-scrollbar-thumb,
-.pd .dd .dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
-
-@media(max-width:768px){
-  .sidebar{display:none}
-  .nav{gap:3px;padding:4px 6px}
-  .tb,.ib{padding:2px 6px;font-size:10px}
-}
+.tl::-webkit-scrollbar,.pd .dd .dl::-webkit-scrollbar,.dd-menu::-webkit-scrollbar{width:4px}
+.tl::-webkit-scrollbar-track,.pd .dd .dl::-webkit-scrollbar-track,.dd-menu::-webkit-scrollbar-track{background:transparent}
+.tl::-webkit-scrollbar-thumb,.pd .dd .dl::-webkit-scrollbar-thumb,.dd-menu::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
+@media(max-width:768px){.sidebar{display:none}.nav{gap:3px;padding:4px 5px}.tb,.ib,.dd-btn,.sb2{padding:2px 5px;font-size:9px}}
 </style>
 </head>
 <body>
@@ -136,21 +127,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 <div class="layout">
   <div class="sidebar">
     <div class="sb"><input type="text" id="si" placeholder="Search pairs..." oninput="sf()"></div>
-    <div class="th">
-      <span class="c1">Pair</span>
-      <span class="c2">Price</span>
-      <span class="c3">24h</span>
-    </div>
+    <div class="th"><span class="c1">Pair</span><span class="c2">Price</span><span class="c3">24h</span></div>
     <div class="tl" id="tl"></div>
   </div>
 
   <div class="main">
-    <!-- Nav / Toolbar -->
     <div class="nav">
       <div class="pd" id="pdd">
         <div class="pb" onclick="td()">
           <span id="pn">BTC/USDT</span>
-          <span style="font-size:8px">▼</span>
+          <span style="font-size:7px">▼</span>
         </div>
         <div class="dd" id="pdl">
           <input type="text" id="ds" placeholder="Search..." oninput="fd()">
@@ -161,6 +147,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
       <span class="sp1"></span>
 
       <button class="tb" data-tf="1" onclick="stf('1')">1m</button>
+      <button class="tb" data-tf="2" onclick="stf('2')">2m</button>
       <button class="tb" data-tf="3" onclick="stf('3')">3m</button>
       <button class="tb" data-tf="5" onclick="stf('5')">5m</button>
       <button class="tb act" data-tf="15" onclick="stf('15')">15m</button>
@@ -168,51 +155,62 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
       <button class="tb" data-tf="60" onclick="stf('60')">1h</button>
       <button class="tb" data-tf="240" onclick="stf('240')">4h</button>
       <button class="tb" data-tf="1D" onclick="stf('1D')">1D</button>
+      <button class="tb" data-tf="1W" onclick="stf('1W')">1W</button>
+      <button class="tb" data-tf="1M" onclick="stf('1M')">1M</button>
       <span class="sp1"></span>
 
-      <button class="ib on" id="vb" onclick="ti('v')">Veltrix AI</button>
-      <button class="ib off" id="sab" onclick="ti('s')">Spatrev AI</button>
+      <button class="ib on" id="vb" onclick="ti('v')">Veltrix</button>
+      <button class="ib off" id="sab" onclick="ti('s')">Spatrev</button>
+
+      <!-- Drawing Tools Dropdown -->
+      <div class="dd-wrap">
+        <button class="dd-btn" onclick="tdDraw()">✏️ <span style="font-size:7px">▼</span></button>
+        <div class="dd-menu" id="ddm">
+          <div class="dmi" onclick="actDraw('trend_line')"><span class="ic">╱</span> Trend Line</div>
+          <div class="dmi" onclick="actDraw('horizontal_line')"><span class="ic">―</span> Horizontal</div>
+          <div class="dmi" onclick="actDraw('vertical_line')"><span class="ic">│</span> Vertical</div>
+          <div class="dmi" onclick="actDraw('ray')"><span class="ic">➘</span> Ray</div>
+          <div class="dmi" onclick="actDraw('arrow_up')"><span class="ic">▲</span> Arrow Up</div>
+          <div class="dmi" onclick="actDraw('arrow_down')"><span class="ic">▼</span> Arrow Down</div>
+          <div class="dmi" onclick="actDraw('text')"><span class="ic">T</span> Text</div>
+          <div class="dmi" onclick="actDraw('rectangle')"><span class="ic">▭</span> Rectangle</div>
+          <div class="dmi" onclick="actDraw('circle')"><span class="ic">○</span> Circle</div>
+          <div class="dmi" onclick="actDraw('fibonacci')"><span class="ic">F</span> Fibonacci</div>
+          <div class="dmi" onclick="actDraw('clear')" style="border-top:1px solid #2b3139;color:#f6465d"><span class="ic">✕</span> Clear All</div>
+        </div>
+      </div>
+
       <button class="sb2" onclick="os()">⚙</button>
     </div>
 
-    <!-- Chart -->
     <div class="cw">
-      <div class="lo" id="lo">
-        <div class="sp2"></div>
-        <p>Loading Chart...</p>
-      </div>
+      <div class="lo" id="lo"><div class="sp2"></div><p>Loading Chart...</p></div>
       <div id="tv"></div>
+      <!-- Signal overlay lines on top of chart -->
+      <div class="sig-overlay" id="sigOverlay" style="display:none"></div>
     </div>
 
-    <!-- Signal Dashboard -->
-    <div class="sig-panel" id="sigPanel">
-      <div class="sph">
-        <span>📊 SIGNALS</span>
-        <div class="sig-badges" id="sigBadges"></div>
-        <span style="margin-left:auto;font-size:10px;color:#848e9c" id="sigCount"></span>
-        <span style="font-size:10px;color:#848e9c" id="sigUpdateTime"></span>
-      </div>
-      <div id="sigList"></div>
-    </div>
-
-    <!-- Status -->
     <div class="st">
       <span><span class="dt g" id="sd"></span><span id="stxt">Connecting...</span></span>
+      <span id="sigInfo" style="font-size:10px;color:#848e9c"></span>
       <span id="pc">0 pairs</span>
       <span id="stm"></span>
     </div>
   </div>
 </div>
 
-<!-- Settings Modal -->
 <div class="mo" id="sm">
   <div class="mw">
-    <h3>Veltrix AI — SMA Settings</h3>
+    <h3>Veltrix AI — SMA</h3>
     <div class="rw"><label>Fast MA</label><input type="number" id="vf" value="9" min="2" max="200"></div>
     <div class="rw"><label>Slow MA</label><input type="number" id="vs" value="21" min="2" max="200"></div>
-    <h3 style="margin-top:16px">Spatrev AI — EMA Settings</h3>
+    <h3 style="margin-top:14px">Spatrev AI — EMA</h3>
     <div class="rw"><label>Fast EMA</label><input type="number" id="ef" value="20" min="2" max="200"></div>
     <div class="rw"><label>Slow EMA</label><input type="number" id="es" value="50" min="2" max="200"></div>
+    <h3 style="margin-top:14px">Signal TP/SL %</h3>
+    <div class="rw"><label>TP1</label><input type="number" id="tp1v" value="1" min="0.1" max="20" step="0.1"><span style="font-size:10px;color:#848e9c">%</span></div>
+    <div class="rw"><label>TP2</label><input type="number" id="tp2v" value="2" min="0.1" max="50" step="0.1"><span style="font-size:10px;color:#848e9c">%</span></div>
+    <div class="rw"><label>SL</label><input type="number" id="slv" value="1" min="0.1" max="20" step="0.1"><span style="font-size:10px;color:#848e9c">%</span></div>
     <div class="ac">
       <button class="sv" onclick="ss()">Save</button>
       <button class="cl" onclick="cs()">Cancel</button>
@@ -227,14 +225,16 @@ const S = {
   sym: 'BTCUSDT', tf: '15',
   vOn: true,  vF: 9,  vS: 21,
   sOn: false, sF: 20, sS: 50,
-  ddO: false, signals: []
+  ddO: false, drawO: false,
+  tp1Pct: 1, tp2Pct: 2, slPct: 1,
+  signals: [], lastSignal: null
 };
 
 // ==================== TICKERS ====================
 async function ft() {
   try {
     const r = await fetch('https://api.binance.com/api/v3/ticker/24hr');
-    if (!r.ok) throw Error(''+r.status);
+    if (!r.ok) throw Error();
     const d = await r.json();
     S.tk = d.filter(x => x.symbol.endsWith('USDT'))
       .map(x => ({s:x.symbol, b:x.symbol.replace('USDT',''), p:+x.lastPrice, c:+x.priceChangePercent, v:+x.quoteVolume}))
@@ -253,7 +253,7 @@ async function ft() {
 function rt(f) {
   let items = S.tk;
   if (f) { const l = f.toLowerCase(); items = items.filter(t => t.b.toLowerCase().includes(l)); }
-  const h = items.map(t => {
+  document.getElementById('tl').innerHTML = items.map(t => {
     const cl = t.c > 0 ? 'g' : t.c < 0 ? 'r' : 'f';
     const sg = t.c > 0 ? '+' : '';
     const ac = t.s === S.sym ? ' act' : '';
@@ -263,7 +263,6 @@ function rt(f) {
       <div class="ch ${cl}">${sg}${t.c.toFixed(2)}%</div>
     </div>`;
   }).join('');
-  document.getElementById('tl').innerHTML = h;
   document.getElementById('pc').textContent = items.length + ' pairs';
 }
 
@@ -282,6 +281,7 @@ function rd(f) {
 
 document.addEventListener('click', e => {
   if (S.ddO && !e.target.closest('.pd')) { S.ddO = false; document.getElementById('pdl').classList.remove('o'); }
+  if (S.drawO && !e.target.closest('.dd-wrap')) { S.drawO = false; document.getElementById('ddm').classList.remove('o'); }
 });
 
 function fp(p) {
@@ -301,7 +301,10 @@ function gs() {
 
 function cw() {
   document.getElementById('tv').innerHTML = '';
-  document.getElementById('lo').classList.remove('h');
+  document.getElementById('sigOverlay').style.display = 'none';
+  const lo = document.getElementById('lo');
+  lo.classList.remove('h');
+  lo.style.display = 'flex';
 
   S.w = new TradingView.widget({
     container_id: 'tv',
@@ -330,29 +333,37 @@ function cw() {
     loading_screen: { backgroundColor: '#131722', foregroundColor: '#f0b90b' }
   });
 
-  setTimeout(() => document.getElementById('lo').classList.add('h'), 4000);
+  setTimeout(() => { lo.classList.add('h'); lo.style.display = 'none'; }, 4000);
 }
 
-// ==================== SIGNALS ====================
+// ==================== SIGNAL COMPUTATION ====================
 async function updateSignals() {
   const kl = await fetchKlines();
   const sigs = computeSignals(kl);
   S.signals = sigs || [];
-  renderSignals();
+  
+  if (S.signals.length > 0) {
+    S.lastSignal = S.signals[S.signals.length - 1];
+    renderSignalOverlay();
+  }
+  
+  const cnt = document.getElementById('sigInfo');
+  if (S.signals.length > 0) {
+    const last = S.signals[S.signals.length - 1];
+    cnt.textContent = `${last.src}: ${last.type.toUpperCase()} @ $${fp(last.p)}`;
+    cnt.style.color = last.type === 'buy' ? 'var(--gr)' : 'var(--rd)';
+  } else {
+    cnt.textContent = 'Waiting for signal...';
+    cnt.style.color = '#848e9c';
+  }
 }
 
 async function fetchKlines() {
   try {
-    const tfMap = { '1':'1m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d' };
+    const tfMap = {'1':'1m','2':'2m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
     const binTF = tfMap[S.tf] || '15m';
-    const r = await fetch(`https://api.binance.com/api/v3/klines?symbol=${S.sym}&interval=${binTF}&limit=150`);
-    if (!r.ok) { 
-      // Try alternate API
-      const r2 = await fetch(`https://api.binance.us/api/v3/klines?symbol=${S.sym}&interval=${binTF}&limit=150`);
-      if (!r2.ok) return [];
-      const d = await r2.json();
-      return d.map(k => ({t:Math.floor(k[0]/1000), o:+k[1], h:+k[2], l:+k[3], c:+k[4], v:+k[5]}));
-    }
+    const r = await fetch(`https://api.binance.com/api/v3/klines?symbol=${S.sym}&interval=${binTF}&limit=200`);
+    if (!r.ok) return [];
     const d = await r.json();
     return d.map(k => ({t:Math.floor(k[0]/1000), o:+k[1], h:+k[2], l:+k[3], c:+k[4], v:+k[5]}));
   } catch(e) { return []; }
@@ -368,11 +379,10 @@ function computeSignals(kl) {
     const vs = sma(closes, S.vS);
     for (let i = Math.max(S.vF, S.vS); i < closes.length; i++) {
       if (!vf[i] || !vs[i] || !vf[i-1] || !vs[i-1]) continue;
-      if (vf[i-1] <= vs[i-1] && vf[i] > vs[i]) {
-        sigs.push({ t:kl[i].t, p:kl[i].c, type:'buy', src:'Veltrix AI' });
-      } else if (vf[i-1] >= vs[i-1] && vf[i] < vs[i]) {
-        sigs.push({ t:kl[i].t, p:kl[i].c, type:'sell', src:'Veltrix AI' });
-      }
+      if (vf[i-1] <= vs[i-1] && vf[i] > vs[i])
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'buy', src:'Veltrix' });
+      else if (vf[i-1] >= vs[i-1] && vf[i] < vs[i])
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'sell', src:'Veltrix' });
     }
   }
 
@@ -381,22 +391,15 @@ function computeSignals(kl) {
     const ss = ema(closes, S.sS);
     for (let i = Math.max(S.sF, S.sS); i < closes.length; i++) {
       if (!sf[i] || !ss[i] || !sf[i-1] || !ss[i-1]) continue;
-      if (sf[i-1] <= ss[i-1] && sf[i] > ss[i]) {
-        sigs.push({ t:kl[i].t, p:kl[i].c, type:'buy', src:'Spatrev AI' });
-      } else if (sf[i-1] >= ss[i-1] && sf[i] < ss[i]) {
-        sigs.push({ t:kl[i].t, p:kl[i].c, type:'sell', src:'Spatrev AI' });
-      }
+      if (sf[i-1] <= ss[i-1] && sf[i] > ss[i])
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'buy', src:'Spatrev' });
+      else if (sf[i-1] >= ss[i-1] && sf[i] < ss[i])
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'sell', src:'Spatrev' });
     }
   }
 
-  // Deduplicate
   const seen = {};
-  return sigs.filter(s => {
-    const k = s.t + '_' + s.type + '_' + s.src;
-    if (seen[k]) return false;
-    seen[k] = true;
-    return true;
-  }).reverse();
+  return sigs.filter(s => { const k = s.t + '_' + s.type; if (seen[k]) return false; seen[k]=true; return true; });
 }
 
 function sma(data, len) {
@@ -419,70 +422,125 @@ function ema(data, len) {
     if (!started) {
       let sum = 0;
       for (let j = 0; j < len; j++) sum += data[j];
-      prev = sum / len;
-      r.push(prev);
-      started = true;
-    } else {
-      prev = data[i] * k + prev * (1 - k);
-      r.push(prev);
-    }
+      prev = sum / len; r.push(prev); started = true;
+    } else { prev = data[i] * k + prev * (1 - k); r.push(prev); }
   }
   return r;
 }
 
-function renderSignals() {
-  const list = document.getElementById('sigList');
-  const badges = document.getElementById('sigBadges');
-  const count = document.getElementById('sigCount');
-  const updateTime = document.getElementById('sigUpdateTime');
+// ==================== SIGNAL OVERLAY ON CHART ====================
+function renderSignalOverlay() {
+  const sig = S.lastSignal;
+  if (!sig) return;
+  
+  const overlay = document.getElementById('sigOverlay');
+  const chartWrap = document.querySelector('.cw');
+  const h = chartWrap.clientHeight;
+  const w = chartWrap.clientWidth;
+  if (h < 100 || w < 100) return;
 
-  count.textContent = S.signals.length + ' signals';
-  updateTime.textContent = new Date().toLocaleTimeString();
-
-  // Badges
-  const vSig = S.signals.find(s => s.src === 'Veltrix AI');
-  const sSig = S.signals.find(s => s.src === 'Spatrev AI');
-
-  let bh = '';
-  if (S.vOn) {
-    const c = vSig ? vSig.type : 'neutral';
-    const t = vSig ? `${vSig.type.toUpperCase()} $${fp(vSig.p)}` : 'No signal';
-    bh += `<span class="sig-badge ${c}">Veltrix: ${t}</span>`;
-  }
-  if (S.sOn) {
-    const c = sSig ? sSig.type : 'neutral';
-    const t = sSig ? `${sSig.type.toUpperCase()} $${fp(sSig.p)}` : 'No signal';
-    bh += `<span class="sig-badge ${c}">Spatrev: ${t}</span>`;
-  }
-  if (!S.vOn && !S.sOn) bh = '<span class="sig-badge neutral">Indicators OFF</span>';
-  badges.innerHTML = bh;
-
-  // Signal history list
-  if (S.signals.length === 0) {
-    list.innerHTML = '<div style="color:#848e9c;font-size:11px;padding:4px">Waiting for signals from crossover events...</div>';
-    return;
+  // Get current price range from klines
+  const basePrice = sig.p;
+  
+  // Calculate TP/SL levels
+  let tp1, tp2, sl;
+  if (sig.type === 'buy') {
+    tp1 = basePrice * (1 + S.tp1Pct / 100);
+    tp2 = basePrice * (1 + S.tp2Pct / 100);
+    sl = basePrice * (1 - S.slPct / 100);
+  } else {
+    tp1 = basePrice * (1 - S.tp1Pct / 100);
+    tp2 = basePrice * (1 - S.tp2Pct / 100);
+    sl = basePrice * (1 + S.slPct / 100);
   }
 
-  list.innerHTML = S.signals.slice(0, 20).map(s => {
-    const icon = s.type === 'buy' ? '🟢' : '🔴';
-    const cls = s.type === 'buy' ? 'buy' : 'sell';
-    const ico = s.type === 'buy' ? 'b' : 's';
-    const time = new Date(s.t * 1000).toLocaleTimeString();
-    return `<div class="sig-row ${cls}">
-      <span class="s-icon ${ico}">${s.type === 'buy' ? '▲' : '▼'}</span>
-      <span class="s-src">${s.src}</span>
-      <span class="s-price">$${fp(s.p)}</span>
-      <span class="s-time">${time}</span>
+  // Find price range for positioning
+  const prices = [basePrice, tp1, tp2, sl];
+  const maxP = Math.max(...prices) * 1.002;
+  const minP = Math.min(...prices) * 0.998;
+  const range = maxP - minP;
+
+  function yPos(price) {
+    return ((maxP - price) / range) * h;
+  }
+
+  function buildLine(price, cls, label, labelCls) {
+    const y = yPos(price);
+    return `<div class="sl ${cls}" style="top:${y}px">
+      <div class="lb ${labelCls}">${label}</div>
     </div>`;
-  }).join('');
+  }
+
+  const entryCls = sig.type === 'buy' ? 'entry buy' : 'entry sell';
+  const tpCls = 'tp';
+  const slCls = 'sl';
+
+  overlay.innerHTML = `
+    <div class="sl-label ${sig.type}">${sig.type.toUpperCase()} ${sig.src} @ $${fp(basePrice)}</div>
+    ${buildLine(basePrice, entryCls, `ENTRY $${fp(basePrice)}`, 'n')}
+    ${buildLine(tp1, tpCls, `TP1 $${fp(tp1)}`, 'tp')}
+    ${buildLine(tp2, tpCls, `TP2 $${fp(tp2)}`, 'tp')}
+    ${buildLine(sl, slCls, `SL $${fp(sl)}`, 's')}
+  `;
+  overlay.style.display = 'block';
+
+  // Also try to add to TradingView chart programmatically
+  tryAddTVShapes(sig, tp1, tp2, sl);
+}
+
+function tryAddTVShapes(sig, tp1, tp2, sl) {
+  try {
+    if (!S.w || !S.w.chart) return;
+    S.w.onChartReady(() => {
+      try {
+        const chart = S.w.chart();
+        if (!chart || !chart.createShape) return;
+        // Clear old shapes
+        chart.clearAllShapes();
+        // Add horizontal lines at each level
+        const prices = [
+          {p: sig.p, label: 'ENTRY $' + fp(sig.p), color: '#f0b90b'},
+          {p: tp1, label: 'TP1 $' + fp(tp1), color: '#0ecb81'},
+          {p: tp2, label: 'TP2 $' + fp(tp2), color: '#0ecb81'},
+          {p: sl, label: 'SL $' + fp(sl), color: '#f6465d'}
+        ];
+        const now = Math.floor(Date.now() / 1000);
+        prices.forEach(item => {
+          try {
+            chart.createShape(
+              { time: now - 3600, price: item.p },
+              'horizontal_line',
+              {
+                color: item.color,
+                text: item.label,
+                textColor: '#ffffff',
+                fontSize: 11,
+                linewidth: 1,
+                linestyle: 2
+              }
+            );
+          } catch(e) {}
+        });
+        // Add entry arrow
+        try {
+          chart.createShape(
+            { time: now, price: sig.p },
+            sig.type === 'buy' ? 'arrow_up' : 'arrow_down',
+            { color: sig.type === 'buy' ? '#0ecb81' : '#f6465d', text: sig.type.toUpperCase(), fontSize: 14 }
+          );
+        } catch(e) {}
+      } catch(e) {}
+    });
+  } catch(e) {}
 }
 
 // ==================== ACTIONS ====================
 function stf(t) {
   S.tf = t;
   document.querySelectorAll('.tb').forEach(b => b.classList.toggle('act', b.dataset.tf === t));
+  document.getElementById('sigOverlay').style.display = 'none';
   cw();
-  setTimeout(updateSignals, 2000);
+  setTimeout(updateSignals, 2500);
 }
 
 function ti(n) {
@@ -491,9 +549,10 @@ function ti(n) {
   const el = document.getElementById(n === 'v' ? 'vb' : 'sab');
   const on = n === 'v' ? S.vOn : S.sOn;
   el.className = 'ib ' + (on ? 'on' : 'off');
-  el.textContent = n === 'v' ? 'Veltrix AI' : 'Spatrev AI';
+  el.textContent = n === 'v' ? 'Veltrix' : 'Spatrev';
+  document.getElementById('sigOverlay').style.display = 'none';
   cw();
-  setTimeout(updateSignals, 2000);
+  setTimeout(updateSignals, 2500);
 }
 
 async function sp(sym) {
@@ -502,9 +561,51 @@ async function sp(sym) {
   document.getElementById('pdl').classList.remove('o');
   document.getElementById('pn').textContent = sym.replace('USDT', '/USDT');
   document.querySelectorAll('.ti').forEach(el => el.classList.toggle('act', el.dataset.s === sym));
+  document.getElementById('sigOverlay').style.display = 'none';
   cw();
   up();
-  setTimeout(updateSignals, 2000);
+  setTimeout(updateSignals, 2500);
+}
+
+// ==================== DRAWING TOOLS ====================
+function tdDraw() {
+  S.drawO = !S.drawO;
+  document.getElementById('ddm').classList.toggle('o', S.drawO);
+}
+
+function actDraw(tool) {
+  S.drawO = false;
+  document.getElementById('ddm').classList.remove('o');
+  
+  if (tool === 'clear') {
+    try {
+      if (S.w && S.w.chart) {
+        S.w.onChartReady(() => {
+          try { S.w.chart().clearAllShapes(); } catch(e) {}
+        });
+      }
+    } catch(e) {}
+    document.getElementById('sigOverlay').style.display = 'none';
+    return;
+  }
+
+  // Try to activate the drawing tool via TV API
+  try {
+    if (S.w && S.w.chart) {
+      S.w.onChartReady(() => {
+        try {
+          const chart = S.w.chart();
+          if (chart && chart.setDrawingTool) {
+            chart.setDrawingTool(tool);
+          }
+        } catch(e) {}
+      });
+    }
+  } catch(e) {}
+  
+  // Focus user on TV toolbar
+  const tvEl = document.getElementById('tv');
+  if (tvEl) tvEl.scrollIntoView({behavior:'smooth'});
 }
 
 // ==================== PRICE ====================
@@ -525,6 +626,9 @@ function os() {
   document.getElementById('vs').value = S.vS;
   document.getElementById('ef').value = S.sF;
   document.getElementById('es').value = S.sS;
+  document.getElementById('tp1v').value = S.tp1Pct;
+  document.getElementById('tp2v').value = S.tp2Pct;
+  document.getElementById('slv').value = S.slPct;
   document.getElementById('sm').classList.add('s');
 }
 function cs() { document.getElementById('sm').classList.remove('s'); }
@@ -533,8 +637,13 @@ function ss() {
   S.vS = +document.getElementById('vs').value || 21;
   S.sF = +document.getElementById('ef').value || 20;
   S.sS = +document.getElementById('es').value || 50;
-  cs(); cw();
-  setTimeout(updateSignals, 2000);
+  S.tp1Pct = +document.getElementById('tp1v').value || 1;
+  S.tp2Pct = +document.getElementById('tp2v').value || 2;
+  S.slPct = +document.getElementById('slv').value || 1;
+  cs();
+  document.getElementById('sigOverlay').style.display = 'none';
+  cw();
+  setTimeout(updateSignals, 2500);
 }
 document.getElementById('sm').addEventListener('click', e => { if (e.target === document.getElementById('sm')) cs(); });
 
@@ -543,7 +652,10 @@ function ust() { document.getElementById('stm').textContent = new Date().toLocal
 let rtimer;
 window.addEventListener('resize', () => {
   clearTimeout(rtimer);
-  rtimer = setTimeout(() => { if (S.w) { try { S.w.resize(); } catch(e) { cw(); } } }, 300);
+  rtimer = setTimeout(() => {
+    if (S.w) { try { S.w.resize(); } catch(e) { cw(); } }
+    if (S.lastSignal) renderSignalOverlay();
+  }, 300);
 });
 
 // ==================== INIT ====================
@@ -552,7 +664,7 @@ setInterval(ft, 15000);
 setInterval(up, 5000);
 setInterval(ust, 30000);
 cw();
-setTimeout(updateSignals, 2000);
+setTimeout(updateSignals, 2500);
 setInterval(updateSignals, 60000);
 </script>
 </body>
