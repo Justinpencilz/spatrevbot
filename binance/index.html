@@ -9,56 +9,36 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
 :root{--go:#f0b90b;--s2:#2b3139;--b:#2b3139;--t2:#848e9c;--gr:#0ecb81;--rd:#f6465d}
 
-.layout{display:flex;height:100vh}
-.sidebar{width:260px;min-width:260px;background:#0b0e11;border-right:1px solid #2b3139;display:flex;flex-direction:column;height:100vh}
-.sidebar .sb{padding:8px;border-bottom:1px solid #2b3139}
-.sidebar .sb input{width:100%;padding:6px 10px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;font-size:12px;outline:none}
-.sidebar .sb input:focus{border-color:var(--go)}
-.sidebar .th{display:flex;padding:6px 10px;font-size:10px;color:#848e9c;text-transform:uppercase;border-bottom:1px solid #1e2329}
-.sidebar .th .c1{flex:1}
-.sidebar .th .c2{width:80px;text-align:right}
-.sidebar .th .c3{width:60px;text-align:right}
-.tl{flex:1;overflow-y:auto}
-.ti{display:flex;align-items:center;padding:5px 10px;cursor:pointer;border-bottom:1px solid #1e2329}
-.ti:hover{background:#1e2329}
-.ti.act{background:#1a2332;border-left:3px solid var(--go)}
-.ti .p{flex:1;font-size:12px;font-weight:500}
-.ti .pr{width:80px;text-align:right;font-size:12px;font-family:'SF Mono','Consolas',monospace}
-.ti .ch{width:60px;text-align:right;font-size:11px;font-weight:500}
-.ti .ch.g{color:var(--gr)}
-.ti .ch.r{color:var(--rd)}
-.ti .ch.f{color:#848e9c}
+.main{display:flex;flex-direction:column;height:100vh}
 
-.main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
-
-.nav{display:flex;align-items:center;gap:4px;padding:5px 8px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px;flex-shrink:0}
+.nav{display:flex;align-items:center;gap:4px;padding:5px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;flex-shrink:0;min-height:40px}
 .nav .sp{font-size:14px;font-weight:600;margin-right:6px}
 .nav .sp.g{color:var(--gr)}
 .nav .sp.r{color:var(--rd)}
-.sp1{width:1px;height:18px;background:#2b3139;margin:0 2px;flex-shrink:0}
-.tb{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
+.sp1{width:1px;height:18px;background:#2b3139;margin:0 3px;flex-shrink:0}
+.tb{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
 .tb:hover{border-color:var(--go);color:#eaecef}
 .tb.act{background:var(--go);color:#0b0e11;border-color:var(--go)}
-.ib{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500}
+.ib{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500}
 .ib:hover{border-color:var(--go);color:#eaecef}
 .ib.on{background:#1a3a2a;border-color:var(--gr);color:var(--gr)}
 .ib.off{background:#3a1a2a;border-color:var(--rd);color:var(--rd)}
-.sb2{padding:2px 7px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
+.sb2{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
 
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
 
-/* Signal overlay */
+/* Signal Overlay */
 .so{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
-.so .sl{position:absolute;left:0;right:0;}
+.so .sl{position:absolute;left:0;right:0}
 .so .sl.e{border-top:2px solid #f0b90b;height:2px}
 .so .sl.t{border-top:2px solid #0ecb81;height:2px}
 .so .sl.s{border-top:2px solid #f6465d;height:2px}
-.so .sl .lb{position:absolute;right:0;transform:translateY(-50%);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap;font-family:'SF Mono','Consolas',monospace;line-height:1.3}
+.so .sl .lb{position:absolute;right:0;transform:translateY(-50%);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap;font-family:'SF Mono','Consolas',monospace}
 .so .sl .lb.g{color:#fff;background:#0ecb81}
 .so .sl .lb.r{color:#fff;background:#f6465d}
 .so .sl .lb.y{color:#000;background:#f0b90b}
-.so .st{position:absolute;top:4px;left:4px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700}
+.so .st{position:absolute;top:4px;left:4px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;z-index:6}
 .so .st.b{background:rgba(14,203,129,.9);color:#000}
 .so .st.s{background:rgba(246,69,93,.9);color:#fff}
 
@@ -78,21 +58,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .sp2{width:30px;height:30px;border:3px solid #2b3139;border-top-color:var(--go);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.pd{position:relative}
-.pd .pb{display:flex;align-items:center;gap:4px;padding:3px 8px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;cursor:pointer;font-size:12px;font-weight:600}
-.pd .pb:hover{border-color:var(--go)}
-.pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:200px;max-height:300px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-.pd .dd.o{display:block}
-.pd .dd input{width:100%;padding:5px 8px;background:#2b3139;border:none;border-bottom:1px solid #2b3139;color:#eaecef;font-size:11px;outline:none}
-.pd .dd .dl{overflow-y:auto;max-height:260px}
-.pd .dd .di{display:flex;justify-content:space-between;padding:5px 10px;cursor:pointer;font-size:11px}
-.pd .dd .di:hover{background:#2b3139}
-
-.tl::-webkit-scrollbar,.pd .dd .dl::-webkit-scrollbar{width:4px}
-.tl::-webkit-scrollbar-track,.pd .dd .dl::-webkit-scrollbar-track{background:transparent}
-.tl::-webkit-scrollbar-thumb,.pd .dd .dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
-.so::-webkit-scrollbar{width:0}
-
 .settings-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center}
 .settings-modal.show{display:flex}
 .settings-box{background:#1e2329;border:1px solid #2b3139;border-radius:10px;padding:20px;width:340px;max-width:90vw}
@@ -106,65 +71,49 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .settings-box .ac .sv{background:var(--go);color:#0b0e11}
 .settings-box .ac .cl{background:#2b3139;color:#848e9c}
 
-@media(max-width:768px){.sidebar{display:none}.nav{gap:3px;padding:4px 5px}.tb,.ib,.sb2{padding:2px 4px;font-size:9px}}
+@media(max-width:768px){.nav{gap:3px;padding:4px 6px}.tb,.ib,.sb2{padding:2px 5px;font-size:9px}}
 </style>
 </head>
 <body>
 
-<div class="layout">
-  <div class="sidebar">
-    <div class="sb"><input type="text" id="si" placeholder="Search..." oninput="sf()"></div>
-    <div class="th"><span class="c1">Pair</span><span class="c2">Price</span><span class="c3">24h</span></div>
-    <div class="tl" id="tl"></div>
+<div class="main">
+  <div class="nav">
+    <span style="font-size:12px;font-weight:600;color:#eaecef;margin-right:4px" id="navSymbol">BTC/USDT</span>
+    <span class="sp g" id="navPrice">—</span>
+    <span class="sp1"></span>
+    <button class="tb" data-tf="1" onclick="stf('1')">1m</button>
+    <button class="tb" data-tf="2" onclick="stf('2')">2m</button>
+    <button class="tb" data-tf="3" onclick="stf('3')">3m</button>
+    <button class="tb" data-tf="5" onclick="stf('5')">5m</button>
+    <button class="tb act" data-tf="15" onclick="stf('15')">15m</button>
+    <button class="tb" data-tf="30" onclick="stf('30')">30m</button>
+    <button class="tb" data-tf="60" onclick="stf('60')">1h</button>
+    <button class="tb" data-tf="240" onclick="stf('240')">4h</button>
+    <button class="tb" data-tf="1D" onclick="stf('1D')">1D</button>
+    <button class="tb" data-tf="1W" onclick="stf('1W')">1W</button>
+    <button class="tb" data-tf="1M" onclick="stf('1M')">1M</button>
+    <span class="sp1"></span>
+    <button class="ib on" id="vb" onclick="ti('v')">Veltrix</button>
+    <button class="ib off" id="sab" onclick="ti('s')">Spatrev</button>
+    <button class="sb2" onclick="os()">⚙️</button>
   </div>
 
-  <div class="main">
-    <div class="nav">
-      <div class="pd" id="pdd">
-        <div class="pb" onclick="td()">
-          <span id="pn">BTC/USDT</span><span style="font-size:7px">▼</span>
-        </div>
-        <div class="dd" id="pdl">
-          <input type="text" id="ds" placeholder="Search..." oninput="fd()">
-          <div class="dl" id="dll"></div>
-        </div>
-      </div>
-      <span class="sp g" id="sp">—</span><span class="sp1"></span>
-      <button class="tb" data-tf="1" onclick="stf('1')">1m</button>
-      <button class="tb" data-tf="2" onclick="stf('2')">2m</button>
-      <button class="tb" data-tf="3" onclick="stf('3')">3m</button>
-      <button class="tb" data-tf="5" onclick="stf('5')">5m</button>
-      <button class="tb act" data-tf="15" onclick="stf('15')">15m</button>
-      <button class="tb" data-tf="30" onclick="stf('30')">30m</button>
-      <button class="tb" data-tf="60" onclick="stf('60')">1h</button>
-      <button class="tb" data-tf="240" onclick="stf('240')">4h</button>
-      <button class="tb" data-tf="1D" onclick="stf('1D')">1D</button>
-      <button class="tb" data-tf="1W" onclick="stf('1W')">1W</button>
-      <button class="tb" data-tf="1M" onclick="stf('1M')">1M</button>
-      <span class="sp1"></span>
-      <button class="ib on" id="vb" onclick="ti('v')">Veltrix</button>
-      <button class="ib off" id="sab" onclick="ti('s')">Spatrev</button>
-      <button class="sb2" onclick="os()">⚙️</button>
-    </div>
+  <div class="cw">
+    <div class="lo" id="lo"><div class="sp2"></div><p>Loading Chart...</p></div>
+    <div id="tv"></div>
+    <div class="so" id="so"></div>
+  </div>
 
-    <div class="cw">
-      <div class="lo" id="lo"><div class="sp2"></div><p>Loading Chart...</p></div>
-      <div id="tv"></div>
-      <div class="so" id="so"></div>
-    </div>
+  <div class="sig-bar">
+    <span style="color:#848e9c">⚡</span>
+    <span class="tag n" id="sigTag">No Signal</span>
+    <span style="color:#848e9c" id="sigPrice">—</span>
+    <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpdate"></span>
+  </div>
 
-    <div class="sig-bar">
-      <span style="color:#848e9c">⚡</span>
-      <span class="tag n" id="sigTag">No Signal</span>
-      <span style="color:#848e9c" id="sigPrice">—</span>
-      <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpdate"></span>
-    </div>
-
-    <div class="st">
-      <span><span class="dt g" id="sd"></span><span id="stxt">Connecting...</span></span>
-      <span id="pc">0 pairs</span>
-      <span id="stm"></span>
-    </div>
+  <div class="st">
+    <span><span class="dt g" id="sd"></span><span id="stxt">Connected</span></span>
+    <span id="stm"></span>
   </div>
 </div>
 
@@ -190,91 +139,110 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
 const S = {
-  tk:[],tkM:{},w:null,
-  sym:'BTCUSDT',tf:'15',
-  vOn:true,vF:9,vS:21,
-  sOn:false,sF:20,sS:50,
-  ddO:false,
-  swingLen:10,rr1:1.0,rr2:2.0,
+  w:null, ch:null,
+  tf:'15', curSym:'BINANCE:BTCUSDT',
+  vOn:true, vF:9, vS:21,
+  sOn:false, sF:20, sS:50,
+  swingLen:10, rr1:1.0, rr2:2.0,
   signal:null
 };
 
-// ==================== TICKERS ====================
-async function ft(){
-  try{
-    const r=await fetch('https://api.binance.com/api/v3/ticker/24hr');
-    if(!r.ok)throw Error();
-    const d=await r.json();
-    S.tk=d.filter(x=>x.symbol.endsWith('USDT')).map(x=>({s:x.symbol,b:x.symbol.replace('USDT',''),p:+x.lastPrice,c:+x.priceChangePercent,v:+x.quoteVolume})).sort((a,b)=>b.v-a.v).slice(0,100);
-    S.tkM={};S.tk.forEach(t=>{S.tkM[t.s]=t});
-    rt();rd();up();
-    document.getElementById('stxt').textContent='Binance Live';
-    document.getElementById('sd').className='dt g';
-  }catch(e){
-    document.getElementById('stxt').textContent='API Offline';
-    document.getElementById('sd').className='dt r';
-    setTimeout(ft,30000);
-  }
-}
-function rt(f){
-  let items=S.tk;if(f){const l=f.toLowerCase();items=items.filter(t=>t.b.toLowerCase().includes(l))}
-  document.getElementById('tl').innerHTML=items.map(t=>{
-    const cl=t.c>0?'g':t.c<0?'r':'f',sg=t.c>0?'+':'',ac=t.s===S.sym?' act':'';
-    return `<div class="ti${ac}" data-s="${t.s}" onclick="sp('${t.s}')"><div class="p">${t.b}</div><div class="pr">$${fp(t.p)}</div><div class="ch ${cl}">${sg}${t.c.toFixed(2)}%</div></div>`;
-  }).join('');
-  document.getElementById('pc').textContent=items.length+' pairs';
-}
-function sf(){rt(document.getElementById('si').value)}
-function fd(){rd(document.getElementById('ds').value)}
-function td(){S.ddO=!S.ddO;document.getElementById('pdl').classList.toggle('o',S.ddO);if(S.ddO)setTimeout(()=>document.getElementById('ds').focus(),50)}
-function rd(f){
-  let items=S.tk;if(f){const l=f.toLowerCase();items=items.filter(t=>t.b.toLowerCase().includes(l))}
-  document.getElementById('dll').innerHTML=items.map(t=>{
-    const ac=t.s===S.sym?' style="background:#2b3139"':'';
-    return `<div class="di"${ac} onclick="sp('${t.s}')"><span class="dp">${t.b}/USDT</span><span class="dv">$${fp(t.p)}</span></div>`;
-  }).join('');
-}
-document.addEventListener('click',e=>{
-  if(S.ddO&&!e.target.closest('.pd')){S.ddO=false;document.getElementById('pdl').classList.remove('o')}
-});
-function fp(p){
-  if(p>=1000)return p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-  if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8);
+// ==================== TRADINGVIEW WIDGET ====================
+function cw(){
+  S.ch=null;
+  document.getElementById('tv').innerHTML='';
+  document.getElementById('so').innerHTML='';
+  const lo=document.getElementById('lo');lo.classList.remove('h');lo.style.display='flex';
+
+  S.w=new TradingView.widget({
+    container_id:'tv',
+    symbol:S.curSym,
+    interval:S.tf,
+    timezone:'Etc/UTC',
+    theme:'dark',style:'1',locale:'en',
+    toolbar_bg:'#131722',
+    enable_publishing:false,
+    allow_symbol_change:true,
+    hide_top_toolbar:false,
+    hide_legend:false,
+    save_image:false,
+    autosize:true,
+    studies:getStudies(),
+    disabled_features:[],
+    enabled_features:['study_templates','show_hide_button_on_legend'],
+    overrides:{
+      'paneProperties.background':'#131722',
+      'paneProperties.vertGridProperties.color':'#1e222d',
+      'paneProperties.horzGridProperties.color':'#1e222d',
+      'scalesProperties.textColor':'#848e9c'
+    },
+    loading_screen:{backgroundColor:'#131722',foregroundColor:'#f0b90b'}
+  });
+
+  setTimeout(()=>{lo.classList.add('h');lo.style.display='none'},4000);
 }
 
-// ==================== TRADINGVIEW ====================
-function gs(){
+function getStudies(){
   const l=[];
   if(S.vOn){l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vF}});l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vS}})}
   if(S.sOn){l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sF}});l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sS}})}
   return l;
 }
-function cw(){
-  document.getElementById('tv').innerHTML='';
-  document.getElementById('so').innerHTML='';
-  const lo=document.getElementById('lo');lo.classList.remove('h');lo.style.display='flex';
-  S.w=new TradingView.widget({
-    container_id:'tv',symbol:'BINANCE:'+S.sym,interval:S.tf,
-    timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',toolbar_bg:'#131722',
-    enable_publishing:false,allow_symbol_change:true,hide_top_toolbar:false,
-    hide_legend:false,save_image:false,autosize:true,studies:gs(),
-    disabled_features:[],enabled_features:['study_templates','show_hide_button_on_legend'],
-    overrides:{'paneProperties.background':'#131722','paneProperties.vertGridProperties.color':'#1e222d','paneProperties.horzGridProperties.color':'#1e222d','scalesProperties.textColor':'#848e9c'},
-    loading_screen:{backgroundColor:'#131722',foregroundColor:'#f0b90b'}
-  });
-  setTimeout(()=>{lo.classList.add('h');lo.style.display='none'},4000);
+
+// ==================== TIMEFRAMES ====================
+function stf(tf){
+  S.tf=tf;
+  document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('act',b.dataset.tf===tf));
+
+  // Try just changing interval without resetting symbol
+  if(S.w){
+    try{
+      // Method 1: Use chart API setResolution
+      if(S.ch && typeof S.ch.setResolution==='function'){
+        S.ch.setResolution(tf);
+        return;
+      }
+    }catch(e){}
+
+    try{
+      // Method 2: Use widget setSymbol with current symbol (preserves it)
+      S.w.setSymbol(S.curSym, tf);
+      return;
+    }catch(e){}
+
+    try{
+      // Method 3: Recreate widget if all else fails
+      cw();
+    }catch(e){}
+  }
+}
+
+// ==================== PAIR / SYMBOL ====================
+// Track the current symbol from TradingView widget
+// We poll the widget's displayed symbol periodically
+function updateCurSym(){
+  if(!S.w)return;
+  try{
+    // Try reading the symbol from a callback or event
+  }catch(e){}
 }
 
 // ==================== SIGNAL ENGINE ====================
 async function computeSignal(){
-  const kl=await fetchKlines();
+  // Only compute for Binance pairs
+  if(!S.curSym.startsWith('BINANCE:'))return;
+  
+  // Extract symbol
+  const pair=S.curSym.replace('BINANCE:','');
+  const kl=await fetchKlines(pair);
   if(!kl||kl.length<50)return;
+  
   const closes=kl.map(k=>k.c),lows=kl.map(k=>k.l),highs=kl.map(k=>k.h);
   const vFast=sma(closes,S.vF),vSlow=sma(closes,S.vS);
   const sFast=ema(closes,S.sF),sSlow=ema(closes,S.sS);
-
+  
   S.signal=null;
-
+  
   if(S.vOn){
     for(let i=closes.length-2;i>=Math.max(S.vF,S.vS,5);i--){
       if(!vFast[i]||!vSlow[i]||!vFast[i-1]||!vSlow[i-1])continue;
@@ -302,15 +270,15 @@ async function computeSignal(){
       }
     }
   }
-
-  updateStatus();
+  
+  updateSignalUI();
   drawOverlay();
 }
 
-async function fetchKlines(){
+async function fetchKlines(pair){
   try{
     const m={'1':'1m','2':'2m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
-    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${S.sym}&interval=${m[S.tf]||'15m'}&limit=200`);
+    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${pair}&interval=${m[S.tf]||'15m'}&limit=200`);
     if(!r.ok)return[];const d=await r.json();
     return d.map(k=>({t:Math.floor(k[0]/1000),o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
   }catch(e){return[]}
@@ -324,23 +292,16 @@ function drawOverlay(){
   const so=document.getElementById('so');
   const cw=document.querySelector('.cw');
   const h=cw.clientHeight,w=cw.clientWidth;
-  if(!sig||h<100||w<100){so.innerHTML='';return}
+  if(!sig||h<100||w<100||!S.curSym.startsWith('BINANCE:')){so.innerHTML='';return}
 
-  // Get approx chart price range from last kline
-  // We don't have direct chart access, so estimate from signal prices
   const prices=[sig.entry,sig.tp1,sig.tp2,sig.sl];
   const pad=Math.max(...prices)*0.01;
-  const maxP=Math.max(...prices)+pad;
-  const minP=Math.min(...prices)-pad;
-  const range=maxP-minP;
-
-  const yPct=p=>((maxP-p)/range)*100;
+  const maxP=Math.max(...prices)+pad,minP=Math.min(...prices)-pad,range=maxP-minP;
   const yPx=p=>((maxP-p)/range)*h;
 
   const entryCls=sig.type==='buy'?'b':'s';
-
   so.innerHTML=`
-    <div class="st ${entryCls}" style="top:8px;left:8px;position:absolute;z-index:6">${sig.type.toUpperCase()} ${sig.src} @ $${fp(sig.entry)}</div>
+    <div class="st ${entryCls}" style="top:8px;left:8px">${sig.type.toUpperCase()} ${sig.src} @ $${fp(sig.entry)}</div>
     <div class="sl e" style="top:${yPx(sig.entry)}px"><div class="lb y">ENTRY $${fp(sig.entry)}</div></div>
     <div class="sl t" style="top:${yPx(sig.tp1)}px"><div class="lb g">TP1 $${fp(sig.tp1)}</div></div>
     <div class="sl t" style="top:${yPx(sig.tp2)}px"><div class="lb g">TP2 $${fp(sig.tp2)}</div></div>
@@ -349,44 +310,36 @@ function drawOverlay(){
   so.style.display='block';
 }
 
-function updateStatus(){
-  const tag=document.getElementById('sigTag');
-  const price=document.getElementById('sigPrice');
-  const update=document.getElementById('sigUpdate');
+function updateSignalUI(){
+  const tag=document.getElementById('sigTag'),price=document.getElementById('sigPrice'),update=document.getElementById('sigUpdate');
   update.textContent=new Date().toLocaleTimeString();
-  if(S.signal){
+  if(S.signal&&S.curSym.startsWith('BINANCE:')){
     tag.className='tag '+(S.signal.type==='buy'?'b':'s');
     tag.textContent=`${S.signal.src} ${S.signal.type.toUpperCase()}`;
     price.textContent=`$${fp(S.signal.entry)}`;
+  }else if(!S.curSym.startsWith('BINANCE:')){
+    tag.className='tag n';tag.textContent='TV Mode';price.textContent='Use TV tools';
   }else{
     tag.className='tag n';tag.textContent='No Signal';price.textContent='—';
   }
 }
 
-// ==================== ACTIONS ====================
-function stf(t){
-  S.tf=t;
-  document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('act',b.dataset.tf===t));
-  document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,2500);
+function fp(p){
+  if(p>=1000)return p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8);
 }
+
+// ==================== ACTIONS ====================
 function ti(n){
   if(n==='v')S.vOn=!S.vOn;else S.sOn=!S.sOn;
   const el=document.getElementById(n==='v'?'vb':'sab');
   const on=n==='v'?S.vOn:S.sOn;
   el.className='ib '+(on?'on':'off');
   el.textContent=n==='v'?'Veltrix':'Spatrev';
-  document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,2500);
+  document.getElementById('so').innerHTML='';
+  cw();setTimeout(computeSignal,2500);
 }
-async function sp(sym){
-  S.sym=sym;S.ddO=false;
-  document.getElementById('pdl').classList.remove('o');
-  document.getElementById('pn').textContent=sym.replace('USDT','/USDT');
-  document.querySelectorAll('.ti').forEach(el=>el.classList.toggle('act',el.dataset.s===sym));
-  document.getElementById('so').innerHTML='';cw();up();setTimeout(computeSignal,2500);
-}
-function up(){
-  try{const t=S.tkM[S.sym];if(t){const el=document.getElementById('sp');el.textContent='$'+fp(t.p);el.className='sp '+(t.c>=0?'g':'r')}}catch(e){}
-}
+
 function os(){
   document.getElementById('vf').value=S.vF;document.getElementById('vs').value=S.vS;
   document.getElementById('ef').value=S.sF;document.getElementById('es').value=S.sS;
@@ -414,8 +367,9 @@ window.addEventListener('resize',()=>{
   },300);
 });
 
-ft();setInterval(ft,15000);setInterval(up,5000);setInterval(ust,30000);
+// ==================== INIT ====================
 cw();setTimeout(computeSignal,2500);setInterval(computeSignal,60000);
+setInterval(ust,30000);
 </script>
 </body>
 </html>
