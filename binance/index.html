@@ -11,14 +11,29 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 .main{display:flex;flex-direction:column;height:100vh}
 
-.nav{display:flex;align-items:center;gap:6px;padding:4px 12px;background:#161b22;border-bottom:1px solid #30363d;flex-shrink:0;min-height:36px}
-.nav .s1{width:1px;height:16px;background:#2b3139}
-.ib{padding:2px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
+/* Nav bar with all controls */
+.nav{display:flex;align-items:center;gap:4px;padding:4px 8px;background:#161b22;border-bottom:1px solid #30363d;flex-shrink:0;min-height:38px;flex-wrap:wrap}
+
+/* Pair dropdown */
+.pd{position:relative}
+.pd .pb{display:flex;align-items:center;gap:4px;padding:3px 8px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;cursor:pointer;font-size:11px;font-weight:600}
+.pd .pb:hover{border-color:var(--go)}
+.pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:190px;max-height:280px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.pd .dd.o{display:block}
+.pd .dd input{width:100%;padding:5px 8px;background:#2b3139;border:none;border-bottom:1px solid #2b3139;color:#eaecef;font-size:10px;outline:none}
+.pd .dd .dl{overflow-y:auto;max-height:240px}
+.pd .dd .di{display:flex;justify-content:space-between;padding:4px 10px;cursor:pointer;font-size:10px;color:#eaecef}
+.pd .dd .di:hover{background:#2b3139}
+
+.nav .s1{width:1px;height:16px;background:#2b3139;flex-shrink:0}
+.tb{padding:2px 6px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
+.tb:hover{border-color:var(--go);color:#eaecef}
+.tb.act{background:var(--go);color:#0b0e11;border-color:var(--go)}
+.ib{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500}
 .ib:hover{border-color:var(--go);color:#eaecef}
 .ib.on{background:#1a3a2a;border-color:var(--gr);color:var(--gr)}
 .ib.off{background:#3a1a2a;border-color:var(--rd);color:var(--rd)}
-.sb2{padding:2px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer}
-.sb2:hover{border-color:var(--go);color:#eaecef}
+.sb2{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
 
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
@@ -65,20 +80,40 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .settings-box .ac .sv{background:var(--go);color:#0b0e11}
 .settings-box .ac .cl{background:#2b3139;color:#848e9c}
 
-@media(max-width:768px){.nav{padding:4px 8px}.ib,.sb2{padding:2px 8px;font-size:10px}}
+.tl::-webkit-scrollbar,.pd .dd .dl::-webkit-scrollbar{width:4px}
+.tl::-webkit-scrollbar-thumb,.pd .dd .dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
+
+@media(max-width:768px){.nav{gap:3px;padding:4px 5px}.tb{padding:2px 5px;font-size:9px}.pd .pb{padding:2px 6px;font-size:10px}}
 </style>
 </head>
 <body>
 
 <div class="main">
   <div class="nav">
-    <span style="font-size:11px;color:#eaecef;font-weight:600">VELTRIX AI 2.0</span>
+    <!-- Pair Dropdown -->
+    <div class="pd" id="pdd">
+      <div class="pb" onclick="td()">
+        <span id="pn">BTC/USDT</span><span style="font-size:7px">▼</span>
+      </div>
+      <div class="dd" id="pdl">
+        <input type="text" id="ds" placeholder="Search..." oninput="fd()">
+        <div class="dl" id="dll"></div>
+      </div>
+    </div>
     <span class="s1"></span>
-    <button class="ib on" id="vb" onclick="ti('v')">Veltrix AI</button>
-    <button class="ib off" id="sab" onclick="ti('s')">Spatrev AI</button>
+    <button class="tb" data-tf="1" onclick="stf('1')">1m</button>
+    <button class="tb" data-tf="3" onclick="stf('3')">3m</button>
+    <button class="tb" data-tf="5" onclick="stf('5')">5m</button>
+    <button class="tb" data-tf="15" onclick="stf('15')">15m</button>
+    <button class="tb act" data-tf="60" onclick="stf('60')">1h</button>
+    <button class="tb" data-tf="240" onclick="stf('240')">4h</button>
+    <button class="tb" data-tf="1D" onclick="stf('1D')">1D</button>
+    <button class="tb" data-tf="1W" onclick="stf('1W')">1W</button>
+    <button class="tb" data-tf="1M" onclick="stf('1M')">1M</button>
     <span class="s1"></span>
-    <button class="sb2" onclick="os()">⚙️ Settings</button>
-    <span style="margin-left:auto;font-size:9px;color:#848e9c">Use TradingView toolbar for pairs, timeframes, drawings &amp; indicators</span>
+    <button class="ib on" id="vb" onclick="ti('v')">Veltrix</button>
+    <button class="ib off" id="sab" onclick="ti('s')">Spatrev</button>
+    <button class="sb2" onclick="os()">⚙️</button>
   </div>
 
   <div class="cw">
@@ -90,7 +125,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
   <div class="sig-bar">
     <span style="color:#848e9c">⚡</span>
     <span class="tag n" id="sigTag">Ready</span>
-    <span style="color:#848e9c;font-size:9px" id="sigInfo">Use TV search for crypto/forex/stocks</span>
+    <span style="color:#848e9c;font-size:9px" id="sigInfo">TV More button: drawings, indicators, studies</span>
     <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpd"></span>
   </div>
 
@@ -121,20 +156,60 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-const S = {
-  w:null, tf:'60',
+// Available pairs — crypto + forex with TV exchange prefixes
+const PAIRS = [
+  // Crypto
+  {label:'BTC/USDT', sym:'BINANCE:BTCUSDT', exch:'binance'},
+  {label:'ETH/USDT', sym:'BINANCE:ETHUSDT', exch:'binance'},
+  {label:'BNB/USDT', sym:'BINANCE:BNBUSDT', exch:'binance'},
+  {label:'SOL/USDT', sym:'BINANCE:SOLUSDT', exch:'binance'},
+  {label:'XRP/USDT', sym:'BINANCE:XRPUSDT', exch:'binance'},
+  {label:'ADA/USDT', sym:'BINANCE:ADAUSDT', exch:'binance'},
+  {label:'DOGE/USDT', sym:'BINANCE:DOGEUSDT', exch:'binance'},
+  {label:'DOT/USDT', sym:'BINANCE:DOTUSDT', exch:'binance'},
+  {label:'LINK/USDT', sym:'BINANCE:LINKUSDT', exch:'binance'},
+  {label:'AVAX/USDT', sym:'BINANCE:AVAXUSDT', exch:'binance'},
+  {label:'MATIC/USDT', sym:'BINANCE:MATICUSDT', exch:'binance'},
+  {label:'ATOM/USDT', sym:'BINANCE:ATOMUSDT', exch:'binance'},
+  {label:'UNI/USDT', sym:'BINANCE:UNIUSDT', exch:'binance'},
+  {label:'LTC/USDT', sym:'BINANCE:LTCUSDT', exch:'binance'},
+  {label:'BCH/USDT', sym:'BINANCE:BCHUSDT', exch:'binance'},
+  // Forex
+  {label:'EUR/USD', sym:'FOREXCOM:EURUSD', exch:'forex'},
+  {label:'GBP/USD', sym:'FOREXCOM:GBPUSD', exch:'forex'},
+  {label:'USD/CAD', sym:'FOREXCOM:USDCAD', exch:'forex'},
+  {label:'USD/JPY', sym:'FOREXCOM:USDJPY', exch:'forex'},
+  {label:'AUD/USD', sym:'FOREXCOM:AUDUSD', exch:'forex'},
+  {label:'NZD/USD', sym:'FOREXCOM:NZDUSD', exch:'forex'},
+  {label:'EUR/GBP', sym:'FOREXCOM:EURGBP', exch:'forex'},
+  {label:'EUR/JPY', sym:'FOREXCOM:EURJPY', exch:'forex'},
+  {label:'GBP/JPY', sym:'FOREXCOM:GBPJPY', exch:'forex'},
+  {label:'USD/CHF', sym:'FOREXCOM:USDCHF', exch:'forex'},
+  {label:'XAU/USD', sym:'FOREXCOM:XAUUSD', exch:'commodity'},
+  {label:'XAG/USD', sym:'FOREXCOM:XAGUSD', exch:'commodity'},
+  // Indices
+  {label:'S&P 500', sym:'FOREXCOM:SPX500', exch:'index'},
+  {label:'NAS 100', sym:'FOREXCOM:NAS100', exch:'index'},
+  {label:'DOW 30', sym:'FOREXCOM:DOW30', exch:'index'},
+  {label:'DAX 40', sym:'FOREXCOM:DAX40', exch:'index'},
+  {label:'FTSE 100', sym:'FOREXCOM:FTSE100', exch:'index'},
+  {label:'VIX', sym:'FOREXCOM:VIX', exch:'index'},
+];
+
+const S = {w:null, tf:'60',
   vOn:true, vF:9, vS:21, sOn:false, sF:20, sS:50,
   swingLen:10, rr1:1.0, rr2:2.0,
-  signal:null, isBN:true
+  curSym:'BINANCE:BTCUSDT', signal:null, isBN:true, ddO:false
 };
 
+// ==================== TV WIDGET ====================
 function cw(){
   document.getElementById('tv').innerHTML='';document.getElementById('so').innerHTML='';
   const lo=document.getElementById('lo');lo.classList.remove('h');lo.style.display='flex';
   S.w=new TradingView.widget({
-    container_id:'tv',symbol:'BINANCE:BTCUSDT',interval:S.tf,
+    container_id:'tv',symbol:S.curSym,interval:S.tf,
     timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',toolbar_bg:'#131722',
-    enable_publishing:false,allow_symbol_change:true,hide_top_toolbar:false,hide_legend:false,
+    enable_publishing:false,allow_symbol_change:false,hide_top_toolbar:false,hide_legend:false,
     save_image:false,autosize:true,studies:getSt(),
     disabled_features:[],enabled_features:['study_templates','show_hide_button_on_legend'],
     overrides:{'paneProperties.background':'#131722','paneProperties.vertGridProperties.color':'#1e222d','paneProperties.horzGridProperties.color':'#1e222d','scalesProperties.textColor':'#848e9c'},
@@ -150,18 +225,41 @@ function getSt(){
   return l;
 }
 
-// ==================== DETECT BINANCE ====================
-function checkIsBN(){
-  try{
-    const el=document.getElementById('tv');if(!el)return;
-    const txt=el.textContent||'';
-    S.isBN=txt.includes('BINANCE:');
-    if(!S.isBN){
-      document.getElementById('so').innerHTML='';
-      document.getElementById('sigTag').className='tag n';document.getElementById('sigTag').textContent='TV Mode';
-      document.getElementById('sigInfo').textContent='Use TV toolbar';
-    }else{setTimeout(computeSignal,1000)}
-  }catch(e){}
+// ==================== PAIR DROPDOWN ====================
+function td(){S.ddO=!S.ddO;document.getElementById('pdl').classList.toggle('o',S.ddO);if(S.ddO)setTimeout(()=>document.getElementById('ds').focus(),50)}
+document.addEventListener('click',e=>{if(S.ddO&&!e.target.closest('.pd')){S.ddO=false;document.getElementById('pdl').classList.remove('o')}})
+
+function rd(f){
+  let items=PAIRS;
+  if(f){const l=f.toLowerCase();items=items.filter(p=>p.label.toLowerCase().includes(l))}
+  document.getElementById('dll').innerHTML=items.map(p=>{
+    const ac=p.sym===S.curSym?' style="background:#2b3139"':'';
+    const grp=p.exch==='forex'?'💱':p.exch==='commodity'?'🥇':p.exch==='index'?'📊':'🪙';
+    return `<div class="di"${ac} onclick="sp('${p.sym}','${p.label}')">${grp} ${p.label}</div>`;
+  }).join('');
+}
+function fd(){rd(document.getElementById('ds').value)}
+rd();
+
+function sp(sym,label){
+  S.curSym=sym;S.ddO=false;
+  document.getElementById('pdl').classList.remove('o');
+  document.getElementById('pn').textContent=label||sym;
+  S.isBN=sym.startsWith('BINANCE:');
+  document.getElementById('so').innerHTML='';cw();
+  if(S.isBN)setTimeout(computeSignal,3000);
+  else{
+    document.getElementById('sigTag').className='tag n';document.getElementById('sigTag').textContent='TV Mode';
+    document.getElementById('sigInfo').textContent='Use TV More button for studies/drawings';
+  }
+}
+
+// ==================== TIMEFRAMES ====================
+function stf(tf){
+  S.tf=tf;
+  document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('act',b.dataset.tf===tf));
+  if(!S.w)return;
+  try{S.w.setSymbol(S.curSym,tf)}catch(e){cw()}
 }
 
 // ==================== SIGNAL ====================
@@ -190,9 +288,8 @@ async function computeSignal(){
 
 async function klines(){
   try{
-    const el=document.getElementById('tv');if(!el)return[];
-    const txt=el.textContent||'';const m=txt.match(/BINANCE:([A-Z0-9]{2,20})/);if(!m)return[];
-    const intMap={'1':'1m','2':'2m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
+    const m=S.curSym.match(/BINANCE:([A-Z0-9]{2,20})/);if(!m)return[];
+    const intMap={'1':'1m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
     const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${m[1]}&interval=${intMap[S.tf]||'1h'}&limit=200`);
     if(!r.ok)return[];const d=await r.json();
     return d.map(k=>({t:Math.floor(k[0]/1000),o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
@@ -221,7 +318,7 @@ function updSig(){
   u.textContent=new Date().toLocaleTimeString();
   if(S.isBN&&S.signal){t.className='tag '+(S.signal.ty==='buy'?'b':'s');t.textContent=`${S.signal.src} ${S.signal.ty.toUpperCase()}`;i.textContent=`$${fp(S.signal.e)}`}
   else if(S.isBN){t.className='tag n';t.textContent='Waiting';i.textContent='Computing...'}
-  else{t.className='tag n';t.textContent='TV Mode';i.textContent='Use TV toolbar'}
+  else{t.className='tag n';t.textContent='TV Mode';i.textContent='Use TV More button for studies/drawings'}
 }
 function fp(p){if(p>=1000)return p.toLocaleString(undefined,{minFractionDigits:2,maxFractionDigits:2});if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8)}
 
@@ -229,18 +326,19 @@ function ti(n){
   if(n==='v')S.vOn=!S.vOn;else S.sOn=!S.sOn;
   const el=document.getElementById(n==='v'?'vb':'sab');
   el.className='ib '+(n==='v'?(S.vOn?'on':'off'):(S.sOn?'on':'off'));
-  el.textContent=n==='v'?'Veltrix AI':'Spatrev AI';
-  document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,3000);
+  el.textContent=n==='v'?'Veltrix':'Spatrev';
+  document.getElementById('so').innerHTML='';cw();if(S.isBN)setTimeout(computeSignal,3000);
 }
 function os(){['vf','vs','ef','es','sLen','rr1','rr2'].forEach(id=>document.getElementById(id).value=S[id]);document.getElementById('sm').classList.add('show')}
 function cs(){document.getElementById('sm').classList.remove('show')}
-function ss(){S.vF=+vf.value||9;S.vS=+vs.value||21;S.sF=+ef.value||20;S.sS=+es.value||50;S.swingLen=+sLen.value||10;S.rr1=+rr1.value||1;S.rr2=+rr2.value||2;cs();document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,3000)}
+function ss(){S.vF=+vf.value||9;S.vS=+vs.value||21;S.sF=+ef.value||20;S.sS=+es.value||50;S.swingLen=+sLen.value||10;S.rr1=+rr1.value||1;S.rr2=+rr2.value||2;cs();document.getElementById('so').innerHTML='';cw();if(S.isBN)setTimeout(computeSignal,3000)}
 document.getElementById('sm').addEventListener('click',e=>{if(e.target===document.getElementById('sm'))cs()});
+function ust(){document.getElementById('stm').textContent=new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString()}
 
 let rt;
 window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.w){try{S.w.resize()}catch(e){}if(S.signal)drawOL()}},300)});
 
-cw();setInterval(checkIsBN,2000);setInterval(computeSignal,60000);
+cw();setInterval(computeSignal,60000);setInterval(ust,30000);
 </script>
 </body>
 </html>
