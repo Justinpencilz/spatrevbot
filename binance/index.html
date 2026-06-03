@@ -34,25 +34,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 
 /* Nav */
-.nav{display:flex;align-items:center;gap:6px;padding:6px 12px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px}
-.nav .sp{font-size:14px;font-weight:600;margin-right:10px}
+.nav{display:flex;align-items:center;gap:5px;padding:5px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px}
+.nav .sp{font-size:14px;font-weight:600;margin-right:8px}
 .nav .sp.g{color:var(--green)}
 .nav .sp.r{color:var(--red)}
+.sp1{width:1px;height:20px;background:#2b3139;margin:0 3px}
 
-/* Timeframe buttons */
-.tb{padding:3px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
+.tb{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
 .tb:hover{border-color:var(--go);color:#eaecef}
 .tb.act{background:var(--go);color:#0b0e11;border-color:var(--go)}
 
-/* Indicator buttons */
-.ib{padding:3px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
+.ib{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
 .ib:hover{border-color:var(--go);color:#eaecef}
 .ib.on{background:#1a3a2a;border-color:var(--green);color:var(--green)}
 .ib.off{background:#3a1a2a;border-color:var(--red);color:var(--red)}
-
-.sb2{padding:3px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
-.sb2:hover{border-color:var(--go);color:#eaecef}
-.nav .sp1{width:1px;height:20px;background:#2b3139;margin:0 4px}
+.sb2{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer}
 
 /* Chart */
 .cw{flex:1;position:relative;min-height:0}
@@ -63,7 +59,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .lo.h{opacity:0;pointer-events:none}
 .sp2{width:30px;height:30px;border:3px solid #2b3139;border-top-color:var(--go);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.lo p{margin-top:12px;font-size:12px;color:#848e9c}
+
+/* Signals bar */
+.sig-bar{display:flex;gap:10px;padding:4px 12px;background:#131722;border-top:1px solid #2b3139;font-size:11px;align-items:center;min-height:28px;overflow-x:auto}
+.sig-bar .sig{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-weight:600}
+.sig-bar .sig.buy{background:#0a2a1a;color:var(--green);border:1px solid #1a4a2a}
+.sig-bar .sig.sell{background:#2a0a1a;color:var(--red);border:1px solid #4a1a2a}
+.sig-bar .sig.neutral{background:#1e2329;color:#848e9c;border:1px solid #2b3139}
+.sig-bar .sig-lbl{color:#848e9c;font-size:10px}
 
 /* Status */
 .st{display:flex;justify-content:space-between;padding:3px 12px;background:#0b0e11;border-top:1px solid #2b3139;font-size:10px;color:#848e9c}
@@ -106,8 +109,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 @media(max-width:768px){
   .sidebar{display:none}
-  .nav{gap:4px;padding:4px 8px}
-  .tb,.ib{padding:2px 8px;font-size:10px}
+  .nav{gap:3px;padding:4px 6px}
+  .tb,.ib{padding:2px 6px;font-size:10px}
 }
 </style>
 </head>
@@ -142,14 +145,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
       <span class="sp1"></span>
 
       <button class="tb" data-tf="1" onclick="stf('1')">1m</button>
+      <button class="tb" data-tf="3" onclick="stf('3')">3m</button>
+      <button class="tb" data-tf="5" onclick="stf('5')">5m</button>
       <button class="tb act" data-tf="15" onclick="stf('15')">15m</button>
+      <button class="tb" data-tf="30" onclick="stf('30')">30m</button>
       <button class="tb" data-tf="60" onclick="stf('60')">1h</button>
       <button class="tb" data-tf="240" onclick="stf('240')">4h</button>
       <button class="tb" data-tf="1D" onclick="stf('1D')">1D</button>
       <span class="sp1"></span>
 
       <button class="ib on" id="vb" onclick="ti('v')">Veltrix AI</button>
-      <button class="ib off" id="sb" onclick="ti('s')">Spatrev AI</button>
+      <button class="ib off" id="sab" onclick="ti('s')">Spatrev AI</button>
       <button class="sb2" onclick="os()">⚙</button>
     </div>
 
@@ -159,6 +165,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
         <p>Loading Chart...</p>
       </div>
       <div id="tv"></div>
+    </div>
+
+    <!-- Signals Bar -->
+    <div class="sig-bar" id="sigBar">
+      <span class="sig-lbl">Signals:</span>
+      <span class="sig neutral" id="vSig">Veltrix AI: —</span>
+      <span class="sig neutral" id="sSig">Spatrev AI: —</span>
+      <span id="sigCount" style="color:#848e9c;font-size:10px;margin-left:auto"></span>
     </div>
 
     <div class="st">
@@ -198,13 +212,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-// ==================== STATE ====================
 const S = {
-  tk: [], tkM: {},
+  tk: [], tkM: {}, w: null, ch: null,
   sym: 'BTCUSDT', tf: '15',
   vOn: true,  vF: 9,  vS: 21,
   sOn: false, sF: 20, sS: 50,
-  ddO: false
+  ddO: false, ready: false, signals: []
 };
 
 // ==================== TICKERS ====================
@@ -213,16 +226,11 @@ async function ft() {
     const r = await fetch('https://api.binance.com/api/v3/ticker/24hr');
     if (!r.ok) throw Error(''+r.status);
     const d = await r.json();
-    S.tk = d
-      .filter(x => x.symbol.endsWith('USDT'))
-      .map(x => ({
-        s: x.symbol, b: x.symbol.replace('USDT',''),
-        p: +x.lastPrice, c: +x.priceChangePercent,
-        v: +x.quoteVolume
-      }))
+    S.tk = d.filter(x => x.symbol.endsWith('USDT'))
+      .map(x => ({s:x.symbol, b:x.symbol.replace('USDT',''), p:+x.lastPrice, c:+x.priceChangePercent, v:+x.quoteVolume}))
       .sort((a,b) => b.v - a.v).slice(0,100);
     S.tkM = {}; S.tk.forEach(t => { S.tkM[t.s] = t; });
-    rt(); rd();
+    rt(); rd(); up();
     document.getElementById('stxt').textContent = 'Binance Live';
     document.getElementById('sd').className = 'dt g';
   } catch(e) {
@@ -235,7 +243,7 @@ async function ft() {
 function rt(f) {
   let items = S.tk;
   if (f) { const l = f.toLowerCase(); items = items.filter(t => t.b.toLowerCase().includes(l)); }
-  document.getElementById('tl').innerHTML = items.map(t => {
+  let h = items.map(t => {
     const cl = t.c > 0 ? 'g' : t.c < 0 ? 'r' : 'f';
     const sg = t.c > 0 ? '+' : '';
     const ac = t.s === S.sym ? ' act' : '';
@@ -245,6 +253,7 @@ function rt(f) {
       <div class="ch ${cl}">${sg}${t.c.toFixed(2)}%</div>
     </div>`;
   }).join('');
+  document.getElementById('tl').innerHTML = h;
   document.getElementById('pc').textContent = items.length + ' pairs';
 }
 
@@ -257,10 +266,7 @@ function rd(f) {
   if (f) { const l = f.toLowerCase(); items = items.filter(t => t.b.toLowerCase().includes(l)); }
   document.getElementById('dll').innerHTML = items.map(t => {
     const ac = t.s === S.sym ? ' style="background:#2b3139"' : '';
-    return `<div class="di"${ac} onclick="sp('${t.s}')">
-      <span class="dp">${t.b}/USDT</span>
-      <span class="dv">$${fp(t.p)}</span>
-    </div>`;
+    return `<div class="di"${ac} onclick="sp('${t.s}')"><span class="dp">${t.b}/USDT</span><span class="dv">$${fp(t.p)}</span></div>`;
   }).join('');
 }
 
@@ -275,23 +281,17 @@ function fp(p) {
   return p.toFixed(8);
 }
 
-// ==================== TRADINGVIEW WIDGET ====================
-function getStudies() {
+// ==================== TRADINGVIEW ====================
+function gs() {
   const list = [];
-  if (S.vOn) {
-    list.push({ id: 'MASimple@tv-basicstudies', inputs: { length: S.vF } });
-    list.push({ id: 'MASimple@tv-basicstudies', inputs: { length: S.vS } });
-  }
-  if (S.sOn) {
-    list.push({ id: 'EMAExponential@tv-basicstudies', inputs: { length: S.sF } });
-    list.push({ id: 'EMAExponential@tv-basicstudies', inputs: { length: S.sS } });
-  }
+  if (S.vOn) { list.push({ id:'MASimple@tv-basicstudies', inputs:{length:S.vF} }); list.push({ id:'MASimple@tv-basicstudies', inputs:{length:S.vS} }); }
+  if (S.sOn) { list.push({ id:'EMAExponential@tv-basicstudies', inputs:{length:S.sF} }); list.push({ id:'EMAExponential@tv-basicstudies', inputs:{length:S.sS} }); }
   return list;
 }
 
 function cw() {
-  const el = document.getElementById('tv');
-  el.innerHTML = '';
+  S.ready = false; S.ch = null;
+  document.getElementById('tv').innerHTML = '';
   document.getElementById('lo').classList.remove('h');
 
   S.w = new TradingView.widget({
@@ -309,7 +309,7 @@ function cw() {
     hide_legend: false,
     save_image: false,
     autosize: true,
-    studies: getStudies(),
+    studies: gs(),
     disabled_features: [],
     enabled_features: ['study_templates','show_hide_button_on_legend'],
     overrides: {
@@ -321,7 +321,176 @@ function cw() {
     loading_screen: { backgroundColor: '#131722', foregroundColor: '#f0b90b' }
   });
 
-  setTimeout(() => document.getElementById('lo').classList.add('h'), 5000);
+  setTimeout(() => document.getElementById('lo').classList.add('h'), 4000);
+
+  // Try to get chart API for signals
+  try {
+    S.w.onChartReady(function() {
+      try {
+        S.ch = S.w.chart();
+        if (S.ch && typeof S.ch.createShape === 'function') {
+          S.ready = true;
+          // Place signal shapes
+          placeSignals();
+        }
+      } catch(e) { console.log('chart() not available'); }
+    });
+  } catch(e) { console.log('onChartReady not available'); }
+}
+
+// ==================== SIGNALS ====================
+async function placeSignals() {
+  if (!S.ch || !S.ready) return;
+  // Clear old ones
+  try { S.ch.clearAllShapes(); } catch(e) {}
+  // Compute from fetched klines
+  const kl = await fetchKlines();
+  const sigs = computeSignals(kl);
+  S.signals = sigs || [];
+
+  // Place signal shapes on chart
+  if (S.signals && S.ready && S.ch) {
+    S.signals.forEach(sg => {
+      try {
+        S.ch.createShape(
+          { time: sg.t, price: sg.p },
+          sg.type === 'buy' ? 'arrow_up' : 'arrow_down',
+          {
+            color: sg.type === 'buy' ? '#0ecb81' : '#f6465d',
+            text: sg.type === 'buy' ? 'BUY' : 'SELL',
+            textColor: '#ffffff',
+            fontSize: 11,
+            font: 'bold 11px sans-serif'
+          }
+        );
+      } catch(e) {}
+    });
+  }
+
+  updateSignalsBar();
+}
+
+async function fetchKlines() {
+  try {
+    // Map timeframe to Binance interval
+    const tfMap = { '1':'1m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d' };
+    const binTF = tfMap[S.tf] || '15m';
+    const r = await fetch(`https://api.binance.com/api/v3/klines?symbol=${S.sym}&interval=${binTF}&limit=150`);
+    if (!r.ok) return [];
+    const d = await r.json();
+    return d.map(k => ({
+      t: Math.floor(k[0]/1000), o: +k[1], h: +k[2], l: +k[3], c: +k[4], v: +k[5]
+    }));
+  } catch(e) { return []; }
+}
+
+function computeSignals(kl) {
+  if (!kl || kl.length < 100) return [];
+  const closes = kl.map(k => k.c);
+  const signals = [];
+
+  // Compute SMAs for Veltrix
+  if (S.vOn) {
+    const vFast = sma(closes, S.vF);
+    const vSlow = sma(closes, S.vS);
+    for (let i = vSlow.length - 20; i < vSlow.length; i++) {
+      if (i < 1) continue;
+      if (vFast[i-1] <= vSlow[i-1] && vFast[i] > vSlow[i]) {
+        signals.push({ t: kl[i].t, p: kl[i].c, type: 'buy', src: 'Veltrix AI' });
+      } else if (vFast[i-1] >= vSlow[i-1] && vFast[i] < vSlow[i]) {
+        signals.push({ t: kl[i].t, p: kl[i].c, type: 'sell', src: 'Veltrix AI' });
+      }
+    }
+  }
+
+  // Compute EMAs for Spatrev
+  if (S.sOn) {
+    const sFast = ema(closes, S.sF);
+    const sSlow = ema(closes, S.sS);
+    for (let i = sSlow.length - 20; i < sSlow.length; i++) {
+      if (i < 1) continue;
+      if (sFast[i-1] <= sSlow[i-1] && sFast[i] > sSlow[i]) {
+        signals.push({ t: kl[i].t, p: kl[i].c, type: 'buy', src: 'Spatrev AI' });
+      } else if (sFast[i-1] >= sSlow[i-1] && sFast[i] < sSlow[i]) {
+        signals.push({ t: kl[i].t, p: kl[i].c, type: 'sell', src: 'Spatrev AI' });
+      }
+    }
+  }
+
+  // Deduplicate by time
+  const seen = {};
+  return signals.filter(s => {
+    const key = s.t + '_' + s.type;
+    if (seen[key]) return false;
+    seen[key] = true;
+    return true;
+  }).slice(-20);
+}
+
+function sma(data, len) {
+  const r = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < len - 1) { r.push(null); continue; }
+    let sum = 0;
+    for (let j = i - len + 1; j <= i; j++) sum += data[j];
+    r.push(sum / len);
+  }
+  return r;
+}
+
+function ema(data, len) {
+  const r = [];
+  const k = 2 / (len + 1);
+  let prev = 0;
+  for (let i = 0; i < data.length; i++) {
+    if (i < len - 1) { r.push(null); continue; }
+    if (i === len - 1) {
+      let sum = 0;
+      for (let j = 0; j < len; j++) sum += data[j];
+      prev = sum / len;
+      r.push(prev);
+    } else {
+      prev = data[i] * k + prev * (1 - k);
+      r.push(prev);
+    }
+  }
+  return r;
+}
+
+function updateSignalsBar() {
+  const vSigEl = document.getElementById('vSig');
+  const sSigEl = document.getElementById('sSig');
+  const cntEl = document.getElementById('sigCount');
+
+  // Get latest signals per source
+  const vSigs = S.signals.filter(s => s.src === 'Veltrix AI');
+  const sSigs = S.signals.filter(s => s.src === 'Spatrev AI');
+  const lastV = vSigs.length > 0 ? vSigs[vSigs.length - 1] : null;
+  const lastS = sSigs.length > 0 ? sSigs[sSigs.length - 1] : null;
+
+  // Veltrix signal
+  if (S.vOn) {
+    const cls = lastV ? (lastV.type === 'buy' ? 'sig buy' : 'sig sell') : 'sig neutral';
+    const txt = lastV ? `${lastV.type.toUpperCase()} @ $${fp(lastV.p)}` : 'No signal';
+    vSigEl.className = cls;
+    vSigEl.textContent = 'Veltrix AI: ' + txt;
+  } else {
+    vSigEl.className = 'sig neutral';
+    vSigEl.textContent = 'Veltrix AI: OFF';
+  }
+
+  // Spatrev signal
+  if (S.sOn) {
+    const cls = lastS ? (lastS.type === 'buy' ? 'sig buy' : 'sig sell') : 'sig neutral';
+    const txt = lastS ? `${lastS.type.toUpperCase()} @ $${fp(lastS.p)}` : 'No signal';
+    sSigEl.className = cls;
+    sSigEl.textContent = 'Spatrev AI: ' + txt;
+  } else {
+    sSigEl.className = 'sig neutral';
+    sSigEl.textContent = 'Spatrev AI: OFF';
+  }
+
+  cntEl.textContent = S.signals.length + ' signals';
 }
 
 // ==================== ACTIONS ====================
@@ -332,16 +501,16 @@ function stf(t) {
 }
 
 function ti(n) {
-  if (n === 'v') { S.vOn = !S.vOn; }
-  else { S.sOn = !S.sOn; }
-  const el = document.getElementById(n === 'v' ? 'vb' : 'sb');
+  if (n === 'v') S.vOn = !S.vOn;
+  else S.sOn = !S.sOn;
+  const el = document.getElementById(n === 'v' ? 'vb' : 'sab');
   const on = n === 'v' ? S.vOn : S.sOn;
   el.className = 'ib ' + (on ? 'on' : 'off');
   el.textContent = n === 'v' ? 'Veltrix AI' : 'Spatrev AI';
   cw();
 }
 
-function sp(sym) {
+async function sp(sym) {
   S.sym = sym;
   S.ddO = false;
   document.getElementById('pdl').classList.remove('o');
@@ -352,7 +521,7 @@ function sp(sym) {
 }
 
 // ==================== PRICE ====================
-async function up() {
+function up() {
   try {
     const t = S.tkM[S.sym];
     if (t) {
@@ -371,35 +540,24 @@ function os() {
   document.getElementById('es').value = S.sS;
   document.getElementById('sm').classList.add('s');
 }
-
 function cs() { document.getElementById('sm').classList.remove('s'); }
-
 function ss() {
   S.vF = +document.getElementById('vf').value || 9;
   S.vS = +document.getElementById('vs').value || 21;
   S.sF = +document.getElementById('ef').value || 20;
   S.sS = +document.getElementById('es').value || 50;
-  cs();
-  cw();
+  cs(); cw();
 }
-
 document.getElementById('sm').addEventListener('click', e => {
   if (e.target === document.getElementById('sm')) cs();
 });
 
-// ==================== STATUS ====================
-function ust() {
-  document.getElementById('stm').textContent =
-    new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
-}
+function ust() { document.getElementById('stm').textContent = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(); }
 
-// ==================== RESIZE ====================
 let rtimer;
 window.addEventListener('resize', () => {
   clearTimeout(rtimer);
-  rtimer = setTimeout(() => {
-    if (S.w) { try { S.w.resize(); } catch(e) { cw(); } }
-  }, 300);
+  rtimer = setTimeout(() => { if (S.w) { try { S.w.resize(); } catch(e) { cw(); } } }, 300);
 });
 
 // ==================== INIT ====================
@@ -408,6 +566,15 @@ setInterval(ft, 15000);
 setInterval(up, 5000);
 setInterval(ust, 30000);
 cw();
+
+// Also fetch klines and compute signals every 30s
+setInterval(async () => {
+  const kl = await fetchKlines();
+  const sigs = computeSignals(kl);
+  S.signals = sigs || [];
+  updateSignalsBar();
+  if (S.ready && S.ch) placeSignals();
+}, 30000);
 </script>
 </body>
 </html>
