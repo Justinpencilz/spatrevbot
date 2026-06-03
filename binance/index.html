@@ -386,7 +386,14 @@ function checkSell(candles,ema20,ema50,rsi,adx,i){
   return null;
 }
 
-// ======== CHART (Lightweight Charts + Spatrev AI) ========
+// ======== CHART STATE ========
+let chartInstance = null;
+let chartSeries = {};
+let chartData = [];
+let chartPollTimer = null;
+let activeSignal = null; // {type, entry, sl, tp1, tp2, time}
+
+// ======== CHART (Lightweight Charts + Live Spatrev AI) ========
 async function openChart(symbol, base) {
   currentSymbol = symbol;
   currentBase = base;
@@ -397,7 +404,6 @@ async function openChart(symbol, base) {
   
   document.getElementById('modalPair').innerHTML = `${base} <span style="color:var(--text2);font-weight:400;font-size:14px;">/USDT</span>`;
   
-  // Activate 1h by default
   document.querySelectorAll('#tfLabels button').forEach(b=>b.classList.remove('active'));
   document.querySelector('#tfLabels button[data-tf="1h"]').classList.add('active');
   currentTF = '1h';
@@ -408,24 +414,24 @@ async function openChart(symbol, base) {
 async function loadChart(symbol, base, tf) {
   const loading = document.getElementById('chartLoading');
   const container = document.getElementById('chartContainer');
-  const footer = document.getElementById('chartFooter');
+  
+  // Stop old polling + destroy chart
+  stopChartPoll();
+  clearSignalLines();
+  if (chartInstance) { try{chartInstance.remove()}catch(e){} chartInstance=null; }
+  container.innerHTML = '';
+  chartData = [];
+  activeSignal = null;
+  chartSeries = {};
   
   loading.style.display = 'flex';
   
-  // Destroy old chart
-  if (chartInstance) {
-    try { chartInstance.remove(); } catch(e) {}
-    chartInstance = null;
-  }
-  container.innerHTML = '';
-  
   try {
-    // Fetch klines
     const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=200`);
     if (!res.ok) throw new Error('API error');
     const raw = await res.json();
     
-    const candles = raw.map(k => ({
+    chartData = raw.map(k => ({
       time: Math.floor(k[0]/1000),
       open: parseFloat(k[1]),
       high: parseFloat(k[2]),
@@ -434,47 +440,7 @@ async function loadChart(symbol, base, tf) {
       volume: parseFloat(k[5])
     }));
     
-    if (candles.length < 60) throw new Error('Not enough data');
-    
-    // Calculate indicators
-    const closes = candles.map(c=>c.close);
-    const highs = candles.map(c=>c.high);
-    const lows = candles.map(c=>c.low);
-    const ema20 = calcEMA(closes, 20);
-    const ema50 = calcEMA(closes, 50);
-    const rsi = calcRSI(closes, 14);
-    const adx = calcADX(highs, lows, closes, 14);
-    const atrVal = calcATR(candles, 14);
-    
-    // Find signals
-    const lastIdx = candles.length - 1;
-    const buySig = checkBuy(candles, ema20, ema50, rsi, adx, lastIdx);
-    const sellSig = checkSell(candles, ema20, ema50, rsi, adx, lastIdx);
-    const signal = buySig || sellSig;
-    const sigType = buySig ? 'BUY' : sellSig ? 'SELL' : null;
-    
-    // Update footer
-    const rsiIdx = lastIdx - 13;
-    const rsiNow = (rsiIdx>=0&&rsiIdx<rsi.length)?rsi[rsiIdx]:rsi[rsi.length-1];
-    const adxNow = adx.length > 0 ? adx[adx.length-1] : 0;
-    const trend = ema20[lastIdx] > ema50[lastIdx] ? 'BULL' : 'BEAR';
-    
-    document.getElementById('rsiVal').textContent = rsiNow ? rsiNow.toFixed(1) : '—';
-    document.getElementById('adxVal').textContent = adxNow ? adxNow.toFixed(1) : '—';
-    document.getElementById('trendVal').textContent = trend;
-    document.getElementById('trendDot').className = 'dot ' + (trend === 'BULL' ? 'green' : 'red');
-    
-    const sigTag = document.getElementById('sigTag');
-    const sigVal = document.getElementById('sigVal');
-    if (sigType) {
-      sigTag.className = 'tag ' + (sigType === 'BUY' ? 'buy-tag' : 'sell-tag');
-      sigTag.textContent = 'Spatrev AI • ' + sigType;
-      sigVal.textContent = `${sigType} @ $${fmtPrice(candles[lastIdx].close)}`;
-    } else {
-      sigTag.className = 'tag';
-      sigTag.textContent = 'Spatrev AI';
-      sigVal.textContent = 'No active signal';
-    }
+    if (chartData.length < 60) throw new Error('Not enough data');
     
     // Build chart
     loading.style.display = 'none';
@@ -485,102 +451,31 @@ async function loadChart(symbol, base, tf) {
       timeScale: { timeVisible:true, secondsVisible:false, borderColor:'#2b3139' },
       rightPriceScale: { borderColor:'#2b3139' },
       crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-      handleScroll: true,
-      handleScale: true,
+      handleScroll: true, handleScale: true,
     });
     
-    // Candlestick series
-    const candleSeries = chartInstance.addCandlestickSeries({
-      upColor: '#0ecb81', downColor: '#f6465d',
-      borderUpColor: '#0ecb81', borderDownColor: '#f6465d',
-      wickUpColor: '#0ecb81', wickDownColor: '#f6465d',
+    // Candlestick
+    chartSeries.candle = chartInstance.addCandlestickSeries({
+      upColor:'#0ecb81', downColor:'#f6465d',
+      borderUpColor:'#0ecb81', borderDownColor:'#f6465d',
+      wickUpColor:'#0ecb81', wickDownColor:'#f6465d',
     });
-    candleSeries.setData(candles);
+    chartSeries.candle.setData(chartData);
     
-    // EMA 20 line
-    const ema20Series = chartInstance.addLineSeries({
-      color: '#2962FF', lineWidth: 2, lastValueVisible: false, priceLineVisible: false,
-    });
-    ema20Series.setData(ema20.map((v,i)=>({time:candles[i].time,value:v})));
+    // EMAs
+    const closes=chartData.map(c=>c.close);
+    const ema20=calcEMA(closes,20), ema50=calcEMA(closes,50);
+    chartSeries.ema20 = chartInstance.addLineSeries({color:'#2962FF',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
+    chartSeries.ema20.setData(ema20.map((v,i)=>({time:chartData[i].time,value:v})));
+    chartSeries.ema50 = chartInstance.addLineSeries({color:'#FF6D00',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
+    chartSeries.ema50.setData(ema50.map((v,i)=>({time:chartData[i].time,value:v})));
     
-    // EMA 50 line
-    const ema50Series = chartInstance.addLineSeries({
-      color: '#FF6D00', lineWidth: 2, lastValueVisible: false, priceLineVisible: false,
-    });
-    ema50Series.setData(ema50.map((v,i)=>({time:candles[i].time,value:v})));
-    
-    // Scan historical signals for markers
-    const buyMarkers = [];
-    const sellMarkers = [];
-    const slLines = [];
-    const tp1Lines = [];
-    const tp2Lines = [];
-    
-    for (let i = 55; i < candles.length - 1; i++) {
-      const b = checkBuy(candles, ema20, ema50, rsi, adx, i);
-      const s = checkSell(candles, ema20, ema50, rsi, adx, i);
-      
-      if (b) {
-        buyMarkers.push({
-          time: candles[i].time,
-          position: 'belowBar',
-          color: '#0ecb81',
-          shape: 'arrowUp',
-          text: 'BUY $' + fmtPrice(candles[i].close),
-        });
-        // SL/TP for this signal
-        const entry = candles[i].close;
-        const sl = Math.min(...lows.slice(i-4,i+1)) - atrVal * 1.5;
-        const tp1 = entry + (entry - sl) * 1.0;
-        const tp2 = entry + (entry - sl) * 2.5;
-        const endTime = i + 5 < candles.length ? candles[i+5].time : candles[candles.length-1].time;
-        slLines.push({pairs:[{time:candles[i].time,value:sl},{time:endTime,value:sl}],color:'#f6465d'});
-        tp1Lines.push({pairs:[{time:candles[i].time,value:tp1},{time:endTime,value:tp1}],color:'#0ecb81'});
-        tp2Lines.push({pairs:[{time:candles[i].time,value:tp2},{time:endTime,value:tp2}],color:'#0ecb81'});
-      }
-      if (s) {
-        sellMarkers.push({
-          time: candles[i].time,
-          position: 'aboveBar',
-          color: '#f6465d',
-          shape: 'arrowDown',
-          text: 'SELL $' + fmtPrice(candles[i].close),
-        });
-        const entry = candles[i].close;
-        const sl = Math.max(...highs.slice(i-4,i+1)) + atrVal * 1.5;
-        const tp1 = entry - (sl - entry) * 1.0;
-        const tp2 = entry - (sl - entry) * 2.5;
-        const endTime = i + 5 < candles.length ? candles[i+5].time : candles[candles.length-1].time;
-        slLines.push({pairs:[{time:candles[i].time,value:sl},{time:endTime,value:sl}],color:'#f6465d'});
-        tp1Lines.push({pairs:[{time:candles[i].time,value:tp1},{time:endTime,value:tp1}],color:'#f6465d'});
-        tp2Lines.push({pairs:[{time:candles[i].time,value:tp2},{time:endTime,value:tp2}],color:'#f6465d'});
-      }
-    }
-    
-    // Add markers (limited to last 50 for performance)
-    const allMarkers = [...buyMarkers, ...sellMarkers].sort((a,b)=>a.time-b.time).slice(-50);
-    candleSeries.setMarkers(allMarkers);
-    
-    // Add SL/TP lines (short - only last 3 signals)
-    const recentSL = slLines.slice(-3);
-    const recentTP1 = tp1Lines.slice(-3);
-    const recentTP2 = tp2Lines.slice(-3);
-    
-    for (const l of recentSL) {
-      const ls = chartInstance.addLineSeries({color:l.color,lineWidth:1,lineStyle:2,lastValueVisible:true,priceLineVisible:false});
-      ls.setData(l.pairs);
-    }
-    for (const l of recentTP1) {
-      const ls = chartInstance.addLineSeries({color:l.color,lineWidth:1,lineStyle:3,lastValueVisible:true,priceLineVisible:false});
-      ls.setData(l.pairs);
-    }
-    for (const l of recentTP2) {
-      const ls = chartInstance.addLineSeries({color:l.color,lineWidth:2,lineStyle:0,lastValueVisible:true,priceLineVisible:false});
-      ls.setData(l.pairs);
-    }
-    
-    // Fit content
+    // Run initial signal check + markers
+    updateIndicators(chartData);
     chartInstance.timeScale().fitContent();
+    
+    // Start live polling
+    startChartPoll(symbol, base, tf);
     
   } catch (err) {
     loading.innerHTML = `<span style="color:var(--red)">Error: ${err.message}</span>`;
@@ -588,14 +483,212 @@ async function loadChart(symbol, base, tf) {
   }
 }
 
+// ======== LIVE POLLING ========
+function startChartPoll(symbol, base, tf) {
+  stopChartPoll();
+  chartPollTimer = setInterval(() => pollChart(symbol, base, tf), 8000);
+}
+
+function stopChartPoll() {
+  if (chartPollTimer) { clearInterval(chartPollTimer); chartPollTimer = null; }
+}
+
+async function pollChart(symbol, base, tf) {
+  if (!chartInstance || !chartSeries.candle || !chartData.length) return;
+  
+  try {
+    const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=3`);
+    if (!res.ok) return;
+    const raw = await res.json();
+    
+    const newData = raw.map(k => ({
+      time: Math.floor(k[0]/1000),
+      open: parseFloat(k[1]),
+      high: parseFloat(k[2]),
+      low: parseFloat(k[3]),
+      close: parseFloat(k[4]),
+      volume: parseFloat(k[5])
+    }));
+    
+    if (!newData.length) return;
+    
+    const lastChartTime = chartData[chartData.length - 1].time;
+    const newestTime = newData[newData.length - 1].time;
+    
+    if (newestTime === lastChartTime) {
+      // Update last candle in-place
+      const u = newData[newData.length - 1];
+      chartData[chartData.length - 1] = u;
+      chartSeries.candle.update(u);
+    } else {
+      // New candle appeared — add it
+      for (const nd of newData) {
+        if (nd.time > lastChartTime) {
+          chartData.push(nd);
+          chartSeries.candle.update(nd);
+        }
+      }
+    }
+    
+    // Update EMAs in real-time
+    const closes=chartData.map(c=>c.close);
+    const ema20=calcEMA(closes,20), ema50=calcEMA(closes,50);
+    chartSeries.ema20.setData(ema20.map((v,i)=>({time:chartData[i].time,value:v})));
+    chartSeries.ema50.setData(ema50.map((v,i)=>({time:chartData[i].time,value:v})));
+    
+    // Recalculate indicators + signals
+    updateIndicators(chartData);
+    
+  } catch(e) {
+    // Silent fail on poll
+  }
+}
+
+// ======== INDICATOR UPDATE + SIGNAL RENDERING ========
+function updateIndicators(candles) {
+  const closes=candles.map(c=>c.close), highs=candles.map(c=>c.high), lows=candles.map(c=>c.low);
+  const ema20=calcEMA(closes,20), ema50=calcEMA(closes,50);
+  const rsi=calcRSI(closes,14), adx=calcADX(highs,lows,closes,14);
+  const atrVal=calcATR(candles,14);
+  const lastIdx=candles.length-1;
+  
+  // Update footer
+  const rsiIdx=lastIdx-13;
+  const rsiNow=(rsiIdx>=0&&rsiIdx<rsi.length)?rsi[rsiIdx]:rsi[rsi.length-1];
+  const adxNow=adx.length>0?adx[adx.length-1]:0;
+  const trend=ema20[lastIdx]>ema50[lastIdx]?'BULL':'BEAR';
+  
+  document.getElementById('rsiVal').textContent=rsiNow?rsiNow.toFixed(1):'—';
+  document.getElementById('adxVal').textContent=adxNow?adxNow.toFixed(1):'—';
+  document.getElementById('trendVal').textContent=trend;
+  document.getElementById('trendDot').className='dot '+(trend==='BULL'?'green':'red');
+  
+  // Check latest signal
+  const buySig=checkBuy(candles,ema20,ema50,rsi,adx,lastIdx);
+  const sellSig=checkSell(candles,ema20,ema50,rsi,adx,lastIdx);
+  const sigType=buySig?'BUY':sellSig?'SELL':null;
+  
+  const sigTag=document.getElementById('sigTag');
+  const sigVal=document.getElementById('sigVal');
+  
+  if (sigType) {
+    sigTag.className='tag '+(sigType==='BUY'?'buy-tag':'sell-tag');
+    sigTag.textContent='Spatrev AI • '+sigType;
+    sigVal.textContent=sigType+' @ $'+fmtPrice(candles[lastIdx].close);
+    
+    // Calculate SL/TP
+    const entry=candles[lastIdx].close;
+    let sl, tp1, tp2;
+    if (sigType === 'BUY') {
+      sl=Math.min(...lows.slice(-5))-atrVal*1.5;
+      tp1=entry+(entry-sl)*1.0;
+      tp2=entry+(entry-sl)*2.5;
+    } else {
+      sl=Math.max(...highs.slice(-5))+atrVal*1.5;
+      tp1=entry-(sl-entry)*1.0;
+      tp2=entry-(sl-entry)*2.5;
+    }
+    
+    // If new signal (different from active), draw lines
+    if (!activeSignal || activeSignal.time !== candles[lastIdx].time || activeSignal.type !== sigType) {
+      clearSignalLines();
+      activeSignal = { type: sigType, entry, sl, tp1, tp2, time: candles[lastIdx].time };
+      drawSignalLines();
+    }
+    
+    // Add marker on latest candle
+    const markerPos = sigType === 'BUY' ? 'belowBar' : 'aboveBar';
+    const markerColor = sigType === 'BUY' ? '#0ecb81' : '#f6465d';
+    const markerShape = sigType === 'BUY' ? 'arrowUp' : 'arrowDown';
+    chartSeries.candle.setMarkers([{
+      time: candles[lastIdx].time,
+      position: markerPos,
+      color: markerColor,
+      shape: markerShape,
+      text: sigType+' $'+fmtPrice(entry),
+    }]);
+    
+  } else {
+    sigTag.className='tag';
+    sigTag.textContent='Spatrev AI';
+    sigVal.textContent='No active signal';
+    
+    // Clear signal lines when signal expires (after a few bars)
+    if (activeSignal) {
+      const barsSinceSignal = lastIdx - chartData.findIndex(d => d.time === activeSignal.time);
+      if (barsSinceSignal > 3) {
+        clearSignalLines();
+        activeSignal = null;
+      }
+    }
+  }
+  
+  // Also scan historical for markers (first time or on poll)
+  addHistoricalMarkers(candles, ema20, ema50, rsi, adx);
+}
+
+function addHistoricalMarkers(candles, ema20, ema50, rsi, adx) {
+  const markers = [];
+  for (let i = 55; i < candles.length - 1; i++) {
+    const b=checkBuy(candles,ema20,ema50,rsi,adx,i);
+    const s=checkSell(candles,ema20,ema50,rsi,adx,i);
+    if(b) markers.push({time:candles[i].time,position:'belowBar',color:'#0ecb81',shape:'arrowUp',text:'BUY'});
+    if(s) markers.push({time:candles[i].time,position:'aboveBar',color:'#f6465d',shape:'arrowDown',text:'SELL'});
+  }
+  chartSeries.candle.setMarkers(markers.slice(-50));
+}
+
+function drawSignalLines() {
+  if (!activeSignal || !chartInstance) return;
+  const sig = activeSignal;
+  
+  // Find index of signal bar
+  const sigIdx = chartData.findIndex(d => d.time === sig.time);
+  if (sigIdx < 0) return;
+  const endIdx = Math.min(sigIdx + 4, chartData.length - 1);
+  const endTime = chartData[endIdx].time;
+  const sigColor = sig.type === 'BUY' ? '#0ecb81' : '#f6465d';
+  
+  // Entry price line (dotted white)
+  chartSeries.entry = chartInstance.addLineSeries({color:'#eaecef',lineWidth:1,lineStyle:3,lastValueVisible:true,priceLineVisible:false});
+  chartSeries.entry.setData([{time:sig.time,value:sig.entry},{time:endTime,value:sig.entry}]);
+  
+  // SL line (red dashed)
+  chartSeries.sl = chartInstance.addLineSeries({color:'#f6465d',lineWidth:2,lineStyle:2,lastValueVisible:true,priceLineVisible:false});
+  chartSeries.sl.setData([{time:sig.time,value:sig.sl},{time:endTime,value:sig.sl}]);
+  
+  // TP1 line (green dotted)
+  chartSeries.tp1 = chartInstance.addLineSeries({color:sigColor,lineWidth:1,lineStyle:3,lastValueVisible:true,priceLineVisible:false});
+  chartSeries.tp1.setData([{time:sig.time,value:sig.tp1},{time:endTime,value:sig.tp1}]);
+  
+  // TP2 line (green solid, thicker)
+  chartSeries.tp2 = chartInstance.addLineSeries({color:sigColor,lineWidth:2,lineStyle:0,lastValueVisible:true,priceLineVisible:false});
+  chartSeries.tp2.setData([{time:sig.time,value:sig.tp2},{time:endTime,value:sig.tp2}]);
+  
+  // Scroll to show signal
+  chartInstance.timeScale().scrollToPosition(0, false);
+}
+
+function clearSignalLines() {
+  const names = ['entry','sl','tp1','tp2'];
+  for (const n of names) {
+    if (chartSeries[n]) {
+      try{ chartInstance.removeSeries(chartSeries[n]); }catch(e){}
+      chartSeries[n] = null;
+    }
+  }
+}
+
 function closeChart() {
+  stopChartPoll();
+  clearSignalLines();
+  if (chartInstance) { try{chartInstance.remove()}catch(e){} chartInstance=null; }
+  chartData = [];
+  activeSignal = null;
+  chartSeries = {};
+  document.getElementById('chartContainer').innerHTML = '';
   document.getElementById('chartModal').classList.remove('open');
   document.body.style.overflow = '';
-  if (chartInstance) {
-    try { chartInstance.remove(); } catch(e) {}
-    chartInstance = null;
-  }
-  document.getElementById('chartContainer').innerHTML = '';
 }
 
 // TF selector
@@ -605,8 +698,6 @@ document.getElementById('tfLabels').addEventListener('click', (e) => {
   document.querySelectorAll('#tfLabels button').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   currentTF = btn.dataset.tf;
-  const loading = document.getElementById('chartLoading');
-  loading.style.display = 'flex';
   loadChart(currentSymbol, currentBase, currentTF);
 });
 
