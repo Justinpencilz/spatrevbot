@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veltrix AI — Live Charts</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
-  :root{--go:#f0b90b;--s1:#1e2329;--s2:#2b3139;--b:#2b3139;--t2:#848e9c}
+  :root{--go:#f0b90b;--s2:#2b3139;--b:#2b3139;--t2:#848e9c}
   
   .hdr{display:flex;align-items:center;padding:0 12px;height:40px;background:#161b22;border-bottom:1px solid #30363d}
   .hdr .l{font-weight:700;font-size:13px;display:flex;align-items:center;gap:4px;color:#eaecef}
@@ -18,23 +18,30 @@
   .hdr .n a:hover{color:#eaecef}
   .hdr .n a.act{color:var(--go)}
   
-  .bar{display:flex;align-items:center;gap:4px;padding:4px 8px;background:var(--s1);border-bottom:1px solid var(--b);flex-wrap:wrap;min-height:34px}
+  .bar{display:flex;align-items:center;gap:4px;padding:4px 8px;background:#1e2329;border-bottom:1px solid var(--b);flex-wrap:wrap;min-height:34px}
   
-  .ib{padding:3px 10px;font-size:11px;background:var(--s2);border:1px solid var(--b);border-radius:4px;color:var(--t2);cursor:pointer;font-weight:500;white-space:nowrap}
+  /* Dropdown */
+  .pd{position:relative}
+  .pd .pb{display:flex;align-items:center;gap:6px;padding:4px 10px;background:var(--s2);border:1px solid var(--b);border-radius:5px;color:#eaecef;cursor:pointer;font-size:12px;font-weight:600}
+  .pd .pb:hover{border-color:var(--go)}
+  .pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:220px;max-height:320px;background:#1e2329;border:1px solid var(--b);border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+  .pd .dd.o{display:block}
+  .pd .dd input{width:100%;padding:6px 8px;background:var(--s2);border:none;border-bottom:1px solid var(--b);color:#eaecef;font-size:11px;outline:none}
+  .pd .dd .dl{overflow-y:auto;max-height:270px}
+  .pd .dd .dl .o{padding:4px 8px;cursor:pointer;font-size:11px;transition:background .12s}
+  .pd .dd .dl .o:hover{background:var(--s2)}
+  .pd .dd .dl .o.act{background:#1a2332;color:var(--go)}
+  
+  .ib{padding:3px 10px;font-size:11px;background:var(--s2);border:1px solid var(--b);border-radius:4px;color:var(--t2);cursor:pointer;font-weight:500}
   .ib:hover{border-color:var(--t2)}
   .ib.on{background:#1a2332;border-color:var(--go);color:var(--go)}
   
-  .sep{width:1px;height:16px;background:var(--b);margin:0 4px;flex-shrink:0}
-  
-  .tb{padding:3px 8px;font-size:10px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--t2);cursor:pointer;font-weight:500;white-space:nowrap}
+  .tb{padding:3px 8px;font-size:10px;background:transparent;border:1px solid transparent;border-radius:4px;color:var(--t2);cursor:pointer;font-weight:500}
   .tb:hover{color:#eaecef;background:var(--s2)}
   .tb.act{background:var(--go);color:#0b0e11}
   
-  .hint{font-size:9px;color:var(--t2);margin-left:auto;white-space:nowrap;opacity:0.6}
-  @media(max-width:600px){.hint{display:none}}
-  
   .w{flex:1;position:relative;min-height:0}
-  #tv{position:absolute;inset:0;width:100%;height:100%}
+  #chart{position:absolute;inset:0;width:100%;height:100%}
   
   .ld{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#131722;z-index:10;flex-direction:column;gap:8px;transition:opacity .4s}
   .ld.h{opacity:0;pointer-events:none}
@@ -43,6 +50,9 @@
   .lt{font-size:11px;color:var(--t2)}
   
   .app{display:flex;flex-direction:column;height:100vh;width:100vw}
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{transparent}
+  ::-webkit-scrollbar-thumb{background:var(--b);border-radius:2px}
 </style>
 </head>
 <body>
@@ -51,121 +61,198 @@
   <div class="hdr">
     <div class="l"><span>◆</span> Veltrix AI <small>/ Charts</small></div>
     <div class="n">
-      <a href="/">Home</a>
-      <a href="/vip/">VIP</a>
-      <a href="/binance/" class="act">Charts</a>
+      <a href="/">Home</a> <a href="/vip/">VIP</a> <a href="/binance/" class="act">Charts</a>
     </div>
   </div>
 
   <div class="bar">
-    <button class="ib on" id="iv" onclick="tog('iv')">Veltrix AI</button>
-    <button class="ib" id="is" onclick="tog('is')">Spatrev AI</button>
-    <span class="sep"></span>
-    <button class="tb act" onclick="chTF('15',this)">15m</button>
-    <button class="tb" onclick="chTF('60',this)">1h</button>
-    <button class="tb" onclick="chTF('240',this)">4h</button>
-    <button class="tb" onclick="chTF('1D',this)">1D</button>
-    <span class="hint">TV toolbar: indicators · drawings · more</span>
+    <div class="pd" id="pd">
+      <button class="pb" onclick="dd()"><span id="ps">BTC/USDT</span><span style="font-size:8px;color:var(--t2)">▼</span></button>
+      <div class="dd" id="dd">
+        <input type="text" id="ds" placeholder="Search..." oninput="fd()">
+        <div class="dl" id="dl"></div>
+      </div>
+    </div>
+    <button class="ib on" id="iv" onclick="tg('iv')">Veltrix</button>
+    <button class="ib" id="is" onclick="tg('is')">Spatrev</button>
+    <button class="tb act" onclick="tf('15',this)">15m</button>
+    <button class="tb" onclick="tf('60',this)">1h</button>
+    <button class="tb" onclick="tf('240',this)">4h</button>
+    <button class="tb" onclick="tf('1D',this)">1D</button>
+    <span id="pp" style="margin-left:auto;font-size:11px;font-family:monospace;color:var(--t2)">—</span>
   </div>
 
   <div class="w">
-    <div class="ld" id="ld">
-      <div class="sp"></div>
-      <div class="lt">Loading TradingView chart...</div>
-    </div>
-    <div id="tv"></div>
+    <div class="ld" id="ld"><div class="sp"></div><div class="lt" id="lt">Starting...</div></div>
+    <div id="chart"></div>
   </div>
 
 </div>
 
-<script src="https://s3.tradingview.com/tv.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.7/dist/lightweight-charts.standalone.production.js"></script>
 <script>
-let w = null, curTF = '15', curSym = 'BINANCE:BTCUSDT';
+// ======== PAIRS ========
+const PAIRS = [
+  'BTCUSDT','ETHUSDT','BNBUSDT','SOLUSDT','XRPUSDT','DOGEUSDT',
+  'ADAUSDT','AVAXUSDT','DOTUSDT','LINKUSDT','MATICUSDT','UNIUSDT',
+  'LTCUSDT','BCHUSDT','XLMUSDT','NEARUSDT','APTUSDT','SUIUSDT',
+  'PEPEUSDT','INJUSDT','FETUSDT','HBARUSDT','TONUSDT','TRXUSDT'
+];
 
-// Get which studies are active
-function getStudies() {
-  var s = [];
+// CoinGecko IDs
+const CG = {
+  'BTCUSDT':'bitcoin','ETHUSDT':'ethereum','BNBUSDT':'binancecoin','SOLUSDT':'solana',
+  'XRPUSDT':'ripple','DOGEUSDT':'dogecoin','ADAUSDT':'cardano','AVAXUSDT':'avalanche-2',
+  'DOTUSDT':'polkadot','LINKUSDT':'chainlink','MATICUSDT':'matic-network','UNIUSDT':'uniswap',
+  'LTCUSDT':'litecoin','BCHUSDT':'bitcoin-cash','XLMUSDT':'stellar','NEARUSDT':'near',
+  'APTUSDT':'aptos','SUIUSDT':'sui','PEPEUSDT':'pepe','INJUSDT':'injective-protocol',
+  'FETUSDT':'fetch-ai','HBARUSDT':'hedera-hashgraph','TONUSDT':'the-open-network','TRXUSDT':'tron'
+};
+
+const TFS = {'15m':'15m','1h':'1h','4h':'4h','1D':'1d'};
+const CG_DAYS = {'15m':2,'1h':7,'4h':30,'1D':90};
+
+const S = { sym:'BTCUSDT', tf:'15m', ch:null, cs:null, vs:null, data:[], sl:[], src:'' };
+
+// ======== DATA ========
+async function fetchOHLC() {
+  const id = CG[S.sym];
+  if (!id) throw Error('No coin ID for ' + S.sym);
+  const days = CG_DAYS[S.tf] || 2;
+  const intv = S.tf === '1D' ? 'daily' : S.tf;
+  const r = await fetch(`https://api.coingecko.com/api/v3/coins/${id}/ohlc?vs_currency=usd&days=${days}`);
+  if (!r.ok) throw Error('HTTP ' + r.status);
+  const d = await r.json();
+  S.src = 'coingecko';
+  return d.map(k => ({ time: Math.floor(k[0]/1000), open: k[1], high: k[2], low: k[3], close: k[4], volume: 0 }));
+}
+
+async function load() {
+  const ld = document.getElementById('ld');
+  ld.classList.remove('h');
+  const lt = document.getElementById('lt');
+  
+  try {
+    lt.textContent = `Loading ${S.sym.replace('USDT','')}/USDT...`;
+    const d = await fetchOHLC();
+    S.data = d;
+    
+    if (!S.ch) initChart();
+    
+    S.cs.setData(d);
+    S.ch.timeScale().fitContent();
+    requestAnimationFrame(() => S.ch.timeScale().fitContent());
+    setTimeout(() => { S.ch.timeScale().fitContent(); ld.classList.add('h'); }, 200);
+    
+    lt.textContent = d.length + ' bars ✓';
+    recalc();
+    fetchPrice();
+  } catch(e) {
+    lt.textContent = '⚠ ' + e.message + ' retry...';
+    console.error(e);
+    setTimeout(load, 3000);
+  }
+}
+
+// ======== CHART ========
+function initChart() {
+  const box = document.getElementById('chart');
+  const ch = LightweightCharts.createChart(box, {
+    width: box.parentElement.clientWidth, height: box.parentElement.clientHeight,
+    layout: { background: { type:'solid', color:'#131722' }, textColor:'#848e9c' },
+    grid: { vertLines:{color:'#1e222d'}, horzLines:{color:'#1e222d'} },
+    rightPriceScale: { borderColor:'#2b3139' },
+    timeScale: { borderColor:'#2b3139', timeVisible:true, secondsVisible:false },
+  });
+  S.cs = ch.addCandlestickSeries({
+    upColor:'#0ecb81', downColor:'#f6465d',
+    borderDownColor:'#f6465d', borderUpColor:'#0ecb81',
+    wickDownColor:'#f6465d', wickUpColor:'#0ecb81',
+  });
+  S.ch = ch;
+  window.addEventListener('resize', () => {
+    ch.applyOptions({ width:box.parentElement.clientWidth, height:box.parentElement.clientHeight });
+  });
+}
+
+// ======== INDICATORS ========
+function calcSMA(d, n) {
+  const r = [];
+  for (let i = n-1; i < d.length; i++) {
+    let s = 0; for (let j = i-n+1; j <= i; j++) s += d[j].close;
+    r.push({ time: d[i].time, value: s/n });
+  }
+  return r;
+}
+function calcEMA(d, n) {
+  const k = 2/(n+1); let ema = d[0].close;
+  return d.map((x,i) => { ema = i===0 ? x.close : (x.close-ema)*k+ema; return { time:x.time, value:ema }; });
+}
+function recalc() {
+  S.sl.forEach(l => { try { S.ch.removeSeries(l); } catch(e) {} });
+  S.sl = [];
+  const d = S.data; if (d.length < 5) return;
   if (document.getElementById('iv').classList.contains('on')) {
-    s.push({ id: 'MA@tv-basicstudies', inputs: { length: 9 } });
-    s.push({ id: 'MA@tv-basicstudies', inputs: { length: 21 } });
+    const l1 = S.ch.addLineSeries({color:'#2962FF',lineWidth:2,lastValueVisible:true,priceLineVisible:false});
+    l1.setData(calcSMA(d,9)); S.sl.push(l1);
+    const l2 = S.ch.addLineSeries({color:'#FF6D00',lineWidth:2,lastValueVisible:true,priceLineVisible:false});
+    l2.setData(calcSMA(d,21)); S.sl.push(l2);
   }
   if (document.getElementById('is').classList.contains('on')) {
-    s.push({ id: 'MASimple@tv-basicstudies', inputs: { length: 20 } });
-    s.push({ id: 'MASimple@tv-basicstudies', inputs: { length: 50 } });
+    const l3 = S.ch.addLineSeries({color:'#0ecb81',lineWidth:2,lastValueVisible:true,priceLineVisible:false});
+    l3.setData(calcEMA(d,20)); S.sl.push(l3);
+    const l4 = S.ch.addLineSeries({color:'#f6465d',lineWidth:2,lastValueVisible:true,priceLineVisible:false});
+    l4.setData(calcEMA(d,50)); S.sl.push(l4);
   }
-  return s;
 }
+function tg(id) { document.getElementById(id).classList.toggle('on'); recalc(); }
 
-function buildTV() {
-  if (typeof TradingView === 'undefined') { setTimeout(buildTV, 400); return; }
-  
-  // Clear container
-  document.getElementById('tv').innerHTML = '';
-  
-  // Remove old widget
-  if (w) { try { w.remove(); } catch(e) {} w = null; }
-  
-  w = new TradingView.widget({
-    container_id: 'tv',
-    symbol: curSym,
-    interval: curTF,
-    theme: 'dark',
-    style: '1',
-    locale: 'en',
-    toolbar_bg: '#0b0e11',
-    enable_publishing: false,
-    allow_symbol_change: true,
-    hide_top_toolbar: false,
-    hide_legend: false,
-    save_image: false,
-    autosize: true,
-    studies: getStudies(),
-    disabled_features: [],
-    enabled_features: [
-      'show_hide_button_on_legend',
-      'move_logo_to_main_pane',
-      'study_templates',
-      'use_localstorage_for_settings',
-    ],
-    overrides: {
-      'paneProperties.background': '#131722',
-      'paneProperties.vertGridProperties.color': '#1e222d',
-      'paneProperties.horzGridProperties.color': '#1e222d',
-      'scalesProperties.textColor': '#848e9c',
-    },
-    loading_screen: { backgroundColor: '#131722' },
-  });
-  
-  setTimeout(() => document.getElementById('ld').classList.add('h'), 6000);
-}
-
-// Toggle indicator - rebuild widget with new studies
-function tog(id) {
-  document.getElementById(id).classList.toggle('on');
-  buildTV();
-}
-
-// Change timeframe - rebuild widget with new interval
-function chTF(tf, btn) {
-  curTF = tf;
-  document.querySelectorAll('.tb').forEach(function(b) { b.classList.remove('act'); });
+// ======== TIMEFRAMES ========
+function tf(t, btn) {
+  S.tf = t;
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
   if (btn) btn.classList.add('act');
-  
-  if (w) {
-    // Try rebuilding (reload)
-    buildTV();
-  }
+  S.sl.forEach(l => { try { S.ch.removeSeries(l); } catch(e) {} });
+  S.sl = [];
+  load();
 }
 
-// Resize
-var rt;
-window.addEventListener('resize', function() {
-  clearTimeout(rt);
-  rt = setTimeout(function() { if (w) try { w.resize(); } catch(e) {} }, 200);
-});
+// ======== DROPDOWN ========
+function renderDL(f) {
+  document.getElementById('dl').innerHTML = PAIRS
+    .filter(p => !f || p.toLowerCase().includes(f.toLowerCase()))
+    .map(p => `<div class="o ${p===S.sym?'act':''}" onclick="sp('${p}')">${p.replace('USDT','/USDT')}</div>`).join('');
+}
+function dd() {
+  const e = document.getElementById('dd');
+  e.classList.toggle('o');
+  if (e.classList.contains('o')) { document.getElementById('ds').value=''; renderDL(); document.getElementById('ds').focus(); }
+}
+function fd() { renderDL(document.getElementById('ds').value); }
+document.addEventListener('click', e => { if (!document.getElementById('pd').contains(e.target)) document.getElementById('dd').classList.remove('o'); });
+function sp(sym) {
+  S.sym = sym;
+  document.getElementById('ps').textContent = sym.replace('USDT','/USDT');
+  document.getElementById('dd').classList.remove('o');
+  S.sl.forEach(l => { try { S.ch.removeSeries(l); } catch(e) {} }); S.sl = [];
+  load();
+}
 
-// Start
-buildTV();
+// ======== PRICE ========
+async function fetchPrice() {
+  try {
+    const r = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${CG[S.sym]}&vs_currencies=usd`);
+    if (!r.ok) return;
+    const d = await r.json();
+    const p = d[CG[S.sym]]?.usd;
+    if (p) document.getElementById('pp').textContent = '$'+(p>=1000?p.toLocaleString(undefined,{maximumFractionDigits:2}):p.toFixed(4));
+  } catch(e) {}
+}
+
+// ======== START ========
+initChart();
+load();
+setInterval(fetchPrice, 30000);
 </script>
 </body>
 </html>
