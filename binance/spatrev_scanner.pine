@@ -1,0 +1,110 @@
+//@version=6
+indicator("Spatrev EMA-RSI-ADX Scanner", overlay=true, format=format.price, precision=4)
+
+// ─── Inputs ───────────────────────────────────
+emaF_len = input.int(20,  "EMA Fast")
+emaS_len = input.int(50,  "EMA Slow")
+rsi_len  = input.int(14,  "RSI Length")
+adx_len  = input.int(14,  "ADX Length")
+adx_min  = input.int(25,  "ADX Minimum")
+rsi_buyL = input.int(38,  "RSI Buy Low")
+rsi_buyH = input.int(50,  "RSI Buy High")
+rsi_sellL= input.int(50,  "RSI Sell Low")
+rsi_sellH= input.int(62,  "RSI Sell High")
+sl_mult  = input.float(1.5,"SL Multiplier (×ATR)")
+tp1_rr   = input.float(1.0,"TP1 Risk:Reward")
+tp2_rr   = input.float(2.5,"TP2 Risk:Reward")
+
+// ─── Indicators ───────────────────────────────
+e20 = ta.ema(close, emaF_len)
+e50 = ta.ema(close, emaS_len)
+rsi = ta.rsi(close, rsi_len)
+[dp, dm, adx] = ta.dmi(adx_len, adx_len)
+atr = ta.atr(14)
+
+// ─── Trend ────────────────────────────────────
+uptrend = e20 > e50
+downtrend = e20 < e50
+
+// ─── Candle Cross ─────────────────────────────
+cross_below = close[1] < e20[1] and close > e20   // was below, now above
+cross_above = close[1] > e20[1] and close < e20   // was above, now below
+
+// ─── Near EMA ────────────────────────────────
+near_ema = math.abs(close - e20) <= (atr * 0.1)
+
+// ─── Signals ──────────────────────────────────
+buy_signal = uptrend and rsi >= rsi_buyL and rsi <= rsi_buyH and adx > adx_min and cross_below and near_ema
+sell_signal = downtrend and rsi >= rsi_sellL and rsi <= rsi_sellH and adx > adx_min and cross_above and near_ema
+
+// ─── SL/TP ───────────────────────────────────
+b_sl = ta.lowest(low, 5) - (atr * sl_mult)
+b_tp1 = close + ((close - b_sl) * tp1_rr)
+b_tp2 = close + ((close - b_sl) * tp2_rr)
+
+s_sl = ta.highest(high, 5) + (atr * sl_mult)
+s_tp1 = close - ((s_sl - close) * tp1_rr)
+s_tp2 = close - ((s_sl - close) * tp2_rr)
+
+// ─── Plot EMAs ────────────────────────────────
+plot(e20, "EMA 20", color=#2962FF, linewidth=2)
+plot(e50, "EMA 50", color=#FF6D00, linewidth=2)
+
+// ─── Plot Arrows ──────────────────────────────
+plotshape(buy_signal,  "BUY",  style=shape.triangleup,   location=location.belowbar, color=#0ECB81, size=size.small)
+plotshape(sell_signal, "SELL", style=shape.triangledown, location=location.abovebar, color=#F6465D, size=size.small)
+
+// ─── Labels + Lines for Signals ──────────────
+var label last_buy_label  = na
+var label last_sell_label = na
+var line  buy_sl_line  = na
+var line  buy_tp1_line = na
+var line  buy_tp2_line = na
+var line  sell_sl_line  = na
+var line  sell_tp1_line = na
+var line  sell_tp2_line = na
+
+// BUY label + lines
+if buy_signal
+    label.delete(last_buy_label)
+    last_buy_label := label.new(
+         bar_index, low,
+         "BUY\nSL: " + str.tostring(b_sl) + "\nTP1: " + str.tostring(b_tp1) + "\nTP2: " + str.tostring(b_tp2),
+         style=label.style_label_up, color=color.new(#0ECB81, 20), textcolor=color.white, size=size.small
+    )
+    line.delete(buy_sl_line);  buy_sl_line  := line.new(bar_index, b_sl,  bar_index+5, b_sl,  color=color.new(#F6465D, 40), style=line.style_dashed, width=1, extend=extend.right)
+    line.delete(buy_tp1_line); buy_tp1_line := line.new(bar_index, b_tp1, bar_index+5, b_tp1, color=color.new(#0ECB81, 40), style=line.style_dotted, width=1, extend=extend.right)
+    line.delete(buy_tp2_line); buy_tp2_line := line.new(bar_index, b_tp2, bar_index+5, b_tp2, color=color.new(#0ECB81, 60), style=line.style_solid, width=2, extend=extend.right)
+
+// SELL label + lines
+if sell_signal
+    label.delete(last_sell_label)
+    last_sell_label := label.new(
+         bar_index, high,
+         "SELL\nSL: " + str.tostring(s_sl) + "\nTP1: " + str.tostring(s_tp1) + "\nTP2: " + str.tostring(s_tp2),
+         style=label.style_label_down, color=color.new(#F6465D, 20), textcolor=color.white, size=size.small
+    )
+    line.delete(sell_sl_line);  sell_sl_line  := line.new(bar_index, s_sl,  bar_index+5, s_sl,  color=color.new(#F6465D, 40), style=line.style_dashed, width=1, extend=extend.right)
+    line.delete(sell_tp1_line); sell_tp1_line := line.new(bar_index, s_tp1, bar_index+5, s_tp1, color=color.new(#F6465D, 40), style=line.style_dotted, width=1, extend=extend.right)
+    line.delete(sell_tp2_line); sell_tp2_line := line.new(bar_index, s_tp2, bar_index+5, s_tp2, color=color.new(#F6465D, 60), style=line.style_solid, width=2, extend=extend.right)
+
+// ─── Info Table ───────────────────────────────
+var table info_tbl = table.new(position.top_right, 4, 2, bgcolor=color.new(#1E2329, 30), border_width=1, border_color=#2B3139)
+if barstate.islast
+    table.cell(info_tbl, 0, 0, "RSI",      text_color=#848E9C, text_size=size.small)
+    table.cell(info_tbl, 1, 0, str.tostring(rsi, "#0.0"), text_color=color.white, text_size=size.small)
+    table.cell(info_tbl, 2, 0, "ADX",      text_color=#848E9C, text_size=size.small)
+    table.cell(info_tbl, 3, 0, str.tostring(adx, "#0.0"), text_color=color.white, text_size=size.small)
+    table.cell(info_tbl, 0, 1, "ATR",      text_color=#848E9C, text_size=size.small)
+    table.cell(info_tbl, 1, 1, str.tostring(atr, "#0.00"), text_color=color.white, text_size=size.small)
+    table.cell(info_tbl, 2, 1, "Trend",    text_color=#848E9C, text_size=size.small)
+    table.cell(info_tbl, 3, 1, uptrend ? "▲ BULL" : "▼ BEAR", text_color=uptrend ? #0ECB81 : #F6465D, text_size=size.small)
+
+// ─── Alerts ──────────────────────────────────
+if buy_signal
+    alert("BUY " + syminfo.tickerid + " @ " + str.tostring(close) + " | SL: " + str.tostring(b_sl) + " TP1: " + str.tostring(b_tp1) + " TP2: " + str.tostring(b_tp2), alert.freq_once_per_bar)
+if sell_signal
+    alert("SELL " + syminfo.tickerid + " @ " + str.tostring(close) + " | SL: " + str.tostring(s_sl) + " TP1: " + str.tostring(s_tp1) + " TP2: " + str.tostring(s_tp2), alert.freq_once_per_bar)
+
+alertcondition(buy_signal,  "BUY Signal",  "BUY " + syminfo.tickerid + " @ {{close}}")
+alertcondition(sell_signal, "SELL Signal", "SELL " + syminfo.tickerid + " @ {{close}}")
