@@ -9,10 +9,10 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
 :root{--go:#f0b90b;--s2:#2b3139;--b:#2b3139;--t2:#848e9c;--green:#0ecb81;--red:#f6465d}
 
-.layout{display:flex;height:calc(100vh - 40px)}
+.layout{display:flex;height:100vh}
 
 /* Sidebar */
-.sidebar{width:260px;min-width:260px;background:#0b0e11;border-right:1px solid #2b3139;display:flex;flex-direction:column}
+.sidebar{width:260px;min-width:260px;background:#0b0e11;border-right:1px solid #2b3139;display:flex;flex-direction:column;height:100vh}
 .sidebar .sb{padding:8px;border-bottom:1px solid #2b3139}
 .sidebar .sb input{width:100%;padding:6px 10px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;font-size:12px;outline:none}
 .sidebar .sb input:focus{border-color:var(--go)}
@@ -31,14 +31,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .ti .ch.r{color:var(--red)}
 .ti .ch.f{color:#848e9c}
 
-.main{flex:1;display:flex;flex-direction:column;min-width:0}
+/* Main Column */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
 
 /* Nav */
-.nav{display:flex;align-items:center;gap:5px;padding:5px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px}
+.nav{display:flex;align-items:center;gap:5px;padding:5px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;min-height:40px;flex-shrink:0}
 .nav .sp{font-size:14px;font-weight:600;margin-right:8px}
 .nav .sp.g{color:var(--green)}
 .nav .sp.r{color:var(--red)}
-.sp1{width:1px;height:20px;background:#2b3139;margin:0 3px}
+.sp1{width:1px;height:20px;background:#2b3139;margin:0 3px;flex-shrink:0}
 
 .tb{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
 .tb:hover{border-color:var(--go);color:#eaecef}
@@ -50,7 +51,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .ib.off{background:#3a1a2a;border-color:var(--red);color:var(--red)}
 .sb2{padding:2px 8px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer}
 
-/* Chart */
+/* Chart Area */
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
 
@@ -60,16 +61,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .sp2{width:30px;height:30px;border:3px solid #2b3139;border-top-color:var(--go);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Signals bar */
-.sig-bar{display:flex;gap:10px;padding:4px 12px;background:#131722;border-top:1px solid #2b3139;font-size:11px;align-items:center;min-height:28px;overflow-x:auto}
-.sig-bar .sig{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-weight:600}
-.sig-bar .sig.buy{background:#0a2a1a;color:var(--green);border:1px solid #1a4a2a}
-.sig-bar .sig.sell{background:#2a0a1a;color:var(--red);border:1px solid #4a1a2a}
-.sig-bar .sig.neutral{background:#1e2329;color:#848e9c;border:1px solid #2b3139}
-.sig-bar .sig-lbl{color:#848e9c;font-size:10px}
+/* Signal Dashboard */
+.sig-panel{background:#0d1117;border-top:2px solid #1e2329;flex-shrink:0;max-height:140px;overflow-y:auto;padding:6px 10px}
+.sig-panel .sph{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px;color:#848e9c}
+.sig-panel .sph span{font-weight:600}
+.sig-panel .sig-row{display:flex;align-items:center;gap:6px;padding:4px 8px;margin-bottom:3px;border-radius:4px;font-size:11px;font-family:'SF Mono','Consolas',monospace}
+.sig-panel .sig-row.buy{background:#0a2a1a;border-left:3px solid var(--green)}
+.sig-panel .sig-row.sell{background:#2a0a1a;border-left:3px solid var(--red)}
+.sig-panel .sig-row .s-icon{font-size:14px;width:20px;text-align:center}
+.sig-panel .sig-row .s-icon.b{color:var(--green)}
+.sig-panel .sig-row .s-icon.s{color:var(--red)}
+.sig-panel .sig-row .s-src{color:#848e9c;font-size:10px;padding:1px 5px;background:#1e2329;border-radius:3px}
+.sig-panel .sig-row .s-tf{color:#848e9c;font-size:10px}
+.sig-panel .sig-row .s-price{color:#eaecef;font-weight:500;margin-left:auto}
+.sig-panel .sig-row .s-time{color:#848e9c;font-size:10px;margin-left:8px}
+
+/* Live Signal Badges */
+.sig-badges{display:flex;gap:10px;align-items:center;padding:4px 0}
+.sig-badge{padding:3px 10px;border-radius:4px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}
+.sig-badge.buy{background:linear-gradient(135deg,#0a2a1a,#1a4a2a);color:var(--green);border:1px solid #1a4a2a}
+.sig-badge.sell{background:linear-gradient(135deg,#2a0a1a,#4a1a2a);color:var(--red);border:1px solid #4a1a2a}
+.sig-badge.neutral{background:#1e2329;color:#848e9c;border:1px solid #2b3139}
 
 /* Status */
-.st{display:flex;justify-content:space-between;padding:3px 12px;background:#0b0e11;border-top:1px solid #2b3139;font-size:10px;color:#848e9c}
+.st{display:flex;justify-content:space-between;padding:3px 12px;background:#0b0e11;border-top:1px solid #2b3139;font-size:10px;color:#848e9c;flex-shrink:0}
 .st .dt{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px}
 .st .dt.g{background:var(--green)}
 .st .dt.r{background:var(--red)}
@@ -104,8 +119,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .pd .dd .di .dv{color:#848e9c;font-family:'SF Mono','Consolas',monospace}
 
 .tl::-webkit-scrollbar,.pd .dd .dl::-webkit-scrollbar{width:4px}
-.tl::-webkit-scrollbar-track,.pd .dd .dl::-webkit-scrollbar-track{background:transparent}
-.tl::-webkit-scrollbar-thumb,.pd .dd .dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
+.tl::-webkit-scrollbar-track,
+.pd .dd .dl::-webkit-scrollbar-track{background:transparent}
+.tl::-webkit-scrollbar-thumb,
+.pd .dd .dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
 
 @media(max-width:768px){
   .sidebar{display:none}
@@ -118,9 +135,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 <div class="layout">
   <div class="sidebar">
-    <div class="sb">
-      <input type="text" id="si" placeholder="Search pairs..." oninput="sf()">
-    </div>
+    <div class="sb"><input type="text" id="si" placeholder="Search pairs..." oninput="sf()"></div>
     <div class="th">
       <span class="c1">Pair</span>
       <span class="c2">Price</span>
@@ -130,6 +145,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
   </div>
 
   <div class="main">
+    <!-- Nav / Toolbar -->
     <div class="nav">
       <div class="pd" id="pdd">
         <div class="pb" onclick="td()">
@@ -159,6 +175,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
       <button class="sb2" onclick="os()">⚙</button>
     </div>
 
+    <!-- Chart -->
     <div class="cw">
       <div class="lo" id="lo">
         <div class="sp2"></div>
@@ -167,14 +184,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
       <div id="tv"></div>
     </div>
 
-    <!-- Signals Bar -->
-    <div class="sig-bar" id="sigBar">
-      <span class="sig-lbl">Signals:</span>
-      <span class="sig neutral" id="vSig">Veltrix AI: —</span>
-      <span class="sig neutral" id="sSig">Spatrev AI: —</span>
-      <span id="sigCount" style="color:#848e9c;font-size:10px;margin-left:auto"></span>
+    <!-- Signal Dashboard -->
+    <div class="sig-panel" id="sigPanel">
+      <div class="sph">
+        <span>📊 SIGNALS</span>
+        <div class="sig-badges" id="sigBadges"></div>
+        <span style="margin-left:auto;font-size:10px;color:#848e9c" id="sigCount"></span>
+        <span style="font-size:10px;color:#848e9c" id="sigUpdateTime"></span>
+      </div>
+      <div id="sigList"></div>
     </div>
 
+    <!-- Status -->
     <div class="st">
       <span><span class="dt g" id="sd"></span><span id="stxt">Connecting...</span></span>
       <span id="pc">0 pairs</span>
@@ -183,26 +204,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
   </div>
 </div>
 
+<!-- Settings Modal -->
 <div class="mo" id="sm">
   <div class="mw">
     <h3>Veltrix AI — SMA Settings</h3>
-    <div class="rw">
-      <label>Fast MA</label>
-      <input type="number" id="vf" value="9" min="2" max="200">
-    </div>
-    <div class="rw">
-      <label>Slow MA</label>
-      <input type="number" id="vs" value="21" min="2" max="200">
-    </div>
+    <div class="rw"><label>Fast MA</label><input type="number" id="vf" value="9" min="2" max="200"></div>
+    <div class="rw"><label>Slow MA</label><input type="number" id="vs" value="21" min="2" max="200"></div>
     <h3 style="margin-top:16px">Spatrev AI — EMA Settings</h3>
-    <div class="rw">
-      <label>Fast EMA</label>
-      <input type="number" id="ef" value="20" min="2" max="200">
-    </div>
-    <div class="rw">
-      <label>Slow EMA</label>
-      <input type="number" id="es" value="50" min="2" max="200">
-    </div>
+    <div class="rw"><label>Fast EMA</label><input type="number" id="ef" value="20" min="2" max="200"></div>
+    <div class="rw"><label>Slow EMA</label><input type="number" id="es" value="50" min="2" max="200"></div>
     <div class="ac">
       <button class="sv" onclick="ss()">Save</button>
       <button class="cl" onclick="cs()">Cancel</button>
@@ -213,11 +223,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
 const S = {
-  tk: [], tkM: {}, w: null, ch: null,
+  tk: [], tkM: {}, w: null,
   sym: 'BTCUSDT', tf: '15',
   vOn: true,  vF: 9,  vS: 21,
   sOn: false, sF: 20, sS: 50,
-  ddO: false, ready: false, signals: []
+  ddO: false, signals: []
 };
 
 // ==================== TICKERS ====================
@@ -243,7 +253,7 @@ async function ft() {
 function rt(f) {
   let items = S.tk;
   if (f) { const l = f.toLowerCase(); items = items.filter(t => t.b.toLowerCase().includes(l)); }
-  let h = items.map(t => {
+  const h = items.map(t => {
     const cl = t.c > 0 ? 'g' : t.c < 0 ? 'r' : 'f';
     const sg = t.c > 0 ? '+' : '';
     const ac = t.s === S.sym ? ' act' : '';
@@ -275,7 +285,7 @@ document.addEventListener('click', e => {
 });
 
 function fp(p) {
-  if (p >= 1000) return p.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2});
+  if (p >= 1000) return p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
   if (p >= 1) return p.toFixed(4);
   if (p >= 0.01) return p.toFixed(6);
   return p.toFixed(8);
@@ -290,7 +300,6 @@ function gs() {
 }
 
 function cw() {
-  S.ready = false; S.ch = null;
   document.getElementById('tv').innerHTML = '';
   document.getElementById('lo').classList.remove('h');
 
@@ -322,109 +331,72 @@ function cw() {
   });
 
   setTimeout(() => document.getElementById('lo').classList.add('h'), 4000);
-
-  // Try to get chart API for signals
-  try {
-    S.w.onChartReady(function() {
-      try {
-        S.ch = S.w.chart();
-        if (S.ch && typeof S.ch.createShape === 'function') {
-          S.ready = true;
-          // Place signal shapes
-          placeSignals();
-        }
-      } catch(e) { console.log('chart() not available'); }
-    });
-  } catch(e) { console.log('onChartReady not available'); }
 }
 
 // ==================== SIGNALS ====================
-async function placeSignals() {
-  if (!S.ch || !S.ready) return;
-  // Clear old ones
-  try { S.ch.clearAllShapes(); } catch(e) {}
-  // Compute from fetched klines
+async function updateSignals() {
   const kl = await fetchKlines();
   const sigs = computeSignals(kl);
   S.signals = sigs || [];
-
-  // Place signal shapes on chart
-  if (S.signals && S.ready && S.ch) {
-    S.signals.forEach(sg => {
-      try {
-        S.ch.createShape(
-          { time: sg.t, price: sg.p },
-          sg.type === 'buy' ? 'arrow_up' : 'arrow_down',
-          {
-            color: sg.type === 'buy' ? '#0ecb81' : '#f6465d',
-            text: sg.type === 'buy' ? 'BUY' : 'SELL',
-            textColor: '#ffffff',
-            fontSize: 11,
-            font: 'bold 11px sans-serif'
-          }
-        );
-      } catch(e) {}
-    });
-  }
-
-  updateSignalsBar();
+  renderSignals();
 }
 
 async function fetchKlines() {
   try {
-    // Map timeframe to Binance interval
     const tfMap = { '1':'1m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d' };
     const binTF = tfMap[S.tf] || '15m';
     const r = await fetch(`https://api.binance.com/api/v3/klines?symbol=${S.sym}&interval=${binTF}&limit=150`);
-    if (!r.ok) return [];
+    if (!r.ok) { 
+      // Try alternate API
+      const r2 = await fetch(`https://api.binance.us/api/v3/klines?symbol=${S.sym}&interval=${binTF}&limit=150`);
+      if (!r2.ok) return [];
+      const d = await r2.json();
+      return d.map(k => ({t:Math.floor(k[0]/1000), o:+k[1], h:+k[2], l:+k[3], c:+k[4], v:+k[5]}));
+    }
     const d = await r.json();
-    return d.map(k => ({
-      t: Math.floor(k[0]/1000), o: +k[1], h: +k[2], l: +k[3], c: +k[4], v: +k[5]
-    }));
+    return d.map(k => ({t:Math.floor(k[0]/1000), o:+k[1], h:+k[2], l:+k[3], c:+k[4], v:+k[5]}));
   } catch(e) { return []; }
 }
 
 function computeSignals(kl) {
-  if (!kl || kl.length < 100) return [];
+  if (!kl || kl.length < 50) return [];
   const closes = kl.map(k => k.c);
-  const signals = [];
+  const sigs = [];
 
-  // Compute SMAs for Veltrix
   if (S.vOn) {
-    const vFast = sma(closes, S.vF);
-    const vSlow = sma(closes, S.vS);
-    for (let i = vSlow.length - 20; i < vSlow.length; i++) {
-      if (i < 1) continue;
-      if (vFast[i-1] <= vSlow[i-1] && vFast[i] > vSlow[i]) {
-        signals.push({ t: kl[i].t, p: kl[i].c, type: 'buy', src: 'Veltrix AI' });
-      } else if (vFast[i-1] >= vSlow[i-1] && vFast[i] < vSlow[i]) {
-        signals.push({ t: kl[i].t, p: kl[i].c, type: 'sell', src: 'Veltrix AI' });
+    const vf = sma(closes, S.vF);
+    const vs = sma(closes, S.vS);
+    for (let i = Math.max(S.vF, S.vS); i < closes.length; i++) {
+      if (!vf[i] || !vs[i] || !vf[i-1] || !vs[i-1]) continue;
+      if (vf[i-1] <= vs[i-1] && vf[i] > vs[i]) {
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'buy', src:'Veltrix AI' });
+      } else if (vf[i-1] >= vs[i-1] && vf[i] < vs[i]) {
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'sell', src:'Veltrix AI' });
       }
     }
   }
 
-  // Compute EMAs for Spatrev
   if (S.sOn) {
-    const sFast = ema(closes, S.sF);
-    const sSlow = ema(closes, S.sS);
-    for (let i = sSlow.length - 20; i < sSlow.length; i++) {
-      if (i < 1) continue;
-      if (sFast[i-1] <= sSlow[i-1] && sFast[i] > sSlow[i]) {
-        signals.push({ t: kl[i].t, p: kl[i].c, type: 'buy', src: 'Spatrev AI' });
-      } else if (sFast[i-1] >= sSlow[i-1] && sFast[i] < sSlow[i]) {
-        signals.push({ t: kl[i].t, p: kl[i].c, type: 'sell', src: 'Spatrev AI' });
+    const sf = ema(closes, S.sF);
+    const ss = ema(closes, S.sS);
+    for (let i = Math.max(S.sF, S.sS); i < closes.length; i++) {
+      if (!sf[i] || !ss[i] || !sf[i-1] || !ss[i-1]) continue;
+      if (sf[i-1] <= ss[i-1] && sf[i] > ss[i]) {
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'buy', src:'Spatrev AI' });
+      } else if (sf[i-1] >= ss[i-1] && sf[i] < ss[i]) {
+        sigs.push({ t:kl[i].t, p:kl[i].c, type:'sell', src:'Spatrev AI' });
       }
     }
   }
 
-  // Deduplicate by time
+  // Deduplicate
   const seen = {};
-  return signals.filter(s => {
-    const key = s.t + '_' + s.type;
-    if (seen[key]) return false;
-    seen[key] = true;
+  return sigs.filter(s => {
+    const k = s.t + '_' + s.type + '_' + s.src;
+    if (seen[k]) return false;
+    seen[k] = true;
     return true;
-  }).slice(-20);
+  }).reverse();
 }
 
 function sma(data, len) {
@@ -441,14 +413,15 @@ function sma(data, len) {
 function ema(data, len) {
   const r = [];
   const k = 2 / (len + 1);
-  let prev = 0;
+  let prev = 0, started = false;
   for (let i = 0; i < data.length; i++) {
     if (i < len - 1) { r.push(null); continue; }
-    if (i === len - 1) {
+    if (!started) {
       let sum = 0;
       for (let j = 0; j < len; j++) sum += data[j];
       prev = sum / len;
       r.push(prev);
+      started = true;
     } else {
       prev = data[i] * k + prev * (1 - k);
       r.push(prev);
@@ -457,40 +430,51 @@ function ema(data, len) {
   return r;
 }
 
-function updateSignalsBar() {
-  const vSigEl = document.getElementById('vSig');
-  const sSigEl = document.getElementById('sSig');
-  const cntEl = document.getElementById('sigCount');
+function renderSignals() {
+  const list = document.getElementById('sigList');
+  const badges = document.getElementById('sigBadges');
+  const count = document.getElementById('sigCount');
+  const updateTime = document.getElementById('sigUpdateTime');
 
-  // Get latest signals per source
-  const vSigs = S.signals.filter(s => s.src === 'Veltrix AI');
-  const sSigs = S.signals.filter(s => s.src === 'Spatrev AI');
-  const lastV = vSigs.length > 0 ? vSigs[vSigs.length - 1] : null;
-  const lastS = sSigs.length > 0 ? sSigs[sSigs.length - 1] : null;
+  count.textContent = S.signals.length + ' signals';
+  updateTime.textContent = new Date().toLocaleTimeString();
 
-  // Veltrix signal
+  // Badges
+  const vSig = S.signals.find(s => s.src === 'Veltrix AI');
+  const sSig = S.signals.find(s => s.src === 'Spatrev AI');
+
+  let bh = '';
   if (S.vOn) {
-    const cls = lastV ? (lastV.type === 'buy' ? 'sig buy' : 'sig sell') : 'sig neutral';
-    const txt = lastV ? `${lastV.type.toUpperCase()} @ $${fp(lastV.p)}` : 'No signal';
-    vSigEl.className = cls;
-    vSigEl.textContent = 'Veltrix AI: ' + txt;
-  } else {
-    vSigEl.className = 'sig neutral';
-    vSigEl.textContent = 'Veltrix AI: OFF';
+    const c = vSig ? vSig.type : 'neutral';
+    const t = vSig ? `${vSig.type.toUpperCase()} $${fp(vSig.p)}` : 'No signal';
+    bh += `<span class="sig-badge ${c}">Veltrix: ${t}</span>`;
   }
-
-  // Spatrev signal
   if (S.sOn) {
-    const cls = lastS ? (lastS.type === 'buy' ? 'sig buy' : 'sig sell') : 'sig neutral';
-    const txt = lastS ? `${lastS.type.toUpperCase()} @ $${fp(lastS.p)}` : 'No signal';
-    sSigEl.className = cls;
-    sSigEl.textContent = 'Spatrev AI: ' + txt;
-  } else {
-    sSigEl.className = 'sig neutral';
-    sSigEl.textContent = 'Spatrev AI: OFF';
+    const c = sSig ? sSig.type : 'neutral';
+    const t = sSig ? `${sSig.type.toUpperCase()} $${fp(sSig.p)}` : 'No signal';
+    bh += `<span class="sig-badge ${c}">Spatrev: ${t}</span>`;
+  }
+  if (!S.vOn && !S.sOn) bh = '<span class="sig-badge neutral">Indicators OFF</span>';
+  badges.innerHTML = bh;
+
+  // Signal history list
+  if (S.signals.length === 0) {
+    list.innerHTML = '<div style="color:#848e9c;font-size:11px;padding:4px">Waiting for signals from crossover events...</div>';
+    return;
   }
 
-  cntEl.textContent = S.signals.length + ' signals';
+  list.innerHTML = S.signals.slice(0, 20).map(s => {
+    const icon = s.type === 'buy' ? '🟢' : '🔴';
+    const cls = s.type === 'buy' ? 'buy' : 'sell';
+    const ico = s.type === 'buy' ? 'b' : 's';
+    const time = new Date(s.t * 1000).toLocaleTimeString();
+    return `<div class="sig-row ${cls}">
+      <span class="s-icon ${ico}">${s.type === 'buy' ? '▲' : '▼'}</span>
+      <span class="s-src">${s.src}</span>
+      <span class="s-price">$${fp(s.p)}</span>
+      <span class="s-time">${time}</span>
+    </div>`;
+  }).join('');
 }
 
 // ==================== ACTIONS ====================
@@ -498,6 +482,7 @@ function stf(t) {
   S.tf = t;
   document.querySelectorAll('.tb').forEach(b => b.classList.toggle('act', b.dataset.tf === t));
   cw();
+  setTimeout(updateSignals, 2000);
 }
 
 function ti(n) {
@@ -508,6 +493,7 @@ function ti(n) {
   el.className = 'ib ' + (on ? 'on' : 'off');
   el.textContent = n === 'v' ? 'Veltrix AI' : 'Spatrev AI';
   cw();
+  setTimeout(updateSignals, 2000);
 }
 
 async function sp(sym) {
@@ -518,6 +504,7 @@ async function sp(sym) {
   document.querySelectorAll('.ti').forEach(el => el.classList.toggle('act', el.dataset.s === sym));
   cw();
   up();
+  setTimeout(updateSignals, 2000);
 }
 
 // ==================== PRICE ====================
@@ -547,10 +534,9 @@ function ss() {
   S.sF = +document.getElementById('ef').value || 20;
   S.sS = +document.getElementById('es').value || 50;
   cs(); cw();
+  setTimeout(updateSignals, 2000);
 }
-document.getElementById('sm').addEventListener('click', e => {
-  if (e.target === document.getElementById('sm')) cs();
-});
+document.getElementById('sm').addEventListener('click', e => { if (e.target === document.getElementById('sm')) cs(); });
 
 function ust() { document.getElementById('stm').textContent = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(); }
 
@@ -566,15 +552,8 @@ setInterval(ft, 15000);
 setInterval(up, 5000);
 setInterval(ust, 30000);
 cw();
-
-// Also fetch klines and compute signals every 30s
-setInterval(async () => {
-  const kl = await fetchKlines();
-  const sigs = computeSignals(kl);
-  S.signals = sigs || [];
-  updateSignalsBar();
-  if (S.ready && S.ch) placeSignals();
-}, 30000);
+setTimeout(updateSignals, 2000);
+setInterval(updateSignals, 60000);
 </script>
 </body>
 </html>
