@@ -137,7 +137,15 @@ function initTV() {
     loading_screen: { backgroundColor: '#131722' },
   });
 
-  // Hide loading
+  // Listen for chart ready via TradingView callback
+  try {
+    widget.onChartReady(function() {
+      chartReady = true;
+      onChartReady();
+    });
+  } catch(e) {}
+
+  // Fallback: still hide loading
   setTimeout(hideLoad, 5000);
 }
 
@@ -210,23 +218,6 @@ function tog(idx) {
 }
 
 // =============================================
-// LISTEN FOR CHART READY
-// =============================================
-// Poll for chart readiness
-function checkReady() {
-  if (!widget) { setTimeout(checkReady, 500); return; }
-  try {
-    const c = widget.chart();
-    if (c && c.symbol) {
-      chartReady = true;
-      onChartReady();
-      return;
-    }
-  } catch(e) {}
-  setTimeout(checkReady, 500);
-}
-
-// =============================================
 // RESIZE
 // =============================================
 let rt;
@@ -239,7 +230,6 @@ window.addEventListener('resize', () => {
 // START
 // =============================================
 initTV();
-setTimeout(checkReady, 3000);
 </script>
 </body>
 </html>
