@@ -7,28 +7,27 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
-:root{--go:#f0b90b;--s2:#2b3139;--b:#2b3139;--t2:#848e9c;--gr:#0ecb81;--rd:#f6465d}
+:root{--go:#f0b90b;--t2:#848e9c;--gr:#0ecb81;--rd:#f6465d}
 
 .main{display:flex;flex-direction:column;height:100vh}
 
-.nav{display:flex;align-items:center;gap:4px;padding:5px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-wrap:wrap;flex-shrink:0;min-height:40px}
-.nav .sp{font-size:14px;font-weight:600;margin-right:6px}
-.nav .sp.g{color:var(--gr)}
-.nav .sp.r{color:var(--rd)}
-.sp1{width:1px;height:18px;background:#2b3139;margin:0 3px;flex-shrink:0}
-.tb{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
-.tb:hover{border-color:var(--go);color:#eaecef}
-.tb.act{background:var(--go);color:#0b0e11;border-color:var(--go)}
-.ib{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500}
+/* Minimal nav — only our custom toggles */
+.nav{display:flex;align-items:center;gap:6px;padding:4px 12px;background:#161b22;border-bottom:1px solid #30363d;flex-shrink:0;min-height:36px}
+.nav .sp1{width:1px;height:16px;background:#2b3139}
+.ib{padding:2px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
 .ib:hover{border-color:var(--go);color:#eaecef}
 .ib.on{background:#1a3a2a;border-color:var(--gr);color:var(--gr)}
 .ib.off{background:#3a1a2a;border-color:var(--rd);color:var(--rd)}
-.sb2{padding:2px 8px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer}
+.sb2{padding:2px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer}
+.sb2:hover{border-color:var(--go);color:#eaecef}
+.nav .info{font-size:11px;color:#eaecef;font-weight:600;margin-right:4px}
+.nav .hint{font-size:9px;color:#848e9c}
 
+/* Chart */
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
 
-/* Signal Overlay */
+/* Signal overlay */
 .so{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
 .so .sl{position:absolute;left:0;right:0}
 .so .sl.e{border-top:2px solid #f0b90b;height:2px}
@@ -71,31 +70,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .settings-box .ac .sv{background:var(--go);color:#0b0e11}
 .settings-box .ac .cl{background:#2b3139;color:#848e9c}
 
-@media(max-width:768px){.nav{gap:3px;padding:4px 6px}.tb,.ib,.sb2{padding:2px 5px;font-size:9px}}
+/* Pair detection badge for overlay */
+.pair-badge{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.6);color:#848e9c;padding:2px 8px;border-radius:3px;font-size:8px;z-index:6;pointer-events:none}
+@media(max-width:768px){.nav{padding:4px 8px}.ib,.sb2{padding:2px 8px;font-size:10px}}
 </style>
 </head>
 <body>
 
 <div class="main">
+  <!-- Minimal nav — only indicator toggles -->
   <div class="nav">
-    <span style="font-size:12px;font-weight:600;color:#eaecef;margin-right:4px" id="navSymbol">BTC/USDT</span>
-    <span class="sp g" id="navPrice">—</span>
+    <span class="info">VELTRIX AI 2.0</span>
     <span class="sp1"></span>
-    <button class="tb" data-tf="1" onclick="stf('1')">1m</button>
-    <button class="tb" data-tf="2" onclick="stf('2')">2m</button>
-    <button class="tb" data-tf="3" onclick="stf('3')">3m</button>
-    <button class="tb" data-tf="5" onclick="stf('5')">5m</button>
-    <button class="tb act" data-tf="15" onclick="stf('15')">15m</button>
-    <button class="tb" data-tf="30" onclick="stf('30')">30m</button>
-    <button class="tb" data-tf="60" onclick="stf('60')">1h</button>
-    <button class="tb" data-tf="240" onclick="stf('240')">4h</button>
-    <button class="tb" data-tf="1D" onclick="stf('1D')">1D</button>
-    <button class="tb" data-tf="1W" onclick="stf('1W')">1W</button>
-    <button class="tb" data-tf="1M" onclick="stf('1M')">1M</button>
+    <button class="ib on" id="vb" onclick="ti('v')">Veltrix AI</button>
+    <button class="ib off" id="sab" onclick="ti('s')">Spatrev AI</button>
     <span class="sp1"></span>
-    <button class="ib on" id="vb" onclick="ti('v')">Veltrix</button>
-    <button class="ib off" id="sab" onclick="ti('s')">Spatrev</button>
-    <button class="sb2" onclick="os()">⚙️</button>
+    <button class="sb2" onclick="os()">⚙️ Settings</button>
+    <span class="hint" style="margin-left:auto">Use TradingView toolbar for pairs, timeframes, drawings &amp; indicators</span>
   </div>
 
   <div class="cw">
@@ -106,23 +97,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
   <div class="sig-bar">
     <span style="color:#848e9c">⚡</span>
-    <span class="tag n" id="sigTag">No Signal</span>
-    <span style="color:#848e9c" id="sigPrice">—</span>
+    <span class="tag n" id="sigTag">Ready</span>
+    <span style="color:#848e9c;font-size:9px" id="sigInfo">Use TV search for any crypto/forex pair</span>
     <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpdate"></span>
   </div>
 
   <div class="st">
-    <span><span class="dt g" id="sd"></span><span id="stxt">Connected</span></span>
+    <span><span class="dt g" id="sd"></span><span id="stxt">TradingView Live</span></span>
     <span id="stm"></span>
   </div>
 </div>
 
 <div class="settings-modal" id="sm">
   <div class="settings-box">
-    <h3>Veltrix AI</h3>
+    <h3>Veltrix AI — SMA</h3>
     <div class="rw"><label>Fast MA</label><input type="number" id="vf" value="9" min="1" max="200"></div>
     <div class="rw"><label>Slow MA</label><input type="number" id="vs" value="21" min="1" max="200"></div>
-    <h3 style="margin-top:14px">Spatrev AI</h3>
+    <h3 style="margin-top:14px">Spatrev AI — EMA</h3>
     <div class="rw"><label>Fast EMA</label><input type="number" id="ef" value="20" min="1" max="200"></div>
     <div class="rw"><label>Slow EMA</label><input type="number" id="es" value="50" min="1" max="200"></div>
     <h3 style="margin-top:14px">Signal</h3>
@@ -139,24 +130,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
 const S = {
-  w:null, ch:null,
-  tf:'15', curSym:'BINANCE:BTCUSDT',
+  w:null, tf:'60',
   vOn:true, vF:9, vS:21,
   sOn:false, sF:20, sS:50,
   swingLen:10, rr1:1.0, rr2:2.0,
-  signal:null
+  signal:null, curPair:null, isBinance:false
 };
 
 // ==================== TRADINGVIEW WIDGET ====================
 function cw(){
-  S.ch=null;
   document.getElementById('tv').innerHTML='';
   document.getElementById('so').innerHTML='';
   const lo=document.getElementById('lo');lo.classList.remove('h');lo.style.display='flex';
 
   S.w=new TradingView.widget({
     container_id:'tv',
-    symbol:S.curSym,
+    symbol:'BINANCE:BTCUSDT',
     interval:S.tf,
     timezone:'Etc/UTC',
     theme:'dark',style:'1',locale:'en',
@@ -189,52 +178,44 @@ function getStudies(){
   return l;
 }
 
-// ==================== TIMEFRAMES ====================
-function stf(tf){
-  S.tf=tf;
-  document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('act',b.dataset.tf===tf));
-
-  // Try just changing interval without resetting symbol
-  if(S.w){
-    try{
-      // Method 1: Use chart API setResolution
-      if(S.ch && typeof S.ch.setResolution==='function'){
-        S.ch.setResolution(tf);
-        return;
-      }
-    }catch(e){}
-
-    try{
-      // Method 2: Use widget setSymbol with current symbol (preserves it)
-      S.w.setSymbol(S.curSym, tf);
-      return;
-    }catch(e){}
-
-    try{
-      // Method 3: Recreate widget if all else fails
-      cw();
-    }catch(e){}
-  }
-}
-
-// ==================== PAIR / SYMBOL ====================
-// Track the current symbol from TradingView widget
-// We poll the widget's displayed symbol periodically
-function updateCurSym(){
+// ==================== DETECT PAIR CHANGES ====================
+// Poll the TV widget header to detect symbol changes
+function pollPair(){
   if(!S.w)return;
   try{
-    // Try reading the symbol from a callback or event
+    // Look for TradingView's symbol display in the DOM
+    const tvEl=document.getElementById('tv');
+    if(tvEl){
+      const text=tvEl.textContent||'';
+      // Find symbol pattern like "BTCUSDT" or "BTC/USDT" or "EURUSD"
+      const headerMatch=text.match(/([A-Z]{2,6})\/?([A-Z]{2,6})/);
+      if(headerMatch){
+        const pair=headerMatch[1]+headerMatch[2];
+        const isBN=pair.toUpperCase().includes('BTC')||pair.toUpperCase().includes('ETH')||
+          pair.toUpperCase().includes('BNB')||pair.toUpperCase().includes('XRP')||
+          pair.toUpperCase().includes('SOL');
+        // Simplified: just check if we can detect it's Binance
+        const isBinance=text.includes('BINANCE')||pair.length<=10;
+        
+        if(pair!==S.curPair){
+          S.curPair=pair;
+          S.isBinance=isBinance;
+          updateStatus();
+          if(S.isBinance)setTimeout(computeSignal,1000);
+          else document.getElementById('so').innerHTML='';
+        }
+      }
+    }
   }catch(e){}
+  setTimeout(pollPair,2000);
 }
 
 // ==================== SIGNAL ENGINE ====================
 async function computeSignal(){
   // Only compute for Binance pairs
-  if(!S.curSym.startsWith('BINANCE:'))return;
-  
-  // Extract symbol
-  const pair=S.curSym.replace('BINANCE:','');
-  const kl=await fetchKlines(pair);
+  const sym=detectSymbol();
+  if(!sym)return;
+  const kl=await fetchKlines(sym);
   if(!kl||kl.length<50)return;
   
   const closes=kl.map(k=>k.c),lows=kl.map(k=>k.l),highs=kl.map(k=>k.h);
@@ -271,14 +252,28 @@ async function computeSignal(){
     }
   }
   
-  updateSignalUI();
+  updateStatus();
   drawOverlay();
 }
 
-async function fetchKlines(pair){
+function detectSymbol(){
+  try{
+    const el=document.getElementById('tv');
+    if(!el)return null;
+    const txt=el.textContent||'';
+    const m=txt.match(/BINANCE:([A-Z]{2,20})/);
+    if(m)return m[1];
+    // Fallback: check for USDT pairs
+    const m2=txt.match(/([A-Z]{2,10})USDT/);
+    if(m2)return m2[1];
+    return null;
+  }catch(e){return null}
+}
+
+async function fetchKlines(sym){
   try{
     const m={'1':'1m','2':'2m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
-    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${pair}&interval=${m[S.tf]||'15m'}&limit=200`);
+    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${sym}&interval=${m[S.tf]||'1h'}&limit=200`);
     if(!r.ok)return[];const d=await r.json();
     return d.map(k=>({t:Math.floor(k[0]/1000),o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
   }catch(e){return[]}
@@ -288,39 +283,38 @@ function ema(d,l){const r=[];const k=2/(l+1);let p=0,st=false;for(let i=0;i<d.le
 
 // ==================== SIGNAL OVERLAY ====================
 function drawOverlay(){
-  const sig=S.signal;
   const so=document.getElementById('so');
-  const cw=document.querySelector('.cw');
-  const h=cw.clientHeight,w=cw.clientWidth;
-  if(!sig||h<100||w<100||!S.curSym.startsWith('BINANCE:')){so.innerHTML='';return}
+  const sig=S.signal;
+  const cwEl=document.querySelector('.cw');
+  const h=cwEl.clientHeight,w=cwEl.clientWidth;
+  if(!sig||h<100||w<100||!S.isBinance){so.innerHTML='';return}
 
   const prices=[sig.entry,sig.tp1,sig.tp2,sig.sl];
   const pad=Math.max(...prices)*0.01;
   const maxP=Math.max(...prices)+pad,minP=Math.min(...prices)-pad,range=maxP-minP;
   const yPx=p=>((maxP-p)/range)*h;
+  const cls=sig.type==='buy'?'b':'s';
 
-  const entryCls=sig.type==='buy'?'b':'s';
   so.innerHTML=`
-    <div class="st ${entryCls}" style="top:8px;left:8px">${sig.type.toUpperCase()} ${sig.src} @ $${fp(sig.entry)}</div>
+    <div class="st ${cls}" style="top:8px;left:8px">${sig.type.toUpperCase()} ${sig.src} @ $${fp(sig.entry)}</div>
     <div class="sl e" style="top:${yPx(sig.entry)}px"><div class="lb y">ENTRY $${fp(sig.entry)}</div></div>
     <div class="sl t" style="top:${yPx(sig.tp1)}px"><div class="lb g">TP1 $${fp(sig.tp1)}</div></div>
     <div class="sl t" style="top:${yPx(sig.tp2)}px"><div class="lb g">TP2 $${fp(sig.tp2)}</div></div>
     <div class="sl s" style="top:${yPx(sig.sl)}px"><div class="lb r">SL $${fp(sig.sl)}</div></div>
   `;
-  so.style.display='block';
 }
 
-function updateSignalUI(){
-  const tag=document.getElementById('sigTag'),price=document.getElementById('sigPrice'),update=document.getElementById('sigUpdate');
-  update.textContent=new Date().toLocaleTimeString();
-  if(S.signal&&S.curSym.startsWith('BINANCE:')){
+function updateStatus(){
+  const tag=document.getElementById('sigTag'),info=document.getElementById('sigInfo'),upd=document.getElementById('sigUpdate');
+  upd.textContent=new Date().toLocaleTimeString();
+  if(S.isBinance&&S.signal){
     tag.className='tag '+(S.signal.type==='buy'?'b':'s');
     tag.textContent=`${S.signal.src} ${S.signal.type.toUpperCase()}`;
-    price.textContent=`$${fp(S.signal.entry)}`;
-  }else if(!S.curSym.startsWith('BINANCE:')){
-    tag.className='tag n';tag.textContent='TV Mode';price.textContent='Use TV tools';
+    info.textContent=`$${fp(S.signal.entry)}`;
+  }else if(S.isBinance){
+    tag.className='tag n';tag.textContent='Waiting';info.textContent='Computing signals...';
   }else{
-    tag.className='tag n';tag.textContent='No Signal';price.textContent='—';
+    tag.className='tag n';tag.textContent='TV Mode';info.textContent='Use TradingView toolbar';
   }
 }
 
@@ -335,25 +329,22 @@ function ti(n){
   const el=document.getElementById(n==='v'?'vb':'sab');
   const on=n==='v'?S.vOn:S.sOn;
   el.className='ib '+(on?'on':'off');
-  el.textContent=n==='v'?'Veltrix':'Spatrev';
-  document.getElementById('so').innerHTML='';
-  cw();setTimeout(computeSignal,2500);
+  el.textContent=n==='v'?'Veltrix AI':'Spatrev AI';
+  document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,3000);
 }
 
 function os(){
   document.getElementById('vf').value=S.vF;document.getElementById('vs').value=S.vS;
   document.getElementById('ef').value=S.sF;document.getElementById('es').value=S.sS;
-  document.getElementById('sLen').value=S.swingLen;document.getElementById('rr1').value=S.rr1;
-  document.getElementById('rr2').value=S.rr2;
+  document.getElementById('sLen').value=S.swingLen;document.getElementById('rr1').value=S.rr1;document.getElementById('rr2').value=S.rr2;
   document.getElementById('sm').classList.add('show');
 }
 function cs(){document.getElementById('sm').classList.remove('show')}
 function ss(){
   S.vF=+document.getElementById('vf').value||9;S.vS=+document.getElementById('vs').value||21;
   S.sF=+document.getElementById('ef').value||20;S.sS=+document.getElementById('es').value||50;
-  S.swingLen=+document.getElementById('sLen').value||10;S.rr1=+document.getElementById('rr1').value||1;
-  S.rr2=+document.getElementById('rr2').value||2;
-  cs();document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,2500);
+  S.swingLen=+document.getElementById('sLen').value||10;S.rr1=+document.getElementById('rr1').value||1;S.rr2=+document.getElementById('rr2').value||2;
+  cs();document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,3000);
 }
 document.getElementById('sm').addEventListener('click',e=>{if(e.target===document.getElementById('sm'))cs()});
 function ust(){document.getElementById('stm').textContent=new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString()}
@@ -361,15 +352,11 @@ function ust(){document.getElementById('stm').textContent=new Date().toLocaleDat
 let rtimer;
 window.addEventListener('resize',()=>{
   clearTimeout(rtimer);
-  rtimer=setTimeout(()=>{
-    if(S.w){try{S.w.resize()}catch(e){cw()}}
-    if(S.signal)drawOverlay();
-  },300);
+  rtimer=setTimeout(()=>{if(S.w){try{S.w.resize()}catch(e){cw()}}},300);
 });
 
 // ==================== INIT ====================
-cw();setTimeout(computeSignal,2500);setInterval(computeSignal,60000);
-setInterval(ust,30000);
+cw();pollPair();setInterval(computeSignal,60000);setInterval(ust,30000);
 </script>
 </body>
 </html>
