@@ -17,7 +17,7 @@ fbq('init','1674222590397905');fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/></noscript>
 <!-- Lightweight Charts -->
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightweight-charts/4.0.1/lightweight-charts.standalone.production.js"></script>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -427,6 +427,9 @@ async function loadChart(symbol, base, tf) {
   loading.style.display = 'flex';
   
   try {
+    if (typeof LightweightCharts === 'undefined') {
+      throw new Error('Lightweight Charts library failed to load. Refresh the page.');
+    }
     const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=200`);
     if (!res.ok) throw new Error('API error');
     const raw = await res.json();
@@ -670,6 +673,7 @@ function drawSignalLines() {
 }
 
 function clearSignalLines() {
+  if (!chartInstance) return;
   const names = ['entry','sl','tp1','tp2'];
   for (const n of names) {
     if (chartSeries[n]) {
