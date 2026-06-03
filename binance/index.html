@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veltrix AI — Live Scanner</title>
-<meta property="og:title" content="Veltrix AI — Live Scanner" />
-<meta property="og:url" content="https://www.spatrevbot.online/binance/" />
-<meta name="robots" content="index, follow" />
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1674222590397905');fbq('track','PageView');
@@ -16,106 +13,83 @@ fbq('init','1674222590397905');fbq('track','PageView');
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0b0e11;--surface:#1e2329;--surface2:#2b3139;--border:#2b3139;--text:#eaecef;--text2:#848e9c;--green:#0ecb81;--red:#f6465d;--accent:#0066ff}
-body{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
-.header{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:17px;color:var(--text);text-decoration:none}
-.logo small{font-size:11px;color:var(--text2);font-weight:400}
-.nav a{color:var(--text2);text-decoration:none;font-size:13px;padding:4px 10px;border-radius:6px;margin-left:4px}
-.nav a:hover{background:var(--surface2);color:var(--text)}
-.nav a.active{color:var(--accent);font-weight:600}
-.main{max-width:1200px;margin:0 auto;padding:14px 20px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
-.row label{font-size:11px;color:var(--text2);font-weight:500}
-select{padding:7px 12px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:inherit;outline:none;cursor:pointer;min-width:140px}
+body{font-family:-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+.hdr{display:flex;align-items:center;padding:0 20px;height:52px;background:var(--surface);border-bottom:1px solid var(--border)}
+.hdr .l{font-weight:700;font-size:16px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px}
+.hdr .l small{font-size:11px;color:var(--text2);font-weight:400}
+.hdr .n{margin-left:auto}
+.hdr .n a{color:var(--text2);text-decoration:none;font-size:12px;padding:4px 10px;border-radius:5px}
+.hdr .n a:hover{background:var(--surface2);color:var(--text)}
+.hdr .n a.on{color:var(--accent);font-weight:600}
+.main{max-width:1160px;margin:0 auto;padding:12px 16px}
+.r{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.r label{font-size:11px;color:var(--text2);font-weight:500}
+select{padding:6px 10px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;outline:none;cursor:pointer;min-width:130px}
 select:focus{border-color:var(--accent)}
-.tf{display:flex;gap:3px}
-.tf button{padding:6px 11px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all.1s}
+.tf{display:flex;gap:2px}
+.tf button{padding:5px 9px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit}
 .tf button:hover{border-color:var(--accent);color:var(--text)}
 .tf button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.toggle{padding:6px 12px;border-radius:5px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:11px;cursor:pointer;font-family:inherit}
-.toggle:hover{border-color:var(--accent);color:var(--text)}
-.toggle.on{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* INDICATOR TOGGLES */
-.indicator-bar{display:flex;gap:6px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-.indicator-bar label{font-size:11px;color:var(--text2)}
-.ind-switch{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);font-size:11px;cursor:pointer;font-family:inherit;color:var(--text2);transition:all.1s}
-.ind-switch.on{border-color:var(--accent);color:var(--text);background:rgba(0,102,255,.08)}
-.ind-switch .dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--surface2)}
-.ind-switch.on .dot{background:var(--green)}
-
-.chart-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-#chartBox{width:100%;height:460px;position:relative}
-.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--bg);z-index:5}
-.loading .sp{width:24px;height:24px;border:3px solid var(--surface2);border-top-color:var(--accent);border-radius:50%;animation:sp.8s linear infinite;margin-right:10px}
-@keyframes sp{to{transform:rotate(360deg)}}
-.stat-bar{display:flex;gap:14px;align-items:center;padding:7px 14px;background:var(--surface);border-top:1px solid var(--border);font-size:11px;flex-wrap:wrap;min-height:36px}
-.stat-bar .tag{padding:2px 8px;border-radius:4px;background:var(--surface2);color:var(--text2);font-weight:600;font-size:10px}
-.stat-bar .tag.buy{background:rgba(14,203,129,.15);color:var(--green)}
-.stat-bar .tag.sell{background:rgba(246,70,93,.15);color:var(--red)}
-.stat-bar .s{display:flex;align-items:center;gap:3px;color:var(--text2)}
-.stat-bar .s b{color:var(--text);font-weight:600}
-.d{width:5px;height:5px;border-radius:50%;display:inline-block}
-.d.g{background:var(--green)}.d.r{background:var(--red)}.d.b{background:var(--accent)}
-
-.dash-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:8px;display:none}
-.dash-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-.dc{padding:5px 10px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:10px}
-.dc.l{color:var(--text2)}.dc.v{font-weight:600;text-align:center}.dc.v.w{color:var(--green)}.dc.v.l{color:var(--red)}.dc.h{background:var(--accent);color:#fff;font-weight:700;font-size:10px;text-align:center;padding:6px}
-.dc.sh{background:var(--surface2);color:var(--text2);font-size:10px;font-weight:600;padding:6px;text-align:center}
-
-/* SETTINGS */
-.settings-panel{display:none;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:10px;gap:10px;flex-wrap:wrap}
-.settings-panel.show{display:flex}
-.sg{display:flex;flex-direction:column;gap:3px;min-width:80px}
-.sg label{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
-.sg input,.sg select{padding:5px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:11px;font-family:inherit;outline:none}
-.sg input:focus,.sg select:focus{border-color:var(--accent)}
-.sg input[type=number]{max-width:70px}
-.sg .btn{padding:5px 14px;border-radius:5px;border:none;background:var(--accent);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;align-self:flex-end}
-
-.scan-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:14px 0 8px}
-.scan-btn{padding:7px 18px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
-.scan-btn:hover{background:#0052cc}
+.tog{padding:5px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:10px;cursor:pointer;font-family:inherit}
+.tog:hover{border-color:var(--accent)}
+.ind-bar{display:flex;gap:4px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.ind-bar label{font-size:10px;color:var(--text2)}
+.ind-btn{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:var(--surface);font-size:10px;cursor:pointer;font-family:inherit;color:var(--text2)}
+.ind-btn .d{width:6px;height:6px;border-radius:50%;background:var(--surface2)}
+.ind-btn.on{color:var(--text);border-color:var(--accent)}
+.ind-btn.on .d{background:var(--green)}
+#chartWrap{background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;position:relative}
+#chartContainer{width:100%;height:440px}
+.loading{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:var(--bg);z-index:5;font-size:13px;color:var(--text2)}
+.loading .sp{width:22px;height:22px;border:2px solid var(--surface2);border-top-color:var(--accent);border-radius:50%;animation:spin.7s linear infinite;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sbar{display:flex;gap:10px;align-items:center;padding:6px 12px;background:var(--surface);border-top:1px solid var(--border);font-size:10px;flex-wrap:wrap;min-height:32px}
+.sbar .tag{padding:2px 6px;border-radius:3px;background:var(--surface2);color:var(--text2);font-weight:600;font-size:9px}
+.sbar .tag.b{background:rgba(14,203,129,.15);color:var(--green)}
+.sbar .tag.s{background:rgba(246,70,93,.15);color:var(--red)}
+.sbar .i{display:flex;align-items:center;gap:2px;color:var(--text2)}
+.sbar .i b{color:var(--text);font-weight:600}
+.sbar .d{width:4px;height:4px;border-radius:50%;display:inline-block}
+.sbar .d.g{background:var(--green)}.sbar .d.r{background:var(--red)}
+.wrap{display:none;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:6px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.c{padding:4px 8px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:9px}
+.c.l{color:var(--text2)}.c.v{font-weight:600;text-align:center}.c.v.w{color:var(--green)}.c.v.l{color:var(--red)}
+.c.h{background:var(--accent);color:#fff;font-weight:700;font-size:9px;text-align:center;padding:5px}
+.c.sh{background:var(--surface2);color:var(--text2);font-size:9px;font-weight:600;padding:5px;text-align:center}
+.scan-r{display:flex;gap:6px;align-items:center;margin:10px 0 6px;flex-wrap:wrap}
+.scan-btn{padding:6px 14px;border-radius:5px;border:none;background:var(--accent);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
 .scan-btn:disabled{opacity:.5}
-.scan-info{font-size:11px;color:var(--text2)}
-.sig-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px}
-.nosig{text-align:center;padding:28px 16px;color:var(--text2)}
-.sig-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:all.15s}
-.sig-card:hover{border-color:var(--accent)}
-.sig-card.buy{border-left:3px solid var(--green)}
-.sig-card.sell{border-left:3px solid var(--red)}
-.ft{padding:16px 20px;text-align:center;font-size:11px;color:var(--text2);border-top:1px solid var(--border);margin-top:28px}
+.scan-info{font-size:10px;color:var(--text2)}
+.sig-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.nosig{text-align:center;padding:24px 12px;color:var(--text2)}
+.ft{padding:14px 20px;text-align:center;font-size:10px;color:var(--text2);border-top:1px solid var(--border);margin-top:24px}
 .ft a{color:var(--accent);text-decoration:none}
-
 @media(max-width:768px){
-  .main{padding:8px}
-  #chartBox{height:320px}
-  .row{flex-direction:column;align-items:stretch}
+  #chartContainer{height:320px}
+  .r{flex-direction:column;align-items:stretch}
   select{width:100%}
   .sig-grid{grid-template-columns:1fr}
-  .dash-grid{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <a href="/" class="logo">
-    <svg width="22" height="22" viewBox="0 0 22 22"><rect width="22" height="22" rx="6" fill="#0066ff"/><text x="11" y="16" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">V</text></svg>
+<div class="hdr">
+  <a href="/" class="l">
+    <svg width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" rx="5" fill="#0066ff"/><text x="10" y="14" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">V</text></svg>
     Veltrix AI <small>/ Scanner</small>
   </a>
-  <div class="nav">
+  <div class="n">
     <a href="https://spatrevbot.online">Home</a>
     <a href="https://spatrevbot.online/vip">VIP</a>
-    <a href="/binance" class="active">Scanner</a>
+    <a href="/binance" class="on">Scanner</a>
   </div>
 </div>
 
 <div class="main">
-
-  <!-- ROW 1: Pair + TF + Settings -->
-  <div class="row">
+  <div class="r">
     <label>Pair</label>
     <select id="pairSel"></select>
     <label>TF</label>
@@ -128,56 +102,76 @@ select:focus{border-color:var(--accent)}
       <button data-tf="4h">4h</button>
       <button data-tf="1d">1D</button>
     </div>
-    <button class="toggle" id="settingsToggle">⚙️ Settings</button>
+    <button class="tog" id="settingsBtn">⚙️ Settings</button>
   </div>
 
-  <!-- INDICATOR TOGGLES -->
-  <div class="indicator-bar">
+  <div class="ind-bar">
     <label>Indicators:</label>
-    <button class="ind-switch on" data-ind="veltrix"><span class="dot"></span> Veltrix AI</button>
-    <button class="ind-switch" data-ind="spatrev"><span class="dot"></span> Spatrev AI</button>
+    <button class="ind-btn on" data-ind="v"><span class="d"></span> Veltrix AI</button>
+    <button class="ind-btn" data-ind="s"><span class="d"></span> Spatrev AI</button>
   </div>
 
-  <!-- SETTINGS -->
-  <div class="settings-panel" id="settingsPanel">
-    <div class="sg"><label>Fast MA</label><input type="number" id="sFast" value="9" min="1"></div>
-    <div class="sg"><label>Slow MA</label><input type="number" id="sSlow" value="21" min="1"></div>
-    <div class="sg"><label>HTF x</label><select id="sHtf"><option value="2">2x</option><option value="4" selected>4x</option><option value="6">6x</option></select></div>
-    <div class="sg"><label>Swing Len</label><input type="number" id="sSwing" value="10" min="3"></div>
-    <div class="sg"><label>Pivot Len</label><input type="number" id="sPivot" value="5" min="2"></div>
-    <div class="sg"><label>RR1</label><input type="number" id="sRr1" value="1.0" step="0.1"></div>
-    <div class="sg"><label>RR2</label><input type="number" id="sRr2" value="2.0" step="0.1"></div>
-    <div class="sg"><label>Line</label><input type="number" id="sLine" value="30" min="5"></div>
-    <div class="sg"><span style="height:18px"></span><button class="btn" id="applySettings">Apply</button></div>
+  <!-- SETTINGS (hidden by default) -->
+  <div id="settingsPanel" style="display:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:8px;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:70px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">Fast MA</label>
+      <input type="number" id="sFast" value="9" min="1" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none;max-width:60px">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:70px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">Slow MA</label>
+      <input type="number" id="sSlow" value="21" min="1" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none;max-width:60px">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:60px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">HTF x</label>
+      <select id="sHtf" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none">
+        <option value="2">2x</option><option value="4" selected>4x</option><option value="6">6x</option>
+      </select>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:60px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">Swing</label>
+      <input type="number" id="sSwing" value="10" min="3" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none;max-width:60px">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:60px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">Pivot</label>
+      <input type="number" id="sPivot" value="5" min="2" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none;max-width:60px">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:50px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">RR1</label>
+      <input type="number" id="sRr1" value="1.0" step="0.1" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none;max-width:60px">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:50px">
+      <label style="font-size:8px;color:var(--text2);text-transform:uppercase">RR2</label>
+      <input type="number" id="sRr2" value="2.0" step="0.1" style="padding:4px 6px;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:10px;font-family:inherit;outline:none;max-width:60px">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:40px;align-self:flex-end">
+      <span style="height:14px"></span>
+      <button id="applySet" style="padding:4px 12px;border-radius:4px;border:none;background:var(--accent);color:#fff;font-size:10px;cursor:pointer;font-family:inherit">Apply</button>
+    </div>
   </div>
 
   <!-- CHART -->
-  <div class="chart-box">
-    <div id="chartBox"><div class="loading" id="chartLoad"><span class="sp"></span><span>Select a pair</span></div></div>
-    <div class="stat-bar" id="statBar">
-      <span class="tag" id="sigTag">Ready</span>
-      <span class="s">SMA9: <b id="sma9">—</b></span>
-      <span class="s">SMA21: <b id="sma21">—</b></span>
-      <span class="s">Swing: <b id="swingVal">—</b></span>
-      <span class="s">Signal: <b id="sigVal">—</b></span>
-    </div>
+  <div id="chartWrap">
+    <div id="chartContainer"></div>
+    <div class="loading" id="chartLoad"><span class="sp"></span><span>Loading BTC 1h...</span></div>
+  </div>
+  <div class="sbar" id="sbar">
+    <span class="tag" id="sigTag">Ready</span>
+    <span class="i">SMA9: <b id="v1">—</b></span>
+    <span class="i">SMA21: <b id="v2">—</b></span>
+    <span class="i">Swing: <b id="v3">—</b></span>
+    <span class="i">Signal: <b id="v4">—</b></span>
   </div>
 
   <!-- DASHBOARD -->
-  <div class="dash-box" id="dashBox">
-    <div class="dash-grid" id="dashGrid"></div>
-  </div>
+  <div class="wrap" id="dashWrap"><div class="grid" id="dashGrid"></div></div>
 
   <!-- SCANNER -->
-  <div class="scan-bar">
+  <div class="scan-r">
     <button class="scan-btn" id="scanBtn">🔍 Scan 24 Pairs</button>
-    <span class="scan-info" id="scanStatus">Ready</span>
+    <span class="scan-info" id="scanSt">Ready</span>
   </div>
   <div class="sig-grid" id="sigGrid">
-    <div class="nosig" id="noSig">
-      <p style="font-size:24px;margin-bottom:4px">📡</p>
-      <p style="font-size:13px">Click <b>Scan 24 Pairs</b> for signals</p>
-    </div>
+    <div class="nosig" id="noSig"><p style="font-size:22px;margin-bottom:4px">📡</p><p style="font-size:12px">Click <b>Scan</b> for signals</p></div>
   </div>
 </div>
 
@@ -188,164 +182,161 @@ select:focus{border-color:var(--accent)}
 <script>
 // ======== PAIRS ========
 const PAIRS=['BTCUSDT','ETHUSDT','BNBUSDT','SOLUSDT','XRPUSDT','DOGEUSDT','TRXUSDT','ADAUSDT','AVAXUSDT','DOTUSDT','LINKUSDT','MATICUSDT','UNIUSDT','SHIBUSDT','LTCUSDT','BCHUSDT','ATOMUSDT','ETCUSDT','XLMUSDT','XMRUSDT','NEARUSDT','FILUSDT','APTUSDT','ARBUSDT','OPUSDT','SUIUSDT','PEPEUSDT','INJUSDT','TIAUSDT','SEIUSDT','FETUSDT','RUNEUSDT','AAVEUSDT','ALGOUSDT','MANAUSDT','SANDUSDT','AXSUSDT','EGLDUSDT','FLOWUSDT','GALAUSDT','HBARUSDT','ICPUSDT','KAVAUSDT','KSMUSDT','MKRUSDT','QNTUSDT','SNXUSDT','STXUSDT','THETAUSDT','VETUSDT','WAVESUSDT','ZECUSDT','ZILUSDT','ZRXUSDT','WLDUSDT','ONDOUSDT','TONUSDT','MEMEUSDT','PORTALUSDT','ALLOUSDT','GENIUSUSDT','HEIUSDT','NFPUSDT','ASTERUSDT'];
-
 const sel=document.getElementById('pairSel');
-PAIRS.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p.replace('USDT','')+'/USDT';sel.appendChild(o)});
+PAIRS.forEach(p=>{let o=document.createElement('option');o.value=p;o.textContent=p.replace('USDT','')+'/USDT';sel.appendChild(o)});
 sel.value='BTCUSDT';
 
 // ======== STATE ========
 let chart=null, chartData=[], pollTimer=null, activeSig=null;
-let series={candle:null,fastMA:null,slowMA:null,en:null,sl:null,t1:null,t2:null};
-let indOn={veltrix:true,spatrev:false};
-let S={fast:9,slow:21,htf:4,swing:10,pivot:5,rr1:1,rr2:2,line:30};
+let series={candle:null,ma1:null,ma2:null,en:null,sl:null,t1:null,t2:null};
+let ind={v:true,s:false};
+let set={fast:9,slow:21,htf:4,swing:10,pivot:5,rr1:1,rr2:2};
 let curPair='BTCUSDT', curTF='1h';
-let vState={wins:0,losses:0,dw:0,dl:0,ww:0,wl:0,mw:0,ml:0};
 
 // ======== HELPERS ========
-function fp(n){const p=+n;if(p>=1e3)return p.toLocaleString('en',{minFrac:2,maxFrac:2});if(p>=1)return p.toFixed(4);if(p>=.01)return p.toFixed(6);return p.toFixed(8)}
+function fp(n){let p=+n;if(p>=1e3)return p.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});if(p>=1)return p.toFixed(4);if(p>=.01)return p.toFixed(6);return p.toFixed(8)}
 
 // ======== INDICATORS ========
-function sma(d,p){const r=[];for(let i=0;i<d.length;i++){if(i<p-1){r.push(null);continue}let s=0;for(let j=i-p+1;j<=i;j++)s+=d[j];r.push(s/p)}return r}
-function ema(d,p){const k=2/(p+1),e=[d[0]];for(let i=1;i<d.length;i++)e.push(d[i]*k+e[i-1]*(1-k));return e}
-function rsi(d,p){const g=[],l=[];for(let i=1;i<d.length;i++){const x=d[i]-d[i-1];g.push(x>0?x:0);l.push(x<0?-x:0)}const r=[50];let ag=g.slice(0,p).reduce((a,b)=>a+b,0)/p,al=l.slice(0,p).reduce((a,b)=>a+b,0)/p;r.push(al===0?100:100-100/(1+ag/al));for(let i=p;i<g.length;i++){ag=(ag*(p-1)+g[i])/p;al=(al*(p-1)+l[i])/p;r.push(al===0?100:100-100/(1+ag/al))}return r}
-function adx(h,l,c,p){const t=[],pD=[],mD=[];for(let i=1;i<c.length;i++){t.push(Math.max(h[i]-l[i],Math.abs(h[i]-c[i-1]),Math.abs(l[i]-c[i-1])));const u=h[i]-h[i-1],d=l[i-1]-l[i];pD.push(u>d&&u>0?u:0);mD.push(d>u&&d>0?d:0)}let at=t.slice(0,p).reduce((a,b)=>a+b,0)/p,pd=pD.slice(0,p).reduce((a,b)=>a+b,0)/p,md=mD.slice(0,p).reduce((a,b)=>a+b,0)/p,pdi=pd/at*100,mdi=md/at*100,dx=Math.abs(pdi-mdi)/(pdi+mdi)*100,adx=dx,av=[adx];for(let i=p;i<t.length;i++){at=(at*(p-1)+t[i])/p;pd=(pd*(p-1)+pD[i])/p;md=(md*(p-1)+mD[i])/p;pdi=pd/at*100;mdi=md/at*100;dx=Math.abs(pdi-mdi)/(pdi+mdi)*100;adx=(adx*(p-1)+dx)/p;av.push(adx)}return av}
-function atr(c,p){const t=[];for(let i=1;i<c.length;i++)t.push(Math.max(c[i].high-c[i].low,Math.abs(c[i].high-c[i-1].close),Math.abs(c[i].low-c[i-1].close)));if(t.length<p)return.001;let a=t.slice(0,p).reduce((x,y)=>x+y,0)/p;for(let i=p;i<t.length;i++)a=(a*(p-1)+t[i])/p;return a}
+function sma(d,p){let r=[];for(let i=0;i<d.length;i++){if(i<p-1){r.push(null);continue}let s=0;for(let j=i-p+1;j<=i;j++)s+=d[j];r.push(s/p)}return r}
+function ema(d,p){let k=2/(p+1),e=[d[0]];for(let i=1;i<d.length;i++)e.push(d[i]*k+e[i-1]*(1-k));return e}
+function rsi(d,p){let g=[],l=[];for(let i=1;i<d.length;i++){let x=d[i]-d[i-1];g.push(x>0?x:0);l.push(x<0?-x:0)}let r=[50],ag=g.slice(0,p).reduce((a,b)=>a+b,0)/p,al=l.slice(0,p).reduce((a,b)=>a+b,0)/p;r.push(al===0?100:100-100/(1+ag/al));for(let i=p;i<g.length;i++){ag=(ag*(p-1)+g[i])/p;al=(al*(p-1)+l[i])/p;r.push(al===0?100:100-100/(1+ag/al))}return r}
+function adx(h,l,c,p){let t=[],pD=[],mD=[];for(let i=1;i<c.length;i++){t.push(Math.max(h[i]-l[i],Math.abs(h[i]-c[i-1]),Math.abs(l[i]-c[i-1])));let u=h[i]-h[i-1],d=l[i-1]-l[i];pD.push(u>d&&u>0?u:0);mD.push(d>u&&d>0?d:0)}let at=t.slice(0,p).reduce((a,b)=>a+b,0)/p,pd=pD.slice(0,p).reduce((a,b)=>a+b,0)/p,md=mD.slice(0,p).reduce((a,b)=>a+b,0)/p,pdi=pd/at*100,mdi=md/at*100,dx=Math.abs(pdi-mdi)/(pdi+mdi)*100,adx=dx,av=[adx];for(let i=p;i<t.length;i++){at=(at*(p-1)+t[i])/p;pd=(pd*(p-1)+pD[i])/p;md=(md*(p-1)+mD[i])/p;pdi=pd/at*100;mdi=md/at*100;dx=Math.abs(pdi-mdi)/(pdi+mdi)*100;adx=(adx*(p-1)+dx)/p;av.push(adx)}return av}
+function atr(c,p){let t=[];for(let i=1;i<c.length;i++)t.push(Math.max(c[i].high-c[i].low,Math.abs(c[i].high-c[i-1].close),Math.abs(c[i].low-c[i-1].close)));if(t.length<p)return.001;let a=t.slice(0,p).reduce((x,y)=>x+y,0)/p;for(let i=p;i<t.length;i++)a=(a*(p-1)+t[i])/p;return a}
 
-// Veltrix AI
-function veltrixSig(candles,set){
-  const c=candles.map(x=>x.close),h=candles.map(x=>x.high),l=candles.map(x=>x.low);
-  const li=candles.length-1; if(li<30)return{};
-  const fa=sma(c,set.fast),sa=sma(c,set.slow);
-  // HTF SMA
-  const htfBars=Math.max(1,Math.round(set.htf||4));
-  let htfF=fa[li]||0, htfS=sa[li]||0;
-  if(li>set.slow*htfBars){const ac=[];for(let i=li;i>li-set.slow*htfBars;i-=htfBars){const s=Math.max(0,i-htfBars+1),sl=candles.slice(s,i+1);ac.push(sl.reduce((x,y)=>x+y.close,0)/sl.length)}ac.reverse();const hf=sma(ac,set.fast),hs=sma(ac,set.slow);htfF=hf.length?hf[hf.length-1]:fa[li];htfS=hs.length?hs[hs.length-1]:sa[li]}
-  // Pivot swing
-  let sh=0,sl=0;const cs=Math.max(set.pivot,li-set.swing);
-  for(let i=cs;i<li-set.pivot;i++){const pi1=h[i]>h[i-1]&&h[i]>h[i+1]&&h[i]>h[i-2]&&h[i]>h[i+2];if(pi1&&h[i]>sh)sh=h[i];const pi2=l[i]<l[i-1]&&l[i]<l[i+1]&&l[i]<l[i-2]&&l[i]<l[i+2];if(pi2&&(sl===0||l[i]<sl))sl=l[i]}
-  if(!sh)sh=Math.max(...h.slice(li-set.swing,li));if(!sl)sl=Math.min(...l.slice(li-set.swing,li));
-  const crossover=fa[li]!==null&&fa[li-1]!==null&&fa[li-1]<=sa[li-1]&&fa[li]>sa[li];
-  const crossunder=fa[li]!==null&&fa[li-1]!==null&&fa[li-1]>=sa[li-1]&&fa[li]<sa[li];
-  const entry=candles[li].close;let sig=null;
-  if(crossover&&htfF>htfS&&sl>0){const risk=entry-sl;if(risk>0&&risk<entry*.1)sig={type:'BUY',entry,sl,tp1:entry+risk*set.rr1,tp2:entry+risk*set.rr2}}
-  if(crossunder&&htfF<htfS&&sh>0){const risk=sh-entry;if(risk>0&&risk<entry*.1)sig={type:'SELL',entry,sl:sh,tp1:entry-risk*set.rr1,tp2:entry-risk*set.rr2}}
+// Veltrix AI signal
+function vSig(candles,s){
+  let cl=candles.map(x=>x.close),hi=candles.map(x=>x.high),lo=candles.map(x=>x.low);
+  let li=candles.length-1;if(li<25)return{};
+  let fa=sma(cl,s.fast),sa=sma(cl,s.slow);
+  // HTF
+  let hb=Math.max(1,Math.round(s.htf||4));
+  let hf=fa[li]||0,hs=sa[li]||0;
+  if(li>s.slow*hb){let ac=[];for(let i=li;i>li-s.slow*hb;i-=hb){let st=Math.max(0,i-hb+1),sl=candles.slice(st,i+1);ac.push(sl.reduce((x,y)=>x+y.close,0)/sl.length)}ac.reverse();let hfm=sma(ac,s.fast),hsm=sma(ac,s.slow);hf=hfm.length?hfm[hfm.length-1]:fa[li];hs=hsm.length?hsm[hsm.length-1]:sa[li]}
+  // Swing
+  let sh=0,sl=0,cs=Math.max(s.pivot,li-s.swing);
+  for(let i=cs;i<li-s.pivot;i++){if(hi[i]>hi[i-1]&&hi[i]>hi[i+1]&&hi[i]>hi[i-2]&&hi[i]>hi[i+2]&&hi[i]>sh)sh=hi[i];if(lo[i]<lo[i-1]&&lo[i]<lo[i+1]&&lo[i]<lo[i-2]&&lo[i]<lo[i+2]&&(sl===0||lo[i]<sl))sl=lo[i]}
+  if(!sh)sh=Math.max(...hi.slice(li-s.swing,li));if(!sl)sl=Math.min(...lo.slice(li-s.swing,li));
+  // Cross
+  let co=fa[li]!==null&&fa[li-1]!==null&&fa[li-1]<=sa[li-1]&&fa[li]>sa[li];
+  let cu=fa[li]!==null&&fa[li-1]!==null&&fa[li-1]>=sa[li-1]&&fa[li]<sa[li];
+  let e=candles[li].close,sig=null;
+  if(co&&hf>hs&&sl>0){let r=e-sl;if(r>0&&r<e*.1){sig={type:'BUY',entry:e,sl,tp1:e+r*s.rr1,tp2:e+r*s.rr2}}}
+  if(cu&&hf<hs&&sh>0){let r=sh-e;if(r>0&&r<e*.1){sig={type:'SELL',entry:e,sl:sh,tp1:e-r*s.rr1,tp2:e-r*s.rr2}}}
   return{fast:fa[li],slow:sa[li],swing:sl,sig,fa,sa};
 }
 
-// Spatrev AI
-function spatrevSig(candles){
-  const c=candles.map(x=>x.close),h=candles.map(x=>x.high),l=candles.map(x=>x.low);
-  const li=candles.length-1;if(li<55)return{};
-  const e20=ema(c,20),e50=ema(c,50),rs=rsi(c,14),ad=adx(h,l,c,14),at=atr(c,14);
-  const ri=li-13,rn=(ri>=0&&ri<rs.length)?rs[ri]:rs[rs.length-1],an=ad.length>0?ad[ad.length-1]:0;
-  // Check buy
-  let sig=null;
-  const nb=Math.abs(c[li]-e20[li])<=at*.1,cb=c[li-1]<e20[li-1]&&c[li]>e20[li];
-  if(e20[li]>e50[li]&&rn>=38&&rn<=50&&an>25&&cb&&nb){
-    const sl=Math.min(...l.slice(-5))-at*1.5,tp1=c[li]+(c[li]-sl)*1,tp2=c[li]+(c[li]-sl)*2.5;
-    sig={type:'BUY',entry:c[li],sl,tp1,tp2};
-  }
-  const ca=c[li-1]>e20[li-1]&&c[li]<e20[li];
-  if(e20[li]<e50[li]&&rn>=50&&rn<=62&&an>25&&ca&&nb){
-    const sl=Math.max(...h.slice(-5))+at*1.5,tp1=c[li]-(sl-c[li])*1,tp2=c[li]-(sl-c[li])*2.5;
-    sig={type:'SELL',entry:c[li],sl,tp1,tp2};
-  }
+// Spatrev AI signal
+function sSig(candles){
+  let cl=candles.map(x=>x.close),hi=candles.map(x=>x.high),lo=candles.map(x=>x.low);
+  let li=candles.length-1;if(li<55)return{};
+  let e20=ema(cl,20),e50=ema(cl,50),rs=rsi(cl,14),ad=adx(hi,lo,cl,14),at=atr(candles,14);
+  let ri=li-13,rn=(ri>=0&&ri<rs.length)?rs[ri]:rs[rs.length-1],an=ad.length>0?ad[ad.length-1]:0,sig=null;
+  let nb=Math.abs(cl[li]-e20[li])<=at*.1,cb=cl[li-1]<e20[li-1]&&cl[li]>e20[li];
+  if(e20[li]>e50[li]&&rn>=38&&rn<=50&&an>25&&cb&&nb){let s=Math.min(...lo.slice(-5))-at*1.5;sig={type:'BUY',entry:cl[li],sl:s,tp1:cl[li]+(cl[li]-s)*1,tp2:cl[li]+(cl[li]-s)*2.5}}
+  let ca=cl[li-1]>e20[li-1]&&cl[li]<e20[li];
+  if(e20[li]<e50[li]&&rn>=50&&rn<=62&&an>25&&ca&&nb){let s=Math.max(...hi.slice(-5))+at*1.5;sig={type:'SELL',entry:cl[li],sl:s,tp1:cl[li]-(s-cl[li])*1,tp2:cl[li]-(s-cl[li])*2.5}}
   return{rsi:rn,adx:an,sig};
 }
 
 // ======== CHART ========
 async function loadChart(pair,tf){
-  const loadEl=document.getElementById('chartLoad'),box=document.getElementById('chartBox');
+  let loadEl=document.getElementById('chartLoad'),cont=document.getElementById('chartContainer');
   // Cleanup
   if(pollTimer){clearInterval(pollTimer);pollTimer=null}
-  clearSigLines();
   if(chart){try{chart.remove()}catch(e){}chart=null}
   chartData=[];activeSig=null;
-  Object.keys(series).forEach(k=>series[k]=null);
+  series={candle:null,ma1:null,ma2:null,en:null,sl:null,t1:null,t2:null};
   
   loadEl.style.display='flex';loadEl.innerHTML='<span class="sp"></span><span>Loading '+pair.replace('USDT','')+' '+tf+'...</span>';
   
   try{
-    if(typeof LightweightCharts==='undefined')throw Error('Library not loaded');
-    const limit=tf==='1m'?500:200;
-    const res=await fetch(`https://api.binance.com/api/v3/klines?symbol=${pair}&interval=${tf}&limit=${limit}`);
+    if(typeof LightweightCharts==='undefined')throw Error('Library not found');
+    let limit=tf==='1m'?500:200;
+    let res=await fetch('https://api.binance.com/api/v3/klines?symbol='+pair+'&interval='+tf+'&limit='+limit);
     if(!res.ok)throw Error('API error');
-    const raw=await res.json();
+    let raw=await res.json();
     chartData=raw.map(k=>({time:Math.floor(k[0]/1000),open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}));
     if(chartData.length<30)throw Error('Not enough data');
     
     loadEl.style.display='none';
     
-    chart=LightweightCharts.createChart(box,{
-      layout:{background:{color:'#0b0e11'},textColor:'#848e9c'},
+    chart=LightweightCharts.createChart(cont,{
+      layout:{backgroundColor:'#0b0e11',textColor:'#848e9c'},
       grid:{vertLines:{color:'#1e2329'},horzLines:{color:'#1e2329'}},
       timeScale:{timeVisible:true,secondsVisible:tf==='1m',borderColor:'#2b3139'},
       rightPriceScale:{borderColor:'#2b3139'},
-      crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
+      crosshair:{mode:0},
     });
     
     series.candle=chart.addCandlestickSeries({upColor:'#0ecb81',downColor:'#f6465d',borderUpColor:'#0ecb81',borderDownColor:'#f6465d',wickUpColor:'#0ecb81',wickDownColor:'#f6465d'});
     series.candle.setData(chartData);
     
-    // Run indicators
-    updateIndicators();
+    // Add initial MAs + signals
+    updateMAs();
+    updateSignals();
     chart.timeScale().fitContent();
     
-    // Poll
-    pollTimer=setInterval(()=>pollChart(pair,tf),6000);
+    // Start polling
+    pollTimer=setInterval(function(){pollChart(pair,tf)},6000);
   }catch(e){
     loadEl.innerHTML='<span style="color:var(--red)">⚠️ '+e.message+'</span>';
-    setTimeout(()=>{loadEl.style.display='none'},5000);
   }
 }
 
-function updateIndicators(){
+function updateMAs(){
   if(!chart||!chartData.length)return;
+  let cl=chartData.map(x=>x.close);
+  // Remove old MA series except candle
+  if(series.ma1){try{chart.removeSeries(series.ma1)}catch(e){}series.ma1=null}
+  if(series.ma2){try{chart.removeSeries(series.ma2)}catch(e){}series.ma2=null}
   
-  const c=chartData,r=indOn.veltrix?veltrixSig(c,S):{};
-  const r2=indOn.spatrev?spatrevSig(c):{};
-  
-  // Remove old MA lines
-  if(series.fastMA){try{chart.removeSeries(series.fastMA)}catch(e){}series.fastMA=null}
-  if(series.slowMA){try{chart.removeSeries(series.slowMA)}catch(e){}series.slowMA=null}
-  
-  // Draw MA lines for active indicators
-  if(indOn.veltrix&&r.fa&&r.sa){
-    series.fastMA=chart.addLineSeries({color:'#0066ff',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
-    series.fastMA.setData(r.fa.map((v,i)=>v!==null?{time:chartData[i].time,value:v}:null).filter(x=>x));
-    series.slowMA=chart.addLineSeries({color:'#FF6D00',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
-    series.slowMA.setData(r.sa.map((v,i)=>v!==null?{time:chartData[i].time,value:v}:null).filter(x=>x));
+  if(ind.v){
+    let r=vSig(chartData,set);
+    if(r.fa&&r.sa){
+      let d1=r.fa.map((v,i)=>v!==null?{time:chartData[i].time,value:v}:null).filter(x=>x);
+      let d2=r.sa.map((v,i)=>v!==null?{time:chartData[i].time,value:v}:null).filter(x=>x);
+      series.ma1=chart.addLineSeries({color:'#0066ff',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
+      series.ma1.setData(d1);
+      series.ma2=chart.addLineSeries({color:'#FF6D00',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
+      series.ma2.setData(d2);
+    }
+  }else if(ind.s){
+    let e20=ema(cl,20),e50=ema(cl,50);
+    let d1=e20.map((v,i)=>({time:chartData[i].time,value:v}));
+    let d2=e50.map((v,i)=>({time:chartData[i].time,value:v}));
+    series.ma1=chart.addLineSeries({color:'#2962FF',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
+    series.ma1.setData(d1);
+    series.ma2=chart.addLineSeries({color:'#FF6D00',lineWidth:2,lastValueVisible:false,priceLineVisible:false});
+    series.ma2.setData(d2);
   }
-  if(indOn.spatrev){
-    const cl=chartData.map(x=>x.close),e20=ema(cl,20),e50=ema(cl,50);
-    if(!series.fastMA){series.fastMA=chart.addLineSeries({color:'#2962FF',lineWidth:2,lastValueVisible:false,priceLineVisible:false});series.slowMA=chart.addLineSeries({color:'#FF6D00',lineWidth:2,lastValueVisible:false,priceLineVisible:false})}
-    series.fastMA.setData(e20.map((v,i)=>({time:chartData[i].time,value:v})));
-    series.slowMA.setData(e50.map((v,i)=>({time:chartData[i].time,value:v})));
+}
+
+function updateSignals(){
+  if(!chart||!chartData.length)return;
+  let li=chartData.length-1;
+  let r=ind.v?vSig(chartData,set):{};
+  let r2=ind.s?sSig(chartData):{};
+  let sig=r.sig||r2.sig;
+  
+  // Status bar
+  if(ind.v){
+    document.getElementById('v1').textContent=r.fast?r.fast.toFixed(2):'—';
+    document.getElementById('v2').textContent=r.slow?r.slow.toFixed(2):'—';
+    document.getElementById('v3').textContent=r.swing?r.swing.toFixed(2):'—';
+  }else if(ind.s){
+    document.getElementById('v1').textContent=r2.rsi?r2.rsi.toFixed(1):'—';
+    document.getElementById('v2').textContent=r2.adx?r2.adx.toFixed(1):'—';
+    document.getElementById('v3').textContent='—';
   }
   
-  // Check signal (prefer active indicator)
-  const sig=r.sig||r2.sig;
-  const li=chartData.length-1;
-  
-  // Update status bar
-  if(indOn.veltrix){
-    document.getElementById('sma9').textContent=r.fast?r.fast.toFixed(2):'—';
-    document.getElementById('sma21').textContent=r.slow?r.slow.toFixed(2):'—';
-    document.getElementById('swingVal').textContent=r.swing?r.swing.toFixed(2):'—';
-  }else if(indOn.spatrev){
-    document.getElementById('sma9').textContent=r2.rsi?r2.rsi.toFixed(1):'—';
-    document.getElementById('sma21').textContent=r2.adx?r2.adx.toFixed(1):'—';
-    document.getElementById('swingVal').textContent='—';
-  }
-  
-  const tg=document.getElementById('sigTag'),sv=document.getElementById('sigVal');
+  let tg=document.getElementById('sigTag'),sv=document.getElementById('v4');
   if(sig){
-    tg.className='tag '+(sig.type==='BUY'?'buy':'sell');tg.textContent='Signal: '+sig.type;
+    tg.className='tag '+(sig.type==='BUY'?'b':'s');tg.textContent=sig.type;
     sv.textContent=sig.type+' @ $'+fp(sig.entry);
     if(!activeSig||activeSig.time!==chartData[li].time){
       clearSigLines();activeSig={...sig,time:chartData[li].time};drawSigLines();
     }
-    series.candle.setMarkers([{time:chartData[li].time,position:sig.type==='BUY'?'belowBar':'aboveBar',color:sig.type==='BUY'?'#0ecb81':'#f6465d',shape:sig.type==='BUY'?'arrowUp':'arrowDown',text:sig.type}]);
+    series.candle.setMarkers([{time:chartData[li].time,position:sig.type==='BUY'?1:2,color:sig.type==='BUY'?'#0ecb81':'#f6465d',shape:sig.type==='BUY'?'arrowUp':'arrowDown',text:sig.type}]);
   }else{
     tg.className='tag';tg.textContent='Ready';sv.textContent='—';
     if(activeSig&&li-chartData.findIndex(d=>d.time===activeSig.time)>3){clearSigLines();activeSig=null}
@@ -357,33 +348,33 @@ function updateIndicators(){
 
 function addMarkers(){
   if(!chart||!series.candle||!chartData.length)return;
-  const markers=[];
+  let m=[];
   for(let i=55;i<chartData.length-1;i++){
-    const sub=chartData.slice(0,i+1);
-    const r=indOn.veltrix?veltrixSig(sub,S):{},r2=indOn.spatrev?spatrevSig(sub):{},sig=r.sig||r2.sig;
-    if(sig)markers.push({time:chartData[i].time,position:sig.type==='BUY'?'belowBar':'aboveBar',color:sig.type==='BUY'?'#0ecb81':'#f6465d',shape:sig.type==='BUY'?'arrowUp':'arrowDown',text:sig.type})
+    let sub=chartData.slice(0,i+1);
+    let r=ind.v?vSig(sub,set):{},r2=ind.s?sSig(sub):{},sig=r.sig||r2.sig;
+    if(sig)m.push({time:chartData[i].time,position:sig.type==='BUY'?1:2,color:sig.type==='BUY'?'#0ecb81':'#f6465d',shape:sig.type==='BUY'?'arrowUp':'arrowDown',text:sig.type})
   }
-  series.candle.setMarkers(markers.slice(-50));
+  series.candle.setMarkers(m.slice(-40));
 }
 
 async function pollChart(pair,tf){
   if(!chart||!series.candle||!chartData.length)return;
   try{
-    const res=await fetch(`https://api.binance.com/api/v3/klines?symbol=${pair}&interval=${tf}&limit=3`);
-    if(!res.ok)return;const raw=await res.json();
-    const nd=raw.map(k=>({time:Math.floor(k[0]/1000),open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}));
+    let res=await fetch('https://api.binance.com/api/v3/klines?symbol='+pair+'&interval='+tf+'&limit=3');
+    if(!res.ok)return;let raw=await res.json();
+    let nd=raw.map(k=>({time:Math.floor(k[0]/1000),open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}));
     if(!nd.length)return;
-    const lt=chartData[chartData.length-1].time,nt=nd[nd.length-1].time;
-    if(nt===lt){const u=nd[nd.length-1];chartData[chartData.length-1]=u;series.candle.update(u)}
-    else{for(const d of nd){if(d.time>lt){chartData.push(d);series.candle.update(d)}}}
-    updateIndicators();
+    let lt=chartData[chartData.length-1].time,nt=nd[nd.length-1].time;
+    if(nt===lt){let u=nd[nd.length-1];chartData[chartData.length-1]=u;series.candle.update(u)}
+    else{for(let d of nd){if(d.time>lt){chartData.push(d);series.candle.update(d)}}}
+    updateMAs();updateSignals();
   }catch(e){}
 }
 
 function drawSigLines(){
   if(!activeSig||!chart)return;
-  const s=activeSig,si=chartData.findIndex(d=>d.time===s.time);if(si<0)return;
-  const ei=Math.min(si+4,chartData.length-1),et=chartData[ei].time,sc=s.type==='BUY'?'#0ecb81':'#f6465d';
+  let s=activeSig,si=chartData.findIndex(d=>d.time===s.time);if(si<0)return;
+  let ei=Math.min(si+3,chartData.length-1),et=chartData[ei].time,sc=s.type==='BUY'?'#0ecb81':'#f6465d';
   series.en=chart.addLineSeries({color:'#eaecef',lineWidth:1,lineStyle:3,lastValueVisible:true,priceLineVisible:false});
   series.en.setData([{time:s.time,value:s.entry},{time:et,value:s.entry}]);
   series.sl=chart.addLineSeries({color:'#f6465d',lineWidth:2,lineStyle:2,lastValueVisible:true,priceLineVisible:false});
@@ -399,85 +390,67 @@ function clearSigLines(){
   ['en','sl','t1','t2'].forEach(k=>{if(series[k]){try{chart.removeSeries(series[k])}catch(e){}series[k]=null}})
 }
 
-// ======== DASHBOARD ========
 function renderDash(sig){
-  const box=document.getElementById('dashBox'),grid=document.getElementById('dashGrid');
-  const {wins:W,losses:L,dw:DW,dl:DL,ww:WW,wl:WL,mw:MW,ml:ML}=vState;
-  const total=W+L;if(!total){box.style.display='none';return}
+  let box=document.getElementById('dashWrap'),grid=document.getElementById('dashGrid');
+  let t=dash(d=>d);
+  if(!t){box.style.display='none';return}
   box.style.display='block';
-  const wr=total>0?(W/total*100).toFixed(1):'N/A',dw=DW+DL>0?(DW/(DW+DL)*100).toFixed(1):'N/A',ww=WW+WL>0?(WW/(WW+WL)*100).toFixed(1):'N/A',mw=MW+ML>0?(MW/(MW+ML)*100).toFixed(1):'N/A';
-  const status=sig?sig.type==='BUY'?'🟢 LONG':'🔴 SHORT':'⚪ NO TRADE';
-  grid.innerHTML=
-    `<div class="dc h" style="background:#0066ff">⚡ VELTRIX AI</div><div class="dc h" style="background:#0044cc">SCANNER 2.0</div><div class="dc h" style="background:#0044cc"></div><div class="dc h" style="background:#0044cc"></div>`+
-    `<div class="dc sh">📊 TOTAL</div><div class="dc sh"></div><div class="dc sh"></div><div class="dc sh"></div>`+
-    `<div class="dc l">Wins</div><div class="dc v w">${W}</div><div class="dc l">Losses</div><div class="dc v l">${L}</div>`+
-    `<div class="dc l">Win %</div><div class="dc v" style="color:${total>0?W/total>=.7?'#00ff88':W/total>=.5?'#ffaa00':'#ff4444':'#666'}">${wr}%</div><div class="dc l"></div><div class="dc v"></div>`+
-    `<div class="dc sh">📅 TODAY</div><div class="dc sh"></div><div class="dc sh"></div><div class="dc sh"></div>`+
-    `<div class="dc l">Wins</div><div class="dc v w">${DW}</div><div class="dc l">Losses</div><div class="dc v l">${DL}</div>`+
-    `<div class="dc l">Win %</div><div class="dc v" style="color:${dw!=='N/A'?+dw>=70?'#00ff88':+dw>=50?'#ffaa00':'#ff4444':'#666'}">${dw}%</div><div class="dc l"></div><div class="dc v"></div>`+
-    `<div class="dc sh">📆 WEEK</div><div class="dc v">${WW}W/${WL}L</div><div class="dc sh">🗓 MONTH</div><div class="dc v">${MW}W/${ML}L</div>`+
-    `<div class="dc sh">STATUS</div><div class="dc v" style="color:${sig?sig.type==='BUY'?'var(--green)':'var(--red)':'var(--text2)'}">${status}</div><div class="dc sh">SIGNAL</div><div class="dc v" style="color:#00ddff">${sig?sig.type:'None'}</div>`;
+  grid.innerHTML='<div class="c h" style="background:#0066ff">⚡ VELTRIX</div><div class="c h" style="background:#0044cc">2.0</div><div class="c h" style="background:#0044cc"></div><div class="c h" style="background:#0044cc"></div><div class="c sh">📊 TOTAL</div><div class="c sh"></div><div class="c sh"></div><div class="c sh"></div><div class="c l">Wins</div><div class="c v w">0</div><div class="c l">Losses</div><div class="c v l">0</div><div class="c l">Win %</div><div class="c v">N/A</div><div class="c l"></div><div class="c v"></div><div class="c sh">STATUS</div><div class="c v">'+(sig?sig.type==='BUY'?'🟢 LONG':'🔴 SHORT':'⚪ NO TRADE')+'</div><div class="c sh">SIGNAL</div><div class="c v" style="color:#00ddff">'+(sig?sig.type:'None')+'</div>';
 }
 
 // ======== EVENTS ========
-sel.addEventListener('change',()=>{curPair=sel.value;loadChart(curPair,curTF)});
-document.querySelectorAll('#tfGroup button').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('#tfGroup button').forEach(x=>x.classList.remove('on'));b.classList.add('on');curTF=b.dataset.tf;loadChart(curPair,curTF)})});
+sel.addEventListener('change',function(){curPair=sel.value;loadChart(curPair,curTF)});
+document.querySelectorAll('#tfGroup button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#tfGroup button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');curTF=b.dataset.tf;loadChart(curPair,curTF)})});
 
-// Indicator toggles
-document.querySelectorAll('.ind-switch').forEach(b=>{b.addEventListener('click',()=>{
-  const ind=b.dataset.ind;
-  // Toggle on/off
-  if(indOn[ind]){indOn[ind]=false;b.classList.remove('on')}
-  else{indOn[ind]=true;b.classList.add('on')}
-  // If both off, turn this one on
-  if(!indOn.veltrix&&!indOn.spatrev){indOn[ind]=true;b.classList.add('on')}
-  if(chartData.length)updateIndicators();
+document.querySelectorAll('.ind-btn').forEach(function(b){b.addEventListener('click',function(){
+  let k=b.dataset.ind;
+  if(ind[k]){ind[k]=false;b.classList.remove('on')}else{ind[k]=true;b.classList.add('on')}
+  if(!ind.v&&!ind.s){ind[k]=true;b.classList.add('on')}
+  if(chartData.length){updateMAs();updateSignals()}
 })});
 
-// Settings toggle
-document.getElementById('settingsToggle').addEventListener('click',function(){
-  document.getElementById('settingsPanel').classList.toggle('show');this.classList.toggle('on')
+document.getElementById('settingsBtn').addEventListener('click',function(){
+  let p=document.getElementById('settingsPanel');p.style.display=p.style.display==='none'?'flex':'none'
 });
-document.getElementById('applySettings').addEventListener('click',()=>{
-  S.fast=parseInt(document.getElementById('sFast').value)||9;
-  S.slow=parseInt(document.getElementById('sSlow').value)||21;
-  S.htf=parseInt(document.getElementById('sHtf').value)||4;
-  S.swing=parseInt(document.getElementById('sSwing').value)||10;
-  S.pivot=parseInt(document.getElementById('sPivot').value)||5;
-  S.rr1=parseFloat(document.getElementById('sRr1').value)||1;
-  S.rr2=parseFloat(document.getElementById('sRr2').value)||2;
-  S.line=parseInt(document.getElementById('sLine').value)||30;
-  if(chartData.length)updateIndicators();
+document.getElementById('applySet').addEventListener('click',function(){
+  set.fast=parseInt(document.getElementById('sFast').value)||9;
+  set.slow=parseInt(document.getElementById('sSlow').value)||21;
+  set.htf=parseInt(document.getElementById('sHtf').value)||4;
+  set.swing=parseInt(document.getElementById('sSwing').value)||10;
+  set.pivot=parseInt(document.getElementById('sPivot').value)||5;
+  set.rr1=parseFloat(document.getElementById('sRr1').value)||1;
+  set.rr2=parseFloat(document.getElementById('sRr2').value)||2;
+  if(chartData.length){updateMAs();updateSignals()}
 });
 
 // ======== SCANNER ========
-const SCAN_PAIRS=['BTCUSDT','BNBUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT','TRXUSDT','XLMUSDT','ZECUSDT','WLDUSDT','ASTERUSDT','NEARUSDT','FETUSDT','MEMEUSDT','PORTALUSDT','ALLOUSDT','GENIUSUSDT','HBARUSDT','ONDOUSDT','TONUSDT','SUIUSDT','INJUSDT','HEIUSDT','NFPUSDT'];
-const SCAN_TFS=['1m','3m','5m','15m','1h'];
+const SP=['BTCUSDT','BNBUSDT','ETHUSDT','SOLUSDT','XRPUSDT','DOGEUSDT','TRXUSDT','XLMUSDT','ZECUSDT','WLDUSDT','ASTERUSDT','NEARUSDT','FETUSDT','MEMEUSDT','PORTALUSDT','ALLOUSDT','GENIUSUSDT','HBARUSDT','ONDOUSDT','TONUSDT','SUIUSDT','INJUSDT','HEIUSDT','NFPUSDT'];
+const STF=['1m','3m','5m','15m','1h'];
 let scanning=false;
 document.getElementById('scanBtn').addEventListener('click',async function(){
   if(scanning)return;scanning=true;
-  const btn=this;btn.textContent='⏳ Scanning...';btn.disabled=true;
-  document.getElementById('scanStatus').textContent='Scanning...';
+  let btn=this;btn.textContent='⏳ Scanning...';btn.disabled=true;
+  document.getElementById('scanSt').textContent='Scanning...';
   document.getElementById('noSig').style.display='none';
-  const all=[];let sc=0;
-  for(const sym of SCAN_PAIRS){
-    const rs=await Promise.all(SCAN_TFS.map(async tf=>{try{const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${sym}&interval=${tf}&limit=100`);if(!r.ok)throw Error();const d=await r.json();return{tf,data:d.map(k=>({time:k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}))}}catch(e){return{tf,data:null}}}));
-    const kd={};for(const r of rs)kd[r.tf]=r.data;
-    for(const tf of SCAN_TFS){const c=kd[tf];if(!c||c.length<55)continue;
-      const r=indOn.veltrix?veltrixSig(c,S):{},r2=indOn.spatrev?spatrevSig(c):{},sig=r.sig||r2.sig;
-      if(sig){const base=sym.replace('USDT','');all.push({type:sig.type,sym,base,tf,entry:sig.entry,sl:sig.sl,tp1:sig.tp1,tp2:sig.tp2})}}
-    sc++;btn.textContent=`⏳ ${sc}/${SCAN_PAIRS.length}`;
+  let all=[];let sc=0;
+  for(let sym of SP){
+    let rs=await Promise.all(STF.map(async tf=>{try{let r=await fetch('https://api.binance.com/api/v3/klines?symbol='+sym+'&interval='+tf+'&limit=100');if(!r.ok)throw Error();let d=await r.json();return{tf,data:d.map(k=>({time:k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]}))}}catch(e){return{tf,data:null}}}));
+    let kd={};for(let r of rs)kd[r.tf]=r.data;
+    for(let tf of STF){let c=kd[tf];if(!c||c.length<55)continue;
+      let r=ind.v?vSig(c,set):{},r2=ind.s?sSig(c):{},sig=r.sig||r2.sig;
+      if(sig){let base=sym.replace('USDT','');all.push({type:sig.type,sym,base,tf,entry:sig.entry,sl:sig.sl,tp1:sig.tp1,tp2:sig.tp2})}}
+    sc++;btn.textContent='⏳ '+sc+'/'+SP.length;
   }
-  const grid=document.getElementById('sigGrid'),ns=document.getElementById('noSig');
-  if(!all.length){ns.style.display='block';ns.innerHTML=`<p style="font-size:24px;margin-bottom:4px">📡</p><p style="font-size:13px">No signals</p>`}
-  else{ns.style.display='none';const frag=document.createDocumentFragment();
-    for(const s of all){const card=document.createElement('div');card.className=`sig-card ${s.type==='BUY'?'buy':'sell'}`;
-      card.addEventListener('click',()=>{sel.value=s.sym;curPair=s.sym;loadChart(s.sym,curTF)});
-      card.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:700;font-size:12px">${s.type}</span><span style="font-size:10px;color:var(--text2)">${s.tf}</span></div><div style="font-size:15px;font-weight:700">${s.base}<span style="font-weight:400;font-size:12px">/USDT</span></div><div style="font-size:11px;color:var(--text2);margin:4px 0">Entry: <b>$${fp(s.entry)}</b></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px"><div style="background:var(--bg);border-radius:4px;padding:4px;text-align:center"><div style="font-size:8px;color:var(--text2)">SL</div><div style="font-weight:700;font-size:11px;color:var(--red)">$${fp(s.sl)}</div></div><div style="background:var(--bg);border-radius:4px;padding:4px;text-align:center"><div style="font-size:8px;color:var(--text2)">TP1</div><div style="font-weight:700;font-size:11px;color:var(--green)">$${fp(s.tp1)}</div></div><div style="background:var(--bg);border-radius:4px;padding:4px;text-align:center"><div style="font-size:8px;color:var(--text2)">TP2</div><div style="font-weight:700;font-size:11px;color:var(--green)">$${fp(s.tp2)}</div></div></div>`;
+  let grid=document.getElementById('sigGrid'),ns=document.getElementById('noSig');
+  if(!all.length){ns.style.display='block';ns.innerHTML='<p style="font-size:22px;margin-bottom:4px">📡</p><p style="font-size:12px">No signals</p>'}
+  else{ns.style.display='none';let frag=document.createDocumentFragment();
+    for(let s of all){let card=document.createElement('div');card.className='sig-card '+(s.type==='BUY'?'buy':'sell');
+      card.addEventListener('click',function(){sel.value=s.sym;curPair=s.sym;loadChart(s.sym,curTF)});
+      card.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:700;font-size:12px">'+s.type+'</span><span style="font-size:10px;color:var(--text2)">'+s.tf+'</span></div><div style="font-size:14px;font-weight:700">'+s.base+'<span style="font-weight:400;font-size:11px">/USDT</span></div><div style="font-size:10px;color:var(--text2);margin:3px 0">Entry: <b>$'+fp(s.entry)+'</b></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"><div style="background:var(--bg);border-radius:3px;padding:3px;text-align:center"><div style="font-size:7px;color:var(--text2)">SL</div><div style="font-weight:700;font-size:10px;color:var(--red)">$'+fp(s.sl)+'</div></div><div style="background:var(--bg);border-radius:3px;padding:3px;text-align:center"><div style="font-size:7px;color:var(--text2)">TP1</div><div style="font-weight:700;font-size:10px;color:var(--green)">$'+fp(s.tp1)+'</div></div><div style="background:var(--bg);border-radius:3px;padding:3px;text-align:center"><div style="font-size:7px;color:var(--text2)">TP2</div><div style="font-weight:700;font-size:10px;color:var(--green)">$'+fp(s.tp2)+'</div></div></div>';
       frag.appendChild(card)}
     grid.innerHTML='';grid.appendChild(frag);}
   btn.textContent='🔄 Scan Again';btn.disabled=false;
-  document.getElementById('scanStatus').textContent=`${all.length} signals`;
+  document.getElementById('scanSt').textContent=all.length+' signals';
   scanning=false;
 });
 
