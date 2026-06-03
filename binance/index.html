@@ -11,19 +11,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 .main{display:flex;flex-direction:column;height:100vh}
 
-/* Nav bar with all controls */
 .nav{display:flex;align-items:center;gap:4px;padding:4px 8px;background:#161b22;border-bottom:1px solid #30363d;flex-shrink:0;min-height:38px;flex-wrap:wrap}
 
-/* Pair dropdown */
 .pd{position:relative}
 .pd .pb{display:flex;align-items:center;gap:4px;padding:3px 8px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#eaecef;cursor:pointer;font-size:11px;font-weight:600}
 .pd .pb:hover{border-color:var(--go)}
-.pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:190px;max-height:280px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.pd .dd{display:none;position:absolute;top:100%;left:0;z-index:100;width:200px;max-height:400px;background:#1e2329;border:1px solid #2b3139;border-radius:6px;margin-top:3px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .pd .dd.o{display:block}
 .pd .dd input{width:100%;padding:5px 8px;background:#2b3139;border:none;border-bottom:1px solid #2b3139;color:#eaecef;font-size:10px;outline:none}
-.pd .dd .dl{overflow-y:auto;max-height:240px}
+.pd .dd .dl{overflow-y:auto;max-height:360px}
 .pd .dd .di{display:flex;justify-content:space-between;padding:4px 10px;cursor:pointer;font-size:10px;color:#eaecef}
 .pd .dd .di:hover{background:#2b3139}
+.pd .dd .di .ex{font-size:8px;color:#848e9c}
 
 .nav .s1{width:1px;height:16px;background:#2b3139;flex-shrink:0}
 .tb{padding:2px 6px;font-size:10px;background:#1e2329;border:1px solid #2b3139;border-radius:3px;color:#848e9c;cursor:pointer;font-weight:500;white-space:nowrap}
@@ -38,7 +37,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
 
-/* Signal overlay */
 .so{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
 .so .sg{position:absolute;height:2px}
 .so .sg.e{border-top:2px solid #f0b90b}
@@ -80,23 +78,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .settings-box .ac .sv{background:var(--go);color:#0b0e11}
 .settings-box .ac .cl{background:#2b3139;color:#848e9c}
 
-.tl::-webkit-scrollbar,.pd .dd .dl::-webkit-scrollbar{width:4px}
-.tl::-webkit-scrollbar-thumb,.pd .dd .dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
-
-@media(max-width:768px){.nav{gap:3px;padding:4px 5px}.tb{padding:2px 5px;font-size:9px}.pd .pb{padding:2px 6px;font-size:10px}}
+.dl::-webkit-scrollbar{width:4px}.dl::-webkit-scrollbar-thumb{background:#2b3139;border-radius:2px}
+@media(max-width:768px){.nav{gap:3px;padding:4px 5px}.tb{padding:2px 5px;font-size:9px}}
 </style>
 </head>
 <body>
 
 <div class="main">
   <div class="nav">
-    <!-- Pair Dropdown -->
     <div class="pd" id="pdd">
       <div class="pb" onclick="td()">
         <span id="pn">BTC/USDT</span><span style="font-size:7px">▼</span>
       </div>
       <div class="dd" id="pdl">
-        <input type="text" id="ds" placeholder="Search..." oninput="fd()">
+        <input type="text" id="ds" placeholder="Search pairs..." oninput="fd()">
         <div class="dl" id="dll"></div>
       </div>
     </div>
@@ -125,7 +120,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
   <div class="sig-bar">
     <span style="color:#848e9c">⚡</span>
     <span class="tag n" id="sigTag">Ready</span>
-    <span style="color:#848e9c;font-size:9px" id="sigInfo">TV More button: drawings, indicators, studies</span>
+    <span style="color:#848e9c;font-size:9px" id="sigInfo">150+ crypto/forex/deriv/indices/commodities</span>
     <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpd"></span>
   </div>
 
@@ -156,45 +151,155 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-// Available pairs — crypto + forex with TV exchange prefixes
+// ==================== ALL PAIRS ====================
 const PAIRS = [
-  // Crypto
-  {label:'BTC/USDT', sym:'BINANCE:BTCUSDT', exch:'binance'},
-  {label:'ETH/USDT', sym:'BINANCE:ETHUSDT', exch:'binance'},
-  {label:'BNB/USDT', sym:'BINANCE:BNBUSDT', exch:'binance'},
-  {label:'SOL/USDT', sym:'BINANCE:SOLUSDT', exch:'binance'},
-  {label:'XRP/USDT', sym:'BINANCE:XRPUSDT', exch:'binance'},
-  {label:'ADA/USDT', sym:'BINANCE:ADAUSDT', exch:'binance'},
-  {label:'DOGE/USDT', sym:'BINANCE:DOGEUSDT', exch:'binance'},
-  {label:'DOT/USDT', sym:'BINANCE:DOTUSDT', exch:'binance'},
-  {label:'LINK/USDT', sym:'BINANCE:LINKUSDT', exch:'binance'},
-  {label:'AVAX/USDT', sym:'BINANCE:AVAXUSDT', exch:'binance'},
-  {label:'MATIC/USDT', sym:'BINANCE:MATICUSDT', exch:'binance'},
-  {label:'ATOM/USDT', sym:'BINANCE:ATOMUSDT', exch:'binance'},
-  {label:'UNI/USDT', sym:'BINANCE:UNIUSDT', exch:'binance'},
-  {label:'LTC/USDT', sym:'BINANCE:LTCUSDT', exch:'binance'},
-  {label:'BCH/USDT', sym:'BINANCE:BCHUSDT', exch:'binance'},
-  // Forex
-  {label:'EUR/USD', sym:'FOREXCOM:EURUSD', exch:'forex'},
-  {label:'GBP/USD', sym:'FOREXCOM:GBPUSD', exch:'forex'},
-  {label:'USD/CAD', sym:'FOREXCOM:USDCAD', exch:'forex'},
-  {label:'USD/JPY', sym:'FOREXCOM:USDJPY', exch:'forex'},
-  {label:'AUD/USD', sym:'FOREXCOM:AUDUSD', exch:'forex'},
-  {label:'NZD/USD', sym:'FOREXCOM:NZDUSD', exch:'forex'},
-  {label:'EUR/GBP', sym:'FOREXCOM:EURGBP', exch:'forex'},
-  {label:'EUR/JPY', sym:'FOREXCOM:EURJPY', exch:'forex'},
-  {label:'GBP/JPY', sym:'FOREXCOM:GBPJPY', exch:'forex'},
-  {label:'USD/CHF', sym:'FOREXCOM:USDCHF', exch:'forex'},
-  {label:'XAU/USD', sym:'FOREXCOM:XAUUSD', exch:'commodity'},
-  {label:'XAG/USD', sym:'FOREXCOM:XAGUSD', exch:'commodity'},
-  // Indices
-  {label:'S&P 500', sym:'FOREXCOM:SPX500', exch:'index'},
-  {label:'NAS 100', sym:'FOREXCOM:NAS100', exch:'index'},
-  {label:'DOW 30', sym:'FOREXCOM:DOW30', exch:'index'},
-  {label:'DAX 40', sym:'FOREXCOM:DAX40', exch:'index'},
-  {label:'FTSE 100', sym:'FOREXCOM:FTSE100', exch:'index'},
-  {label:'VIX', sym:'FOREXCOM:VIX', exch:'index'},
+  // === CRYPTO: TOP 50 BINANCE USDT ===
+  {l:'BTC/USDT',s:'BINANCE:BTCUSDT',g:'🪙'},
+  {l:'ETH/USDT',s:'BINANCE:ETHUSDT',g:'🪙'},
+  {l:'BNB/USDT',s:'BINANCE:BNBUSDT',g:'🪙'},
+  {l:'SOL/USDT',s:'BINANCE:SOLUSDT',g:'🪙'},
+  {l:'XRP/USDT',s:'BINANCE:XRPUSDT',g:'🪙'},
+  {l:'ADA/USDT',s:'BINANCE:ADAUSDT',g:'🪙'},
+  {l:'DOGE/USDT',s:'BINANCE:DOGEUSDT',g:'🪙'},
+  {l:'DOT/USDT',s:'BINANCE:DOTUSDT',g:'🪙'},
+  {l:'LINK/USDT',s:'BINANCE:LINKUSDT',g:'🪙'},
+  {l:'AVAX/USDT',s:'BINANCE:AVAXUSDT',g:'🪙'},
+  {l:'MATIC/USDT',s:'BINANCE:MATICUSDT',g:'🪙'},
+  {l:'UNI/USDT',s:'BINANCE:UNIUSDT',g:'🪙'},
+  {l:'ATOM/USDT',s:'BINANCE:ATOMUSDT',g:'🪙'},
+  {l:'LTC/USDT',s:'BINANCE:LTCUSDT',g:'🪙'},
+  {l:'BCH/USDT',s:'BINANCE:BCHUSDT',g:'🪙'},
+  {l:'TRX/USDT',s:'BINANCE:TRXUSDT',g:'🪙'},
+  {l:'NEAR/USDT',s:'BINANCE:NEARUSDT',g:'🪙'},
+  {l:'APT/USDT',s:'BINANCE:APTUSDT',g:'🪙'},
+  {l:'ARB/USDT',s:'BINANCE:ARBUSDT',g:'🪙'},
+  {l:'OP/USDT',s:'BINANCE:OPUSDT',g:'🪙'},
+  {l:'FIL/USDT',s:'BINANCE:FILUSDT',g:'🪙'},
+  {l:'ICP/USDT',s:'BINANCE:ICPUSDT',g:'🪙'},
+  {l:'AAVE/USDT',s:'BINANCE:AAVEUSDT',g:'🪙'},
+  {l:'ALGO/USDT',s:'BINANCE:ALGOUSDT',g:'🪙'},
+  {l:'AXS/USDT',s:'BINANCE:AXSUSDT',g:'🪙'},
+  {l:'SAND/USDT',s:'BINANCE:SANDUSDT',g:'🪙'},
+  {l:'MANA/USDT',s:'BINANCE:MANAUSDT',g:'🪙'},
+  {l:'APE/USDT',s:'BINANCE:APEUSDT',g:'🪙'},
+  {l:'XLM/USDT',s:'BINANCE:XLMUSDT',g:'🪙'},
+  {l:'ZEC/USDT',s:'BINANCE:ZECUSDT',g:'🪙'},
+  {l:'ETC/USDT',s:'BINANCE:ETCUSDT',g:'🪙'},
+  {l:'VET/USDT',s:'BINANCE:VETUSDT',g:'🪙'},
+  {l:'HBAR/USDT',s:'BINANCE:HBARUSDT',g:'🪙'},
+  {l:'EGLD/USDT',s:'BINANCE:EGLDUSDT',g:'🪙'},
+  {l:'FTM/USDT',s:'BINANCE:FTMUSDT',g:'🪙'},
+  {l:'CRV/USDT',s:'BINANCE:CRVUSDT',g:'🪙'},
+  {l:'GRT/USDT',s:'BINANCE:GRTUSDT',g:'🪙'},
+  {l:'RUNE/USDT',s:'BINANCE:RUNEUSDT',g:'🪙'},
+  {l:'AAVE/USDT',s:'BINANCE:AAVEUSDT',g:'🪙'},
+  {l:'WLD/USDT',s:'BINANCE:WLDUSDT',g:'🪙'},
+  {l:'INJ/USDT',s:'BINANCE:INJUSDT',g:'🪙'},
+  {l:'SUI/USDT',s:'BINANCE:SUIUSDT',g:'🪙'},
+  {l:'TIA/USDT',s:'BINANCE:TIAUSDT',g:'🪙'},
+  {l:'SEI/USDT',s:'BINANCE:SEIUSDT',g:'🪙'},
+  {l:'PEPE/USDT',s:'BINANCE:PEPEUSDT',g:'🪙'},
+  {l:'FLOKI/USDT',s:'BINANCE:FLOKIUSDT',g:'🪙'},
+  {l:'SHIB/USDT',s:'BINANCE:SHIBUSDT',g:'🪙'},
+  {l:'TON/USDT',s:'BINANCE:TONUSDT',g:'🪙'},
+  {l:'FET/USDT',s:'BINANCE:FETUSDT',g:'🪙'},
+  {l:'RNDR/USDT',s:'BINANCE:RNDRUSDT',g:'🪙'},
+  {l:'MKR/USDT',s:'BINANCE:MKRUSDT',g:'🪙'},
+  {l:'COMP/USDT',s:'BINANCE:COMPUSDT',g:'🪙'},
+  {l:'SNX/USDT',s:'BINANCE:SNXUSDT',g:'🪙'},
+  {l:'DYDX/USDT',s:'BINANCE:DYDXUSDT',g:'🪙'},
+  {l:'IMX/USDT',s:'BINANCE:IMXUSDT',g:'🪙'},
+
+  // === FOREX: MAJORS & MINORS ===
+  {l:'EUR/USD',s:'FOREXCOM:EURUSD',g:'💱'},
+  {l:'GBP/USD',s:'FOREXCOM:GBPUSD',g:'💱'},
+  {l:'USD/CAD',s:'FOREXCOM:USDCAD',g:'💱'},
+  {l:'USD/JPY',s:'FOREXCOM:USDJPY',g:'💱'},
+  {l:'AUD/USD',s:'FOREXCOM:AUDUSD',g:'💱'},
+  {l:'NZD/USD',s:'FOREXCOM:NZDUSD',g:'💱'},
+  {l:'USD/CHF',s:'FOREXCOM:USDCHF',g:'💱'},
+  {l:'EUR/GBP',s:'FOREXCOM:EURGBP',g:'💱'},
+  {l:'EUR/JPY',s:'FOREXCOM:EURJPY',g:'💱'},
+  {l:'GBP/JPY',s:'FOREXCOM:GBPJPY',g:'💱'},
+  {l:'AUD/JPY',s:'FOREXCOM:AUDJPY',g:'💱'},
+  {l:'NZD/JPY',s:'FOREXCOM:NZDJPY',g:'💱'},
+  {l:'CHF/JPY',s:'FOREXCOM:CHFJPY',g:'💱'},
+  {l:'EUR/AUD',s:'FOREXCOM:EURAUD',g:'💱'},
+  {l:'GBP/AUD',s:'FOREXCOM:GBPAUD',g:'💱'},
+  {l:'EUR/CAD',s:'FOREXCOM:EURCAD',g:'💱'},
+  {l:'GBP/CAD',s:'FOREXCOM:GBPCAD',g:'💱'},
+  {l:'AUD/CAD',s:'FOREXCOM:AUDCAD',g:'💱'},
+  {l:'NZD/CAD',s:'FOREXCOM:NZDCAD',g:'💱'},
+  {l:'EUR/NZD',s:'FOREXCOM:EURNZD',g:'💱'},
+  {l:'GBP/NZD',s:'FOREXCOM:GBPNZD',g:'💱'},
+  {l:'AUD/NZD',s:'FOREXCOM:AUDNZD',g:'💱'},
+  {l:'EUR/CHF',s:'FOREXCOM:EURCHF',g:'💱'},
+  {l:'GBP/CHF',s:'FOREXCOM:GBPCHF',g:'💱'},
+  {l:'AUD/CHF',s:'FOREXCOM:AUDCHF',g:'💱'},
+  {l:'NZD/CHF',s:'FOREXCOM:NZDCHF',g:'💱'},
+  {l:'USD/MXN',s:'FOREXCOM:USDMXN',g:'💱'},
+  {l:'USD/ZAR',s:'FOREXCOM:USDZAR',g:'💱'},
+  {l:'USD/TRY',s:'FOREXCOM:USDTRY',g:'💱'},
+  {l:'USD/BRL',s:'FOREXCOM:USDBRL',g:'💱'},
+  {l:'USD/SGD',s:'FOREXCOM:USDSGD',g:'💱'},
+  {l:'USD/HKD',s:'FOREXCOM:USDHKD',g:'💱'},
+  {l:'USD/NOK',s:'FOREXCOM:USDNOK',g:'💱'},
+  {l:'USD/SEK',s:'FOREXCOM:USDSEK',g:'💱'},
+  {l:'EUR/TRY',s:'FOREXCOM:EURTRY',g:'💱'},
+  {l:'GBP/TRY',s:'FOREXCOM:GBPTRY',g:'💱'},
+
+  // === DERIV SYNTHETIC INDICES ===
+  {l:'VIX75 — Volatility 75',s:'TVC:VIX75',g:'📈'},
+  {l:'VIX25 — Volatility 25',s:'TVC:VIX25',g:'📈'},
+  {l:'VIX10 — Volatility 10',s:'TVC:VIX10',g:'📈'},
+  {l:'VIX100 — Volatility 100',s:'TVC:VIX100',g:'📈'},
+  {l:'VIX50 — Volatility 50',s:'TVC:VIX50',g:'📈'},
+  {l:'VIX1 — Volatility 1',s:'TVC:VIX1',g:'📈'},
+  {l:'VIX200 — Volatility 200',s:'TVC:VIX200',g:'📈'},
+  {l:'BOOM1000 — Boom 1000',s:'TVC:BOOM1000',g:'📈'},
+  {l:'BOOM500 — Boom 500',s:'TVC:BOOM500',g:'📈'},
+  {l:'BOOM300 — Boom 300',s:'TVC:BOOM300',g:'📈'},
+  {l:'CRASH1000 — Crash 1000',s:'TVC:CRASH1000',g:'📈'},
+  {l:'CRASH500 — Crash 500',s:'TVC:CRASH500',g:'📈'},
+  {l:'CRASH300 — Crash 300',s:'TVC:CRASH300',g:'📈'},
+  {l:'DEX900 — Dex 900',s:'TVC:DEX900',g:'📈'},
+  {l:'DEX600 — Dex 600',s:'TVC:DEX600',g:'📈'},
+
+  // === COMMODITIES ===
+  {l:'XAU/USD — Gold',s:'FOREXCOM:XAUUSD',g:'🥇'},
+  {l:'XAG/USD — Silver',s:'FOREXCOM:XAGUSD',g:'🥇'},
+  {l:'USOIL — WTI Crude',s:'FOREXCOM:USOIL',g:'🛢️'},
+  {l:'UKOIL — Brent Crude',s:'FOREXCOM:UKOIL',g:'🛢️'},
+  {l:'NGAS — Natural Gas',s:'FOREXCOM:NGAS',g:'🔥'},
+  {l:'XCU/USD — Copper',s:'FOREXCOM:XCUUSD',g:'🔋'},
+  {l:'XPT/USD — Platinum',s:'FOREXCOM:XPTUSD',g:'💎'},
+  {l:'XPD/USD — Palladium',s:'FOREXCOM:XPDUSD',g:'💎'},
+  {l:'CORN — Corn Futures',s:'FOREXCOM:CORN',g:'🌽'},
+  {l:'WHEAT — Wheat Futures',s:'FOREXCOM:WHEAT',g:'🌾'},
+  {l:'SOYBEANS — Soybean',s:'FOREXCOM:SOYBN',g:'🌱'},
+  {l:'COFFEE — Coffee',s:'FOREXCOM:COFFEE',g:'☕'},
+  {l:'SUGAR — Sugar',s:'FOREXCOM:SUGAR',g:'🍬'},
+  {l:'COTTON — Cotton',s:'FOREXCOM:COTTON',g:'👕'},
+
+  // === INDICES ===
+  {l:'S&P 500',s:'FOREXCOM:SPX500',g:'📊'},
+  {l:'NAS 100 — Nasdaq',s:'FOREXCOM:NAS100',g:'📊'},
+  {l:'DOW 30 — Dow Jones',s:'FOREXCOM:DOW30',g:'📊'},
+  {l:'DAX 40 — Germany',s:'FOREXCOM:DAX40',g:'📊'},
+  {l:'FTSE 100 — UK',s:'FOREXCOM:FTSE100',g:'📊'},
+  {l:'CAC 40 — France',s:'FOREXCOM:CAC40',g:'📊'},
+  {l:'NIKKEI 225 — Japan',s:'FOREXCOM:NI225',g:'📊'},
+  {l:'HSI 50 — Hong Kong',s:'FOREXCOM:HSI50',g:'📊'},
+  {l:'ASX 200 — Australia',s:'FOREXCOM:ASX200',g:'📊'},
+  {l:'VIX — Volatility Index',s:'FOREXCOM:VIX',g:'📊'},
+  {l:'IBOV — Brazil',s:'FOREXCOM:IBOV',g:'📊'},
+  {l:'SENSEX — India',s:'FOREXCOM:SENSEX',g:'📊'},
+  {l:'STOXX 600 — Europe',s:'FOREXCOM:STOXX50',g:'📊'},
 ];
+// Remove duplicates
+const seen={};const UNIQUE=[];
+PAIRS.forEach(p=>{const k=p.s;if(!seen[k]){seen[k]=true;UNIQUE.push(p)}});
+PAIRS.length=0;PAIRS.push(...UNIQUE);
 
 const S = {w:null, tf:'60',
   vOn:true, vF:9, vS:21, sOn:false, sF:20, sS:50,
@@ -202,7 +307,6 @@ const S = {w:null, tf:'60',
   curSym:'BINANCE:BTCUSDT', signal:null, isBN:true, ddO:false
 };
 
-// ==================== TV WIDGET ====================
 function cw(){
   document.getElementById('tv').innerHTML='';document.getElementById('so').innerHTML='';
   const lo=document.getElementById('lo');lo.classList.remove('h');lo.style.display='flex';
@@ -217,25 +321,16 @@ function cw(){
   });
   setTimeout(()=>{lo.classList.add('h');lo.style.display='none'},4000);
 }
+function getSt(){const l=[];if(S.vOn){l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vF}});l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vS}})}if(S.sOn){l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sF}});l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sS}})}return l}
 
-function getSt(){
-  const l=[];
-  if(S.vOn){l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vF}});l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vS}})}
-  if(S.sOn){l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sF}});l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sS}})}
-  return l;
-}
-
-// ==================== PAIR DROPDOWN ====================
 function td(){S.ddO=!S.ddO;document.getElementById('pdl').classList.toggle('o',S.ddO);if(S.ddO)setTimeout(()=>document.getElementById('ds').focus(),50)}
 document.addEventListener('click',e=>{if(S.ddO&&!e.target.closest('.pd')){S.ddO=false;document.getElementById('pdl').classList.remove('o')}})
-
 function rd(f){
   let items=PAIRS;
-  if(f){const l=f.toLowerCase();items=items.filter(p=>p.label.toLowerCase().includes(l))}
+  if(f){const l=f.toLowerCase();items=items.filter(p=>p.l.toLowerCase().includes(l))}
   document.getElementById('dll').innerHTML=items.map(p=>{
-    const ac=p.sym===S.curSym?' style="background:#2b3139"':'';
-    const grp=p.exch==='forex'?'💱':p.exch==='commodity'?'🥇':p.exch==='index'?'📊':'🪙';
-    return `<div class="di"${ac} onclick="sp('${p.sym}','${p.label}')">${grp} ${p.label}</div>`;
+    const ac=p.s===S.curSym?' style="background:#2b3139"':'';
+    return `<div class="di"${ac} onclick="sp('${p.s}','${p.l}')">${p.g} ${p.l}</div>`;
   }).join('');
 }
 function fd(){rd(document.getElementById('ds').value)}
@@ -248,96 +343,43 @@ function sp(sym,label){
   S.isBN=sym.startsWith('BINANCE:');
   document.getElementById('so').innerHTML='';cw();
   if(S.isBN)setTimeout(computeSignal,3000);
-  else{
-    document.getElementById('sigTag').className='tag n';document.getElementById('sigTag').textContent='TV Mode';
-    document.getElementById('sigInfo').textContent='Use TV More button for studies/drawings';
-  }
+  else{const t=document.getElementById('sigTag');t.className='tag n';t.textContent='TV Mode';document.getElementById('sigInfo').textContent='Use TV toolbar for studies/drawings'}
 }
 
-// ==================== TIMEFRAMES ====================
-function stf(tf){
-  S.tf=tf;
-  document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('act',b.dataset.tf===tf));
-  if(!S.w)return;
-  try{S.w.setSymbol(S.curSym,tf)}catch(e){cw()}
-}
+function stf(tf){S.tf=tf;document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('act',b.dataset.tf===tf));if(!S.w)return;try{S.w.setSymbol(S.curSym,tf)}catch(e){cw()}}
 
-// ==================== SIGNAL ====================
 async function computeSignal(){
-  if(!S.isBN)return;
-  const kl=await klines();if(!kl||kl.length<50)return;
+  if(!S.isBN)return;const kl=await klines();if(!kl||kl.length<50)return;
   const c=kl.map(k=>k.c),l=kl.map(k=>k.l),h=kl.map(k=>k.h);
   const vf=sma(c,S.vF),vs=sma(c,S.vS),sf=ema(c,S.sF),ss=ema(c,S.sS);
   S.signal=null;
-  if(S.vOn){
-    for(let i=c.length-2;i>=Math.max(S.vF,S.vS,5);i--){
-      if(!vf[i]||!vs[i]||!vf[i-1]||!vs[i-1])continue;
-      if(vf[i-1]<=vs[i-1]&&vf[i]>vs[i]){const sl=Math.min(...l.slice(i-S.swingLen,i));if(sl>0&&sl<c[i]*0.99){const e=c[i],r=e-sl;S.signal={ty:'buy',e,sl,tp1:e+r*S.rr1,tp2:e+r*S.rr2,src:'Veltrix'};break}}
-      if(vf[i-1]>=vs[i-1]&&vf[i]<vs[i]){const sl=Math.max(...h.slice(i-S.swingLen,i));if(sl>0&&sl>c[i]*1.01){const e=c[i],r=sl-e;S.signal={ty:'sell',e,sl,tp1:e-r*S.rr1,tp2:e-r*S.rr2,src:'Veltrix'};break}}
-    }
-  }
-  if(!S.signal&&S.sOn){
-    for(let i=c.length-2;i>=Math.max(S.sF,S.sS,5);i--){
-      if(!sf[i]||!ss[i]||!sf[i-1]||!ss[i-1])continue;
-      if(sf[i-1]<=ss[i-1]&&sf[i]>ss[i]){const sl=Math.min(...l.slice(i-S.swingLen,i));if(sl>0&&sl<c[i]*0.99){const e=c[i],r=e-sl;S.signal={ty:'buy',e,sl,tp1:e+r*S.rr1,tp2:e+r*S.rr2,src:'Spatrev'};break}}
-      if(sf[i-1]>=ss[i-1]&&sf[i]<ss[i]){const sl=Math.max(...h.slice(i-S.swingLen,i));if(sl>0&&sl>c[i]*1.01){const e=c[i],r=sl-e;S.signal={ty:'sell',e,sl,tp1:e-r*S.rr1,tp2:e-r*S.rr2,src:'Spatrev'};break}}
-    }
-  }
+  if(S.vOn){for(let i=c.length-2;i>=Math.max(S.vF,S.vS,5);i--){if(!vf[i]||!vs[i]||!vf[i-1]||!vs[i-1])continue;if(vf[i-1]<=vs[i-1]&&vf[i]>vs[i]){const sl=Math.min(...l.slice(i-S.swingLen,i));if(sl>0&&sl<c[i]*0.99){const e=c[i],r=e-sl;S.signal={ty:'buy',e,sl,tp1:e+r*S.rr1,tp2:e+r*S.rr2,src:'Veltrix'};break}}if(vf[i-1]>=vs[i-1]&&vf[i]<vs[i]){const sl=Math.max(...h.slice(i-S.swingLen,i));if(sl>0&&sl>c[i]*1.01){const e=c[i],r=sl-e;S.signal={ty:'sell',e,sl,tp1:e-r*S.rr1,tp2:e-r*S.rr2,src:'Veltrix'};break}}}}
+  if(!S.signal&&S.sOn){for(let i=c.length-2;i>=Math.max(S.sF,S.sS,5);i--){if(!sf[i]||!ss[i]||!sf[i-1]||!ss[i-1])continue;if(sf[i-1]<=ss[i-1]&&sf[i]>ss[i]){const sl=Math.min(...l.slice(i-S.swingLen,i));if(sl>0&&sl<c[i]*0.99){const e=c[i],r=e-sl;S.signal={ty:'buy',e,sl,tp1:e+r*S.rr1,tp2:e+r*S.rr2,src:'Spatrev'};break}}if(sf[i-1]>=ss[i-1]&&sf[i]<ss[i]){const sl=Math.max(...h.slice(i-S.swingLen,i));if(sl>0&&sl>c[i]*1.01){const e=c[i],r=sl-e;S.signal={ty:'sell',e,sl,tp1:e-r*S.rr1,tp2:e-r*S.rr2,src:'Spatrev'};break}}}}
   updSig();drawOL();
 }
-
 async function klines(){
-  try{
-    const m=S.curSym.match(/BINANCE:([A-Z0-9]{2,20})/);if(!m)return[];
-    const intMap={'1':'1m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
-    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${m[1]}&interval=${intMap[S.tf]||'1h'}&limit=200`);
-    if(!r.ok)return[];const d=await r.json();
-    return d.map(k=>({t:Math.floor(k[0]/1000),o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
-  }catch(e){return[]}
+  try{const m=S.curSym.match(/BINANCE:([A-Z0-9]{2,20})/);if(!m)return[];const intMap={'1':'1m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${m[1]}&interval=${intMap[S.tf]||'1h'}&limit=200`);if(!r.ok)return[];const d=await r.json();return d.map(k=>({t:Math.floor(k[0]/1000),o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}))}catch(e){return[]}
 }
 function sma(d,l){const r=[];for(let i=0;i<d.length;i++){if(i<l-1){r.push(null);continue}let s=0;for(let j=i-l+1;j<=i;j++)s+=d[j];r.push(s/l)}return r}
 function ema(d,l){const r=[];const k=2/(l+1);let p=0,st=false;for(let i=0;i<d.length;i++){if(i<l-1){r.push(null);continue}if(!st){let s=0;for(let j=0;j<l;j++)s+=d[j];p=s/l;r.push(p);st=true}else{p=d[i]*k+p*(1-k);r.push(p)}}return r}
 
 function drawOL(){
-  const so=document.getElementById('so');const sig=S.signal;
-  const cwEl=document.querySelector('.cw');const h=cwEl.clientHeight,w=cwEl.clientWidth;
+  const so=document.getElementById('so');const sig=S.signal;const cw2=document.querySelector('.cw');const h=cw2.clientHeight,w=cw2.clientWidth;
   if(!sig||h<100||w<100){so.innerHTML='';return}
-  const p=[sig.e,sig.tp1,sig.tp2,sig.sl];const pad=Math.max(...p)*0.01;
-  const mx=Math.max(...p)+pad,mn=Math.min(...p)-pad,rg=mx-mn;
-  const yPx=v=>((mx-v)/rg)*h;const lw=Math.max(w*0.18,120),lx=w-lw;
-  const cls=sig.ty==='buy'?'b':'s';
-  so.innerHTML=`
-    <div class="st ${cls}" style="top:8px;right:8px">${sig.ty.toUpperCase()} ${sig.src} @ $${fp(sig.e)}</div>
-    <div class="sg e" style="left:${lx}px;width:${lw}px;top:${yPx(sig.e)}px"><div class="lb y">ENTRY $${fp(sig.e)}</div></div>
-    <div class="sg t" style="left:${lx}px;width:${lw}px;top:${yPx(sig.tp1)}px"><div class="lb g">TP1 $${fp(sig.tp1)}</div></div>
-    <div class="sg t" style="left:${lx}px;width:${lw}px;top:${yPx(sig.tp2)}px"><div class="lb g">TP2 $${fp(sig.tp2)}</div></div>
-    <div class="sg s" style="left:${lx}px;width:${lw}px;top:${yPx(sig.sl)}px"><div class="lb r">SL $${fp(sig.sl)}</div></div>`;
+  const p=[sig.e,sig.tp1,sig.tp2,sig.sl];const pad=Math.max(...p)*0.01;const mx=Math.max(...p)+pad,mn=Math.min(...p)-pad,rg=mx-mn;
+  const yPx=v=>((mx-v)/rg)*h;const lw=Math.max(w*0.18,120),lx=w-lw;const cls=sig.ty==='buy'?'b':'s';
+  so.innerHTML=`<div class="st ${cls}" style="top:8px;right:8px">${sig.ty.toUpperCase()} ${sig.src} @ $${fp(sig.e)}</div><div class="sg e" style="left:${lx}px;width:${lw}px;top:${yPx(sig.e)}px"><div class="lb y">ENTRY $${fp(sig.e)}</div></div><div class="sg t" style="left:${lx}px;width:${lw}px;top:${yPx(sig.tp1)}px"><div class="lb g">TP1 $${fp(sig.tp1)}</div></div><div class="sg t" style="left:${lx}px;width:${lw}px;top:${yPx(sig.tp2)}px"><div class="lb g">TP2 $${fp(sig.tp2)}</div></div><div class="sg s" style="left:${lx}px;width:${lw}px;top:${yPx(sig.sl)}px"><div class="lb r">SL $${fp(sig.sl)}</div></div>`;
 }
-function updSig(){
-  const t=document.getElementById('sigTag'),i=document.getElementById('sigInfo'),u=document.getElementById('sigUpd');
-  u.textContent=new Date().toLocaleTimeString();
-  if(S.isBN&&S.signal){t.className='tag '+(S.signal.ty==='buy'?'b':'s');t.textContent=`${S.signal.src} ${S.signal.ty.toUpperCase()}`;i.textContent=`$${fp(S.signal.e)}`}
-  else if(S.isBN){t.className='tag n';t.textContent='Waiting';i.textContent='Computing...'}
-  else{t.className='tag n';t.textContent='TV Mode';i.textContent='Use TV More button for studies/drawings'}
-}
+function updSig(){const t=document.getElementById('sigTag'),i=document.getElementById('sigInfo'),u=document.getElementById('sigUpd');u.textContent=new Date().toLocaleTimeString();if(S.isBN&&S.signal){t.className='tag '+(S.signal.ty==='buy'?'b':'s');t.textContent=`${S.signal.src} ${S.signal.ty.toUpperCase()}`;i.textContent=`$${fp(S.signal.e)}`}else if(S.isBN){t.className='tag n';t.textContent='Waiting';i.textContent='Computing...'}else{t.className='tag n';t.textContent='TV Mode';i.textContent='Use TV toolbar'}}
 function fp(p){if(p>=1000)return p.toLocaleString(undefined,{minFractionDigits:2,maxFractionDigits:2});if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8)}
 
-function ti(n){
-  if(n==='v')S.vOn=!S.vOn;else S.sOn=!S.sOn;
-  const el=document.getElementById(n==='v'?'vb':'sab');
-  el.className='ib '+(n==='v'?(S.vOn?'on':'off'):(S.sOn?'on':'off'));
-  el.textContent=n==='v'?'Veltrix':'Spatrev';
-  document.getElementById('so').innerHTML='';cw();if(S.isBN)setTimeout(computeSignal,3000);
-}
+function ti(n){if(n==='v')S.vOn=!S.vOn;else S.sOn=!S.sOn;const el=document.getElementById(n==='v'?'vb':'sab');el.className='ib '+(n==='v'?(S.vOn?'on':'off'):(S.sOn?'on':'off'));el.textContent=n==='v'?'Veltrix':'Spatrev';document.getElementById('so').innerHTML='';cw();if(S.isBN)setTimeout(computeSignal,3000)}
 function os(){['vf','vs','ef','es','sLen','rr1','rr2'].forEach(id=>document.getElementById(id).value=S[id]);document.getElementById('sm').classList.add('show')}
 function cs(){document.getElementById('sm').classList.remove('show')}
 function ss(){S.vF=+vf.value||9;S.vS=+vs.value||21;S.sF=+ef.value||20;S.sS=+es.value||50;S.swingLen=+sLen.value||10;S.rr1=+rr1.value||1;S.rr2=+rr2.value||2;cs();document.getElementById('so').innerHTML='';cw();if(S.isBN)setTimeout(computeSignal,3000)}
 document.getElementById('sm').addEventListener('click',e=>{if(e.target===document.getElementById('sm'))cs()});
 function ust(){document.getElementById('stm').textContent=new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString()}
-
-let rt;
-window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.w){try{S.w.resize()}catch(e){}if(S.signal)drawOL()}},300)});
-
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.w){try{S.w.resize()}catch(e){}if(S.signal)drawOL()}},300)});
 cw();setInterval(computeSignal,60000);setInterval(ust,30000);
 </script>
 </body>
