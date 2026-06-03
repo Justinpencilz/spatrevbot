@@ -7,41 +7,39 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaecef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px}
-:root{--go:#f0b90b;--t2:#848e9c;--gr:#0ecb81;--rd:#f6465d}
+:root{--go:#f0b90b;--gr:#0ecb81;--rd:#f6465d}
 
 .main{display:flex;flex-direction:column;height:100vh}
 
-/* Minimal nav — only our custom toggles */
 .nav{display:flex;align-items:center;gap:6px;padding:4px 12px;background:#161b22;border-bottom:1px solid #30363d;flex-shrink:0;min-height:36px}
-.nav .sp1{width:1px;height:16px;background:#2b3139}
+.nav .s1{width:1px;height:16px;background:#2b3139}
 .ib{padding:2px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer;font-weight:500}
 .ib:hover{border-color:var(--go);color:#eaecef}
 .ib.on{background:#1a3a2a;border-color:var(--gr);color:var(--gr)}
 .ib.off{background:#3a1a2a;border-color:var(--rd);color:var(--rd)}
 .sb2{padding:2px 10px;font-size:11px;background:#1e2329;border:1px solid #2b3139;border-radius:4px;color:#848e9c;cursor:pointer}
 .sb2:hover{border-color:var(--go);color:#eaecef}
-.nav .info{font-size:11px;color:#eaecef;font-weight:600;margin-right:4px}
-.nav .hint{font-size:9px;color:#848e9c}
 
-/* Chart */
 .cw{flex:1;position:relative;min-height:0}
 #tv{width:100%;height:100%}
 
-/* Signal overlay */
+/* Signal overlay — short lines on right side only */
 .so{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
-.so .sl{position:absolute;left:0;right:0}
-.so .sl.e{border-top:2px solid #f0b90b;height:2px}
-.so .sl.t{border-top:2px solid #0ecb81;height:2px}
-.so .sl.s{border-top:2px solid #f6465d;height:2px}
-.so .sl .lb{position:absolute;right:0;transform:translateY(-50%);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap;font-family:'SF Mono','Consolas',monospace}
-.so .sl .lb.g{color:#fff;background:#0ecb81}
-.so .sl .lb.r{color:#fff;background:#f6465d}
-.so .sl .lb.y{color:#000;background:#f0b90b}
-.so .st{position:absolute;top:4px;left:4px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;z-index:6}
+.so .sgl{position:absolute;height:2px}
+.so .sgl.e{border-top:2px solid #f0b90b}
+.so .sgl.t{border-top:2px solid #0ecb81}
+.so .sgl.s{border-top:2px solid #f6465d}
+.so .sgl .lb{position:absolute;right:-2px;top:50%;transform:translate(100%,-50%);padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap;font-family:'SF Mono','Consolas',monospace}
+.so .sgl .lb.g{color:#fff;background:#0ecb81}
+.so .sgl .lb.r{color:#fff;background:#f6465d}
+.so .sgl .lb.y{color:#000;background:#f0b90b}
+
+/* Signal title badge — top-right corner */
+.so .st{position:absolute;top:8px;right:8px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:700;z-index:6}
 .so .st.b{background:rgba(14,203,129,.9);color:#000}
 .so .st.s{background:rgba(246,69,93,.9);color:#fff}
 
-.sig-bar{display:flex;gap:10px;padding:3px 12px;background:#131722;border-top:1px solid #2b3139;font-size:10px;align-items:center;flex-shrink:0;min-height:24px}
+.sig-bar{display:flex;gap:8px;padding:3px 12px;background:#131722;border-top:1px solid #2b3139;font-size:10px;align-items:center;flex-shrink:0;min-height:24px}
 .sig-bar .tag{padding:1px 7px;border-radius:3px;font-weight:600}
 .sig-bar .tag.b{background:#0a2a1a;color:var(--gr)}
 .sig-bar .tag.s{background:#2a0a1a;color:var(--rd)}
@@ -70,27 +68,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 .settings-box .ac .sv{background:var(--go);color:#0b0e11}
 .settings-box .ac .cl{background:#2b3139;color:#848e9c}
 
-/* Pair detection badge for overlay */
-.pair-badge{position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.6);color:#848e9c;padding:2px 8px;border-radius:3px;font-size:8px;z-index:6;pointer-events:none}
 @media(max-width:768px){.nav{padding:4px 8px}.ib,.sb2{padding:2px 8px;font-size:10px}}
 </style>
 </head>
 <body>
 
 <div class="main">
-  <!-- Minimal nav — only indicator toggles -->
   <div class="nav">
-    <span class="info">VELTRIX AI 2.0</span>
-    <span class="sp1"></span>
+    <span style="font-size:11px;color:#eaecef;font-weight:600">VELTRIX AI 2.0</span>
+    <span class="s1"></span>
     <button class="ib on" id="vb" onclick="ti('v')">Veltrix AI</button>
     <button class="ib off" id="sab" onclick="ti('s')">Spatrev AI</button>
-    <span class="sp1"></span>
-    <button class="sb2" onclick="os()">⚙️ Settings</button>
-    <span class="hint" style="margin-left:auto">Use TradingView toolbar for pairs, timeframes, drawings &amp; indicators</span>
+    <span class="s1"></span>
+    <button class="sb2" onclick="os()">⚙️</button>
+    <span style="margin-left:auto;font-size:9px;color:#848e9c">Use TV toolbar: pairs • timeframes • drawings • indicators</span>
   </div>
 
   <div class="cw">
-    <div class="lo" id="lo"><div class="sp2"></div><p>Loading Chart...</p></div>
+    <div class="lo" id="lo"><div class="sp2"></div><p>Loading...</p></div>
     <div id="tv"></div>
     <div class="so" id="so"></div>
   </div>
@@ -98,12 +93,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
   <div class="sig-bar">
     <span style="color:#848e9c">⚡</span>
     <span class="tag n" id="sigTag">Ready</span>
-    <span style="color:#848e9c;font-size:9px" id="sigInfo">Use TV search for any crypto/forex pair</span>
-    <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpdate"></span>
+    <span style="color:#848e9c;font-size:9px" id="sigInfo">Use TV search for crypto/forex pairs</span>
+    <span style="margin-left:auto;color:#848e9c;font-size:9px" id="sigUpd"></span>
   </div>
 
   <div class="st">
-    <span><span class="dt g" id="sd"></span><span id="stxt">TradingView Live</span></span>
+    <span><span class="dt g"></span><span>TradingView Live</span></span>
     <span id="stm"></span>
   </div>
 </div>
@@ -129,151 +124,80 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0b0e11;color:#eaece
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-const S = {
-  w:null, tf:'60',
-  vOn:true, vF:9, vS:21,
-  sOn:false, sF:20, sS:50,
-  swingLen:10, rr1:1.0, rr2:2.0,
-  signal:null, curPair:null, isBinance:false
+const S = {w:null,tf:'60',
+  vOn:true,vF:9,vS:21, sOn:false,sF:20,sS:50,
+  swingLen:10,rr1:1.0,rr2:2.0,
+  signal:null,isBN:false
 };
 
-// ==================== TRADINGVIEW WIDGET ====================
+// ==================== TV WIDGET ====================
 function cw(){
-  document.getElementById('tv').innerHTML='';
-  document.getElementById('so').innerHTML='';
+  document.getElementById('tv').innerHTML='';document.getElementById('so').innerHTML='';
   const lo=document.getElementById('lo');lo.classList.remove('h');lo.style.display='flex';
-
   S.w=new TradingView.widget({
-    container_id:'tv',
-    symbol:'BINANCE:BTCUSDT',
-    interval:S.tf,
-    timezone:'Etc/UTC',
-    theme:'dark',style:'1',locale:'en',
-    toolbar_bg:'#131722',
-    enable_publishing:false,
-    allow_symbol_change:true,
-    hide_top_toolbar:false,
-    hide_legend:false,
-    save_image:false,
-    autosize:true,
-    studies:getStudies(),
-    disabled_features:[],
-    enabled_features:['study_templates','show_hide_button_on_legend'],
-    overrides:{
-      'paneProperties.background':'#131722',
-      'paneProperties.vertGridProperties.color':'#1e222d',
-      'paneProperties.horzGridProperties.color':'#1e222d',
-      'scalesProperties.textColor':'#848e9c'
-    },
+    container_id:'tv',symbol:'BINANCE:BTCUSDT',interval:S.tf,
+    timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',toolbar_bg:'#131722',
+    enable_publishing:false,allow_symbol_change:true,hide_top_toolbar:false,hide_legend:false,
+    save_image:false,autosize:true,studies:getSt(),
+    disabled_features:[],enabled_features:['study_templates','show_hide_button_on_legend'],
+    overrides:{'paneProperties.background':'#131722','paneProperties.vertGridProperties.color':'#1e222d','paneProperties.horzGridProperties.color':'#1e222d','scalesProperties.textColor':'#848e9c'},
     loading_screen:{backgroundColor:'#131722',foregroundColor:'#f0b90b'}
   });
-
   setTimeout(()=>{lo.classList.add('h');lo.style.display='none'},4000);
 }
-
-function getStudies(){
+function getSt(){
   const l=[];
   if(S.vOn){l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vF}});l.push({id:'MASimple@tv-basicstudies',inputs:{length:S.vS}})}
   if(S.sOn){l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sF}});l.push({id:'EMAExponential@tv-basicstudies',inputs:{length:S.sS}})}
   return l;
 }
 
-// ==================== DETECT PAIR CHANGES ====================
-// Poll the TV widget header to detect symbol changes
-function pollPair(){
-  if(!S.w)return;
+// ==================== DETECT PAIR ====================
+function detectBN(){
   try{
-    // Look for TradingView's symbol display in the DOM
-    const tvEl=document.getElementById('tv');
-    if(tvEl){
-      const text=tvEl.textContent||'';
-      // Find symbol pattern like "BTCUSDT" or "BTC/USDT" or "EURUSD"
-      const headerMatch=text.match(/([A-Z]{2,6})\/?([A-Z]{2,6})/);
-      if(headerMatch){
-        const pair=headerMatch[1]+headerMatch[2];
-        const isBN=pair.toUpperCase().includes('BTC')||pair.toUpperCase().includes('ETH')||
-          pair.toUpperCase().includes('BNB')||pair.toUpperCase().includes('XRP')||
-          pair.toUpperCase().includes('SOL');
-        // Simplified: just check if we can detect it's Binance
-        const isBinance=text.includes('BINANCE')||pair.length<=10;
-        
-        if(pair!==S.curPair){
-          S.curPair=pair;
-          S.isBinance=isBinance;
-          updateStatus();
-          if(S.isBinance)setTimeout(computeSignal,1000);
-          else document.getElementById('so').innerHTML='';
-        }
-      }
-    }
-  }catch(e){}
-  setTimeout(pollPair,2000);
-}
-
-// ==================== SIGNAL ENGINE ====================
-async function computeSignal(){
-  // Only compute for Binance pairs
-  const sym=detectSymbol();
-  if(!sym)return;
-  const kl=await fetchKlines(sym);
-  if(!kl||kl.length<50)return;
-  
-  const closes=kl.map(k=>k.c),lows=kl.map(k=>k.l),highs=kl.map(k=>k.h);
-  const vFast=sma(closes,S.vF),vSlow=sma(closes,S.vS);
-  const sFast=ema(closes,S.sF),sSlow=ema(closes,S.sS);
-  
-  S.signal=null;
-  
-  if(S.vOn){
-    for(let i=closes.length-2;i>=Math.max(S.vF,S.vS,5);i--){
-      if(!vFast[i]||!vSlow[i]||!vFast[i-1]||!vSlow[i-1])continue;
-      if(vFast[i-1]<=vSlow[i-1]&&vFast[i]>vSlow[i]){
-        const sl=Math.min(...lows.slice(i-S.swingLen,i));
-        if(sl>0&&sl<closes[i]*0.99){const e=closes[i],risk=e-sl;S.signal={type:'buy',entry:e,sl,tp1:e+risk*S.rr1,tp2:e+risk*S.rr2,src:'Veltrix'};break}
-      }
-      if(vFast[i-1]>=vSlow[i-1]&&vFast[i]<vSlow[i]){
-        const sl=Math.max(...highs.slice(i-S.swingLen,i));
-        if(sl>0&&sl>closes[i]*1.01){const e=closes[i],risk=sl-e;S.signal={type:'sell',entry:e,sl,tp1:e-risk*S.rr1,tp2:e-risk*S.rr2,src:'Veltrix'};break}
-      }
-    }
-  }
-
-  if(!S.signal&&S.sOn){
-    for(let i=closes.length-2;i>=Math.max(S.sF,S.sS,5);i--){
-      if(!sFast[i]||!sSlow[i]||!sFast[i-1]||!sSlow[i-1])continue;
-      if(sFast[i-1]<=sSlow[i-1]&&sFast[i]>sSlow[i]){
-        const sl=Math.min(...lows.slice(i-S.swingLen,i));
-        if(sl>0&&sl<closes[i]*0.99){const e=closes[i],risk=e-sl;S.signal={type:'buy',entry:e,sl,tp1:e+risk*S.rr1,tp2:e+risk*S.rr2,src:'Spatrev'};break}
-      }
-      if(sFast[i-1]>=sSlow[i-1]&&sFast[i]<sSlow[i]){
-        const sl=Math.max(...highs.slice(i-S.swingLen,i));
-        if(sl>0&&sl>closes[i]*1.01){const e=closes[i],risk=sl-e;S.signal={type:'sell',entry:e,sl,tp1:e-risk*S.rr1,tp2:e-risk*S.rr2,src:'Spatrev'};break}
-      }
-    }
-  }
-  
-  updateStatus();
-  drawOverlay();
-}
-
-function detectSymbol(){
-  try{
-    const el=document.getElementById('tv');
-    if(!el)return null;
-    const txt=el.textContent||'';
+    const txt=document.getElementById('tv').textContent||'';
     const m=txt.match(/BINANCE:([A-Z]{2,20})/);
-    if(m)return m[1];
-    // Fallback: check for USDT pairs
-    const m2=txt.match(/([A-Z]{2,10})USDT/);
-    if(m2)return m2[1];
-    return null;
+    if(m){S.isBN=true;return m[1]}
+    S.isBN=false;return null;
   }catch(e){return null}
 }
+function pollBN(){
+  detectBN();
+  if(S.isBN)setTimeout(computeSignal,500);
+  else document.getElementById('so').innerHTML='';
+  setTimeout(pollBN,3000);
+}
 
-async function fetchKlines(sym){
+// ==================== SIGNAL ====================
+async function computeSignal(){
+  const sym=detectBN();
+  if(!sym)return;
+  const kl=await klines(sym);
+  if(!kl||kl.length<50)return;
+  const c=kl.map(k=>k.c),l=kl.map(k=>k.l),h=kl.map(k=>k.h);
+  const vf=sma(c,S.vF),vs=sma(c,S.vS),sf=ema(c,S.sF),ss=ema(c,S.sS);
+  S.signal=null;
+  if(S.vOn){
+    for(let i=c.length-2;i>=Math.max(S.vF,S.vS,5);i--){
+      if(!vf[i]||!vs[i]||!vf[i-1]||!vs[i-1])continue;
+      if(vf[i-1]<=vs[i-1]&&vf[i]>vs[i]){const sl=Math.min(...l.slice(i-S.swingLen,i));if(sl>0&&sl<c[i]*0.99){const e=c[i],r=e-sl;S.signal={ty:'buy',e,sl,tp1:e+r*S.rr1,tp2:e+r*S.rr2,src:'Veltrix'};break}}
+      if(vf[i-1]>=vs[i-1]&&vf[i]<vs[i]){const sl=Math.max(...h.slice(i-S.swingLen,i));if(sl>0&&sl>c[i]*1.01){const e=c[i],r=sl-e;S.signal={ty:'sell',e,sl,tp1:e-r*S.rr1,tp2:e-r*S.rr2,src:'Veltrix'};break}}
+    }
+  }
+  if(!S.signal&&S.sOn){
+    for(let i=c.length-2;i>=Math.max(S.sF,S.sS,5);i--){
+      if(!sf[i]||!ss[i]||!sf[i-1]||!ss[i-1])continue;
+      if(sf[i-1]<=ss[i-1]&&sf[i]>ss[i]){const sl=Math.min(...l.slice(i-S.swingLen,i));if(sl>0&&sl<c[i]*0.99){const e=c[i],r=e-sl;S.signal={ty:'buy',e,sl,tp1:e+r*S.rr1,tp2:e+r*S.rr2,src:'Spatrev'};break}}
+      if(sf[i-1]>=ss[i-1]&&sf[i]<ss[i]){const sl=Math.max(...h.slice(i-S.swingLen,i));if(sl>0&&sl>c[i]*1.01){const e=c[i],r=sl-e;S.signal={ty:'sell',e,sl,tp1:e-r*S.rr1,tp2:e-r*S.rr2,src:'Spatrev'};break}}
+    }
+  }
+  updSig();drawOL();
+}
+
+async function klines(s){
   try{
     const m={'1':'1m','2':'2m','3':'3m','5':'5m','15':'15m','30':'30m','60':'1h','240':'4h','1D':'1d','1W':'1w','1M':'1M'};
-    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${sym}&interval=${m[S.tf]||'1h'}&limit=200`);
+    const r=await fetch(`https://api.binance.com/api/v3/klines?symbol=${s}&interval=${m[S.tf]||'1h'}&limit=200`);
     if(!r.ok)return[];const d=await r.json();
     return d.map(k=>({t:Math.floor(k[0]/1000),o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]}));
   }catch(e){return[]}
@@ -281,82 +205,69 @@ async function fetchKlines(sym){
 function sma(d,l){const r=[];for(let i=0;i<d.length;i++){if(i<l-1){r.push(null);continue}let s=0;for(let j=i-l+1;j<=i;j++)s+=d[j];r.push(s/l)}return r}
 function ema(d,l){const r=[];const k=2/(l+1);let p=0,st=false;for(let i=0;i<d.length;i++){if(i<l-1){r.push(null);continue}if(!st){let s=0;for(let j=0;j<l;j++)s+=d[j];p=s/l;r.push(p);st=true}else{p=d[i]*k+p*(1-k);r.push(p)}}return r}
 
-// ==================== SIGNAL OVERLAY ====================
-function drawOverlay(){
+// ==================== SHORT LINE OVERLAY (right side only) ====================
+function drawOL(){
   const so=document.getElementById('so');
   const sig=S.signal;
   const cwEl=document.querySelector('.cw');
   const h=cwEl.clientHeight,w=cwEl.clientWidth;
-  if(!sig||h<100||w<100||!S.isBinance){so.innerHTML='';return}
+  if(!sig||h<100||w<100||!S.isBN){so.innerHTML='';return}
 
-  const prices=[sig.entry,sig.tp1,sig.tp2,sig.sl];
+  // Short lines on the RIGHT side of chart
+  const prices=[sig.e,sig.tp1,sig.tp2,sig.sl];
   const pad=Math.max(...prices)*0.01;
-  const maxP=Math.max(...prices)+pad,minP=Math.min(...prices)-pad,range=maxP-minP;
-  const yPx=p=>((maxP-p)/range)*h;
-  const cls=sig.type==='buy'?'b':'s';
+  const mx=Math.max(...prices)+pad, mn=Math.min(...prices)-pad, rg=mx-mn;
+  const yPx=p=>((mx-p)/rg)*h;
+
+  // Line width = 18% of chart width (short nub on right)
+  const lineW=Math.max(w*0.18, 120);
+  const left=w-lineW;
+  const cls=sig.ty==='buy'?'b':'s';
 
   so.innerHTML=`
-    <div class="st ${cls}" style="top:8px;left:8px">${sig.type.toUpperCase()} ${sig.src} @ $${fp(sig.entry)}</div>
-    <div class="sl e" style="top:${yPx(sig.entry)}px"><div class="lb y">ENTRY $${fp(sig.entry)}</div></div>
-    <div class="sl t" style="top:${yPx(sig.tp1)}px"><div class="lb g">TP1 $${fp(sig.tp1)}</div></div>
-    <div class="sl t" style="top:${yPx(sig.tp2)}px"><div class="lb g">TP2 $${fp(sig.tp2)}</div></div>
-    <div class="sl s" style="top:${yPx(sig.sl)}px"><div class="lb r">SL $${fp(sig.sl)}</div></div>
+    <div class="st ${cls}" style="top:8px;right:8px">${sig.ty.toUpperCase()} ${sig.src} @ $${fp(sig.e)}</div>
+    <div class="sgl e" style="left:${left}px;width:${lineW}px;top:${yPx(sig.e)}px"><div class="lb y">ENTRY $${fp(sig.e)}</div></div>
+    <div class="sgl t" style="left:${left}px;width:${lineW}px;top:${yPx(sig.tp1)}px"><div class="lb g">TP1 $${fp(sig.tp1)}</div></div>
+    <div class="sgl t" style="left:${left}px;width:${lineW}px;top:${yPx(sig.tp2)}px"><div class="lb g">TP2 $${fp(sig.tp2)}</div></div>
+    <div class="sgl s" style="left:${left}px;width:${lineW}px;top:${yPx(sig.sl)}px"><div class="lb r">SL $${fp(sig.sl)}</div></div>
   `;
 }
 
-function updateStatus(){
-  const tag=document.getElementById('sigTag'),info=document.getElementById('sigInfo'),upd=document.getElementById('sigUpdate');
-  upd.textContent=new Date().toLocaleTimeString();
-  if(S.isBinance&&S.signal){
-    tag.className='tag '+(S.signal.type==='buy'?'b':'s');
-    tag.textContent=`${S.signal.src} ${S.signal.type.toUpperCase()}`;
-    info.textContent=`$${fp(S.signal.entry)}`;
-  }else if(S.isBinance){
-    tag.className='tag n';tag.textContent='Waiting';info.textContent='Computing signals...';
-  }else{
-    tag.className='tag n';tag.textContent='TV Mode';info.textContent='Use TradingView toolbar';
-  }
+function updSig(){
+  const t=document.getElementById('sigTag'),i=document.getElementById('sigInfo'),u=document.getElementById('sigUpd');
+  u.textContent=new Date().toLocaleTimeString();
+  if(S.isBN&&S.signal){
+    t.className='tag '+(S.signal.ty==='buy'?'b':'s');
+    t.textContent=`${S.signal.src} ${S.signal.ty.toUpperCase()}`;
+    i.textContent=`$${fp(S.signal.e)}`;
+  }else if(S.isBN){t.className='tag n';t.textContent='Waiting';i.textContent='Computing...'}
+  else{t.className='tag n';t.textContent='TV Mode';i.textContent='Use TV toolbar'}
 }
-
-function fp(p){
-  if(p>=1000)return p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-  if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8);
-}
+function fp(p){if(p>=1000)return p.toLocaleString(undefined,{minFractionDigits:2,maxFractionDigits:2});if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8)}
 
 // ==================== ACTIONS ====================
 function ti(n){
   if(n==='v')S.vOn=!S.vOn;else S.sOn=!S.sOn;
   const el=document.getElementById(n==='v'?'vb':'sab');
-  const on=n==='v'?S.vOn:S.sOn;
-  el.className='ib '+(on?'on':'off');
-  el.textContent=n==='v'?'Veltrix AI':'Spatrev AI';
+  el.className='ib '+(S.vOn?'on':'off');el.textContent=n==='v'?'Veltrix AI':'Spatrev AI';
   document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,3000);
 }
-
 function os(){
-  document.getElementById('vf').value=S.vF;document.getElementById('vs').value=S.vS;
-  document.getElementById('ef').value=S.sF;document.getElementById('es').value=S.sS;
-  document.getElementById('sLen').value=S.swingLen;document.getElementById('rr1').value=S.rr1;document.getElementById('rr2').value=S.rr2;
+  ['vf','vs','ef','es','sLen','rr1','rr2'].forEach(id=>document.getElementById(id).value=S[id]);
   document.getElementById('sm').classList.add('show');
 }
 function cs(){document.getElementById('sm').classList.remove('show')}
 function ss(){
-  S.vF=+document.getElementById('vf').value||9;S.vS=+document.getElementById('vs').value||21;
-  S.sF=+document.getElementById('ef').value||20;S.sS=+document.getElementById('es').value||50;
-  S.swingLen=+document.getElementById('sLen').value||10;S.rr1=+document.getElementById('rr1').value||1;S.rr2=+document.getElementById('rr2').value||2;
+  S.vF=+vf.value||9;S.vS=+vs.value||21;S.sF=+ef.value||20;S.sS=+es.value||50;
+  S.swingLen=+sLen.value||10;S.rr1=+rr1.value||1;S.rr2=+rr2.value||2;
   cs();document.getElementById('so').innerHTML='';cw();setTimeout(computeSignal,3000);
 }
 document.getElementById('sm').addEventListener('click',e=>{if(e.target===document.getElementById('sm'))cs()});
-function ust(){document.getElementById('stm').textContent=new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString()}
 
-let rtimer;
-window.addEventListener('resize',()=>{
-  clearTimeout(rtimer);
-  rtimer=setTimeout(()=>{if(S.w){try{S.w.resize()}catch(e){cw()}}},300);
-});
+let rt;
+window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(S.w){try{S.w.resize()}catch(e){cw()}if(S.signal)drawOL()}},300)});
 
-// ==================== INIT ====================
-cw();pollPair();setInterval(computeSignal,60000);setInterval(ust,30000);
+cw();pollBN();setInterval(computeSignal,60000);
 </script>
 </body>
 </html>
