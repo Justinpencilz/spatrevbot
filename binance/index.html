@@ -80,14 +80,34 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-let w = null, sIds = [], curTF = '15';
+let w = null, curTF = '15', curSym = 'BINANCE:BTCUSDT';
 
-function initTV() {
-  if (typeof TradingView === 'undefined') { setTimeout(initTV, 400); return; }
+// Get which studies are active
+function getStudies() {
+  var s = [];
+  if (document.getElementById('iv').classList.contains('on')) {
+    s.push('MA@tv-basicstudies');
+    s.push('MA@tv-basicstudies');
+  }
+  if (document.getElementById('is').classList.contains('on')) {
+    s.push('EMA@tv-basicstudies');
+    s.push('EMA@tv-basicstudies');
+  }
+  return s;
+}
+
+function buildTV() {
+  if (typeof TradingView === 'undefined') { setTimeout(buildTV, 400); return; }
+  
+  // Clear container
+  document.getElementById('tv').innerHTML = '';
+  
+  // Remove old widget
+  if (w) { try { w.remove(); } catch(e) {} w = null; }
   
   w = new TradingView.widget({
     container_id: 'tv',
-    symbol: 'BINANCE:BTCUSDT',
+    symbol: curSym,
     interval: curTF,
     theme: 'dark',
     style: '1',
@@ -99,7 +119,7 @@ function initTV() {
     hide_legend: false,
     save_image: false,
     autosize: true,
-    studies: [],
+    studies: getStudies(),
     disabled_features: [],
     enabled_features: [
       'show_hide_button_on_legend',
@@ -119,66 +139,33 @@ function initTV() {
   setTimeout(() => document.getElementById('ld').classList.add('h'), 6000);
 }
 
-// ======== GET CHART OBJECT (with retry) ========
-function getC(retries, cb) {
-  if (!w || !w.chart) { if (retries > 0) setTimeout(() => getC(retries-1, cb), 500); return; }
-  try {
-    const c = w.chart();
-    if (c) { cb(c); return; }
-  } catch(e) {}
-  if (retries > 0) setTimeout(() => getC(retries-1, cb), 500);
-}
-
-// ======== INDICATORS ========
-function addStudies() {
-  getC(10, function(c) {
-    // Remove old
-    sIds.forEach(id => { try { c.removeEntity(id); } catch(e) {} });
-    sIds = [];
-    
-    const v = document.getElementById('iv').classList.contains('on');
-    const s = document.getElementById('is').classList.contains('on');
-    
-    try {
-      if (v) {
-        sIds.push(c.createStudy('Moving Average', false, false, [9, 'close', 0, '#2962FF']).id);
-        sIds.push(c.createStudy('Moving Average', false, false, [21, 'close', 0, '#FF6D00']).id);
-      }
-      if (s) {
-        sIds.push(c.createStudy('Moving Average Exponential', false, false, [20, 'close', 0, '#0ECB81']).id);
-        sIds.push(c.createStudy('Moving Average Exponential', false, false, [50, 'close', 0, '#F6465D']).id);
-      }
-    } catch(e) { console.log('Study err:', e); }
-  });
-}
-
+// Toggle indicator - rebuild widget with new studies
 function tog(id) {
   document.getElementById(id).classList.toggle('on');
-  addStudies();
+  buildTV();
 }
 
-// ======== TIMEFRAMES ========
+// Change timeframe - rebuild widget with new interval
 function chTF(tf, btn) {
   curTF = tf;
-  document.querySelectorAll('.tb').forEach(b => b.classList.remove('act'));
+  document.querySelectorAll('.tb').forEach(function(b) { b.classList.remove('act'); });
   if (btn) btn.classList.add('act');
   
-  getC(10, function(c) {
-    try { c.setResolution(tf); } catch(e) {
-      try { w.setSymbol('BINANCE:BTCUSDT', tf); } catch(e2) {}
-    }
-  });
+  if (w) {
+    // Try rebuilding (reload)
+    buildTV();
+  }
 }
 
-// ======== RESIZE ========
-let rt;
-window.addEventListener('resize', () => {
+// Resize
+var rt;
+window.addEventListener('resize', function() {
   clearTimeout(rt);
-  rt = setTimeout(() => { if (w) try { w.resize(); } catch(e) {} }, 200);
+  rt = setTimeout(function() { if (w) try { w.resize(); } catch(e) {} }, 200);
 });
 
-// ======== START ========
-initTV();
+// Start
+buildTV();
 </script>
 </body>
 </html>
