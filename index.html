@@ -1,11 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=/binance/">
-<title>Spatrev</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatrev Tradebot — Free AI Trading Signals</title>
+    
+    <!-- Facebook Open Graph Tags -->
+    <meta property="og:title" content="Spatrev Tradebot — Free AI Trading Signals" />
+    <meta property="og:description" content="Join thousands of traders using AI-powered signals. Free lifetime access. Start earning today!" />
+    <meta property="og:image" content="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?w=1200&h=630&fit=crop" />
+    <meta property="og:url" content="https://www.spatrevbot.online" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Spatrev Tradebot" />
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1674222590397905');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00f0ff;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        
+        .logo span {
+            color: #14b8a6;
+        }
+        
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            h1 { font-size: 2.75rem; }
+        }
+        
+        .subtitle {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-card {
+            background: #111;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            min-width: 140px;
+            flex: 1;
+        }
+        
+        .stat-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00f0ff;
+        }
+        
+        @media (min-width: 768px) {
+            .stat-amount { font-size: 2rem; }
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.25rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 480px) {
+            .features { grid-template-columns: 1fr; }
+        }
+        
+        .feature-item {
+            background: #111;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(to right, #22d3ee, #14b8a6);
+            color: black;
+            font-weight: 700;
+            font-size: 1.125rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+            text-decoration: none;
+        }
+        
+        .whatsapp-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+        
+        .disclaimer {
+            color: #6b7280;
+            font-size: 0.7rem;
+            margin-top: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+    </style>
 </head>
 <body>
-<a href="/binance/">Go to Binance Charts</a>
+    <div class="container">
+        <div class="logo">Spatrev <span>Tradebot</span></div>
+        
+        <h1>Free AI Trading Signals<br>Join 1,000+ Active Traders</h1>
+        
+        <p class="subtitle">
+            Get real-time BUY/SELL signals powered by artificial intelligence. 
+            No experience needed. Free lifetime access.
+        </p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-amount">$50 → $225</div>
+                <div class="stat-label">Member Result</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-amount">$200 → $857</div>
+                <div class="stat-label">Member Result</div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-item">📊 Real-time Signals</div>
+            <div class="feature-item">🤖 AI-Powered Analysis</div>
+            <div class="feature-item">💰 Free Forever</div>
+            <div class="feature-item">👥 Active Community</div>
+        </div>
+        
+        <a class="whatsapp-btn" id="whatsappBtn" href="#">
+            💬 Join Free WhatsApp Group
+        </a>
+    </div>
+
+    <script>
+        document.getElementById('whatsappBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Generate unique event_id for dedup
+            const eventId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+            
+            // Browser-side Pixel Lead event
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Lead', {
+                    content_name: 'WhatsApp Group Join - Root',
+                    lead_type: 'WhatsApp Button',
+                    event_id: eventId
+                });
+            }
+            
+            // Server-side CAPI (same event_id for dedup)
+            try {
+                const fbp = document.cookie.split('; ').find(r => r.startsWith('_fbp='))?.split('=')[1] || '';
+                const fbc = document.cookie.split('; ').find(r => r.startsWith('_fbc='))?.split('=')[1] || '';
+                
+                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', 
+                    new Blob([JSON.stringify({
+                        content_name: 'WhatsApp Group Join - Root',
+                        event_id: eventId,
+                        fbp: fbp,
+                        fbc: fbc
+                    })], { type: 'application/json' })
+                );
+            } catch(e) {}
+            
+            window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx', '_blank');
+        });
+    </script>
 </body>
 </html>
