@@ -1,17 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tradebot — Exclusive Opportunity</title>
+    <title>VIP — Exclusive Trading Access</title>
     
-    <!-- Facebook Open Graph Tags -->
-    <meta property="og:title" content="Tradebot — Exclusive Opportunity" />
-    <meta property="og:description" content="Join our free WhatsApp group for AI trading signals. Limited spots available!" />
-    <meta property="og:image" content="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?w=1200&h=630&fit=crop" />
-    <meta property="og:url" content="https://www.spatrevbot.online" />
+    <!-- Facebook Open Graph -->
+    <meta property="og:title" content="VIP Exclusive — Limited Spots Available" />
+    <meta property="og:description" content="Exclusive VIP access to premium AI trading signals. Limited spots — act now!" />
+    <meta property="og:image" content="https://images.pexels.com/photos/7567442/pexels-photo-7567442.jpeg?w=1200&h=630&fit=crop" />
+    <meta property="og:url" content="https://www.spatrevbot.online/vip/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Tradebot" />
+    <meta property="og:site_name" content="Spatrev VIP" />
     
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -24,255 +26,309 @@
     fbq('init', '1674222590397905');
     fbq('track', 'PageView');
     </script>
-    <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Meta Pixel Code -->
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/></noscript>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(239, 68, 68, 0.4); }
+            50% { border-color: rgba(239, 68, 68, 0.8); }
         }
         
         body {
-            font-family: system-ui, sans-serif;
-            background: #0a0a0a;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #0d0d0d;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 1rem;
+            color: white;
         }
         
-        .container {
+        .vip-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
             text-align: center;
-            max-width: 800px;
+            position: relative;
+        }
+        
+        .vip-border {
+            position: absolute;
+            inset: 0.5rem;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            border-radius: 0.5rem;
+            pointer-events: none;
+        }
+        
+        .vip-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
             width: 100%;
         }
         
-        h1 {
+        .vip-stamp {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            margin-bottom: 1.5rem;
+            animation: flicker 2s ease-in-out infinite;
+        }
+        
+        .vip-title {
             font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            color: #00f0ff;
-            text-transform: uppercase;
-            margin-bottom: 2.5rem;
+            font-weight: 900;
+            color: #ef4444;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            animation: glitch 3s ease-in-out infinite;
         }
         
         @media (min-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
+            .vip-title { font-size: 3rem; }
         }
         
-        .countdown {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 2.5rem;
-        }
-        
-        .countdown-item {
-            background: #111;
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 0.75rem;
-            padding: 1rem 1.5rem;
-            min-width: 70px;
-        }
-        
-        @media (min-width: 768px) {
-            .countdown-item {
-                padding: 1.25rem 2rem;
-                min-width: 90px;
-            }
-        }
-        
-        .countdown-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #00f0ff;
-        }
-        
-        @media (min-width: 768px) {
-            .countdown-number {
-                font-size: 3rem;
-            }
-        }
-        
-        .countdown-label {
-            font-size: 0.7rem;
+        .vip-sub {
+            font-size: 1rem;
             color: #9ca3af;
-            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            font-style: italic;
         }
         
-        .warning-text {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 2.5rem;
+        .spot-counter {
+            background: #111;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            animation: borderPulse 2s ease-in-out infinite;
         }
         
-        .warning-text span {
+        .spot-number {
+            font-size: 3rem;
+            font-weight: 900;
             color: #ef4444;
         }
         
-        .exclusive-card {
-            background: #111;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-radius: 1rem;
-            padding: 2rem;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 2.5rem;
+        @media (min-width: 768px) {
+            .spot-number { font-size: 4rem; }
         }
         
-        .exclusive-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            color: #00f0ff;
+        .spot-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: #6b7280;
             text-transform: uppercase;
-            margin-bottom: 0.75rem;
+        }
+        
+        .timer-section {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .timer-block {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            min-width: 60px;
+        }
+        
+        .timer-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ef4444;
+            font-family: system-ui, sans-serif;
         }
         
         @media (min-width: 768px) {
-            .exclusive-title {
-                font-size: 2rem;
-            }
+            .timer-num { font-size: 2rem; }
         }
         
-        .exclusive-subtitle {
-            color: white;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+        .timer-lbl {
+            font-size: 0.55rem;
+            color: #6b7280;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
         
-        .exclusive-badge {
-            color: #00f0ff;
-            font-size: 0.875rem;
-            font-weight: 600;
+        .vip-features {
+            list-style: none;
+            margin-bottom: 2rem;
         }
         
-        .whatsapp-btn {
+        .vip-features li {
+            padding: 0.5rem 0;
+            color: #d1d5db;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        .vip-features li:last-child { border: none; }
+        
+        .vip-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: linear-gradient(to right, #22d3ee, #14b8a6);
-            color: black;
-            font-weight: 700;
+            background: #ef4444;
+            color: white;
+            font-weight: 800;
             font-size: 1.125rem;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
-            border-radius: 9999px;
+            border-radius: 0.25rem;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.2s;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            font-family: 'Georgia', serif;
         }
         
-        .whatsapp-btn:hover {
-            opacity: 0.9;
+        .vip-btn:hover {
+            background: #dc2626;
+            transform: scale(1.03);
         }
         
-        .arrow {
-            font-size: 2rem;
-            margin-top: 0.5rem;
-            display: block;
+        .vip-footer {
+            margin-top: 2rem;
+            font-size: 0.65rem;
+            color: #374151;
+            max-width: 400px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Opportunity Ends In</h1>
-        
-        <div class="countdown" id="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">04</div>
-                <div class="countdown-label">HOURS</div>
+    <div class="vip-container">
+        <div class="vip-border"></div>
+        <div class="vip-content">
+            <div class="vip-stamp">★ LIMITED ENTRY ★</div>
+            
+            <div class="vip-title">VIP ACCESS</div>
+            <p class="vip-sub">Exclusive premium signals reserved for serious traders</p>
+            
+            <div class="spot-counter">
+                <div class="spot-number" id="spotCount">12</div>
+                <div class="spot-label">Spots Remaining</div>
             </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">59</div>
-                <div class="countdown-label">MINUTES</div>
+            
+            <div class="timer-section">
+                <div class="timer-block">
+                    <div class="timer-num" id="hours">04</div>
+                    <div class="timer-lbl">Hours</div>
+                </div>
+                <div class="timer-block">
+                    <div class="timer-num" id="minutes">59</div>
+                    <div class="timer-lbl">Minutes</div>
+                </div>
+                <div class="timer-block">
+                    <div class="timer-num" id="seconds">32</div>
+                    <div class="timer-lbl">Seconds</div>
+                </div>
             </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">32</div>
-                <div class="countdown-label">SECONDS</div>
+            
+            <p style="color:#9ca3af; font-size:0.85rem; margin-bottom:1.5rem; font-style:italic;">
+                ⏳ Offer expires when all spots are filled
+            </p>
+            
+            <ul class="vip-features">
+                <li>🔥 Exclusive VIP Signals (not available on free tier)</li>
+                <li>⚡ Priority Buy/Sell Alerts</li>
+                <li>🎯 High-Confidence Trade Setups</li>
+                <li>👑 Direct Access to Coach Justin</li>
+            </ul>
+            
+            <button class="vip-btn" id="claimBtn">
+                🔴 Claim Your VIP Spot
+            </button>
+            
+            <div class="vip-footer">
+                VIP group is strictly monitored. Spammers will be removed immediately.
+                Trading involves financial risk.
             </div>
         </div>
-        
-        <p class="warning-text">
-            In Few Hours You Could <span>Lose</span> This Opportunity
-        </p>
-        
-        <div class="exclusive-card">
-            <div class="exclusive-title">🔥 Exclusive</div>
-            <div class="exclusive-subtitle">Unlock our AI!</div>
-            <div class="exclusive-badge">⚡ Limited spots!</div>
-        </div>
-        
-        <button class="whatsapp-btn" id="whatsappBtn">
-            👋 Join free whatsapp group now
-        </button>
-        <span class="arrow">👉</span>
     </div>
-
+    
     <script>
-        let hours = 4, minutes = 59, seconds = 32;
-        
-        function updateCountdown() {
-            seconds--;
-            if (seconds < 0) {
-                seconds = 59;
-                minutes--;
-            }
-            if (minutes < 0) {
-                minutes = 59;
-                hours--;
-            }
-            if (hours < 0) {
-                hours = 0;
-                minutes = 0;
-                seconds = 0;
+        // Countdown timer (resets every 6 hours)
+        function startTimer() {
+            let total = 6 * 60 * 60;
+            const stored = localStorage.getItem('vip_timer');
+            if (stored) {
+                const elapsed = Math.floor((Date.now() - parseInt(stored)) / 1000);
+                total = Math.max(0, 6 * 60 * 60 - elapsed);
+            } else {
+                localStorage.setItem('vip_timer', Date.now().toString());
             }
             
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            function tick() {
+                const h = Math.floor(total / 3600);
+                const m = Math.floor((total % 3600) / 60);
+                const s = total % 60;
+                document.getElementById('hours').textContent = String(h).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+                if (total > 0) total--;
+            }
+            tick();
+            setInterval(tick, 1000);
         }
+        startTimer();
         
-        setInterval(updateCountdown, 1000);
+        // Spot count decreases (randomly)
+        let spots = 12;
+        setInterval(() => {
+            if (spots > 3 && Math.random() < 0.15) {
+                spots--;
+                document.getElementById('spotCount').textContent = spots;
+            }
+        }, 30000);
         
-        document.getElementById('whatsappBtn').addEventListener('click', function() {
-            // Generate unique event_id for dedup between browser Pixel + CAPI
+        // WhatsApp button
+        document.getElementById('claimBtn').addEventListener('click', function() {
             const eventId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
             
-            // Browser-side Pixel event (with event_id for dedup)
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead', {
-                    content_name: 'WhatsApp Group Join',
-                    lead_type: 'WhatsApp Button',
+                    content_name: 'WhatsApp Group - VIP',
+                    lead_type: 'VIP Button',
                     event_id: eventId
                 });
             }
             
-            // Server-side CAPI event (same event_id for dedup)
             try {
                 const fbp = document.cookie.split('; ').find(r => r.startsWith('_fbp='))?.split('=')[1] || '';
                 const fbc = document.cookie.split('; ').find(r => r.startsWith('_fbc='))?.split('=')[1] || '';
-                    
-                // Use sendBeacon — fire-and-forget, works after page unload
-                const blob = new Blob([JSON.stringify({
-                    content_name: 'WhatsApp Group Join',
-                    event_id: eventId,
-                    fbp: fbp,
-                    fbc: fbc
-                })], { type: 'application/json' });
-                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', blob);
-            } catch(e) {
-                // CAPI is a bonus — don't block user if it fails
-            }
+                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead',
+                    new Blob([JSON.stringify({
+                        content_name: 'WhatsApp Group - VIP',
+                        event_id: eventId, fbp: fbp, fbc: fbc
+                    })], { type: 'application/json' })
+                );
+            } catch(e) {}
             
-            window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx?mode=gi_t', '_blank');
+            window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx?s=cl&p=i&mlu=1', '_blank');
         });
     </script>
 </body>

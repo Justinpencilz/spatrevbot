@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spatrev Tradebot — Free AI Trading Signals</title>
     
-    <!-- Facebook Open Graph Tags -->
-    <meta property="og:title" content="Spatrev Tradebot — Free AI Trading Signals" />
-    <meta property="og:description" content="Join thousands of traders using AI-powered signals. Free lifetime access. Start earning today!" />
-    <meta property="og:image" content="https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?w=1200&h=630&fit=crop" />
+    <!-- Facebook Open Graph -->
+    <meta property="og:title" content="Spatrev Tradebot — AI Trading Signals" />
+    <meta property="og:description" content="Real-time AI-powered trading signals. Join 1,000+ active traders earning daily." />
+    <meta property="og:image" content="https://images.pexels.com/photos/8370752/pexels-photo-8370752.jpeg?w=1200&h=630&fit=crop" />
     <meta property="og:url" content="https://www.spatrevbot.online" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Spatrev Tradebot" />
     
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -26,218 +25,297 @@
     fbq('init', '1674222590397905');
     fbq('track', 'PageView');
     </script>
-    <noscript>
-        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Meta Pixel Code -->
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/></noscript>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .hero {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
         
-        .container {
-            text-align: center;
-            max-width: 800px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
             width: 100%;
         }
         
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
+        .badge {
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
             color: #00f0ff;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
-        
-        .logo span {
-            color: #14b8a6;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
         }
         
         h1 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 0.75rem;
-            line-height: 1.2;
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, white, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         @media (min-width: 768px) {
-            h1 { font-size: 2.75rem; }
+            h1 { font-size: 3.5rem; }
         }
         
         .subtitle {
             font-size: 1.125rem;
             color: #9ca3af;
             margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            line-height: 1.6;
         }
         
-        .stats {
+        .stats-row {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             flex-wrap: wrap;
         }
         
-        .stat-card {
-            background: #111;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-radius: 0.75rem;
-            padding: 1.25rem 1.5rem;
-            min-width: 140px;
+        .stat-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 1.25rem 2rem;
+            min-width: 160px;
             flex: 1;
+            max-width: 200px;
         }
         
-        .stat-amount {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #00f0ff;
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #00f0ff, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         @media (min-width: 768px) {
-            .stat-amount { font-size: 2rem; }
+            .stat-number { font-size: 2.25rem; }
         }
         
-        .stat-label {
-            font-size: 0.75rem;
-            color: #9ca3af;
+        .stat-desc {
+            font-size: 0.7rem;
+            color: #6b7280;
             margin-top: 0.25rem;
+            letter-spacing: 0.05em;
         }
         
-        .features {
+        .features-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.75rem;
-            margin-bottom: 2rem;
-            max-width: 500px;
+            margin-bottom: 2.5rem;
+            max-width: 480px;
             margin-left: auto;
             margin-right: auto;
         }
         
-        @media (max-width: 480px) {
-            .features { grid-template-columns: 1fr; }
-        }
-        
-        .feature-item {
-            background: #111;
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: white;
+        .feature-pill {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.75rem;
+            padding: 0.8rem 1rem;
             font-size: 0.875rem;
             font-weight: 600;
+            color: #d1d5db;
+        }
+        
+        .btn-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
         }
         
         .whatsapp-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(to right, #22d3ee, #14b8a6);
-            color: black;
-            font-weight: 700;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, #22d3ee, #14b8a6);
+            color: #0a0a0a;
+            font-weight: 800;
             font-size: 1.125rem;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
-            border-radius: 9999px;
+            border-radius: 999px;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
+            transition: all 0.3s ease;
             text-decoration: none;
+            box-shadow: 0 4px 20px rgba(20, 184, 166, 0.3);
         }
         
         .whatsapp-btn:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(20, 184, 166, 0.5);
+        }
+        
+        .btn-sub {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .trust-banner {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .trust-text {
+            font-size: 0.7rem;
+            color: #4b5563;
+            letter-spacing: 0.05em;
+        }
+        
+        .trust-logos {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 0.75rem;
+            font-size: 0.7rem;
+            color: #374151;
+            font-weight: 600;
         }
         
         .disclaimer {
-            color: #6b7280;
-            font-size: 0.7rem;
             margin-top: 2rem;
+            font-size: 0.65rem;
+            color: #374151;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.4;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">Spatrev <span>Tradebot</span></div>
-        
-        <h1>Free AI Trading Signals<br>Join 1,000+ Active Traders</h1>
-        
-        <p class="subtitle">
-            Get real-time BUY/SELL signals powered by artificial intelligence. 
-            No experience needed. Free lifetime access.
-        </p>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-amount">$50 → $225</div>
-                <div class="stat-label">Member Result</div>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">⚡ Now Open — Free Access</div>
+            
+            <h1>Trade Smarter<br>With AI Signals</h1>
+            
+            <p class="subtitle">
+                Real-time BUY/SELL alerts powered by artificial intelligence. 
+                No experience needed. Completely free.
+            </p>
+            
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-number">$50&rarr;$225</div>
+                    <div class="stat-desc">MEMBER RESULT</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">$200&rarr;$857</div>
+                    <div class="stat-desc">MEMBER RESULT</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1,000+</div>
+                    <div class="stat-desc">ACTIVE TRADERS</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-amount">$200 → $857</div>
-                <div class="stat-label">Member Result</div>
+            
+            <div class="features-grid">
+                <div class="feature-pill">📡 Real-time Signals</div>
+                <div class="feature-pill">🤖 AI Analysis</div>
+                <div class="feature-pill">💵 Free Forever</div>
+                <div class="feature-pill">👥 Live Community</div>
+            </div>
+            
+            <div class="btn-wrap">
+                <a class="whatsapp-btn" id="joinBtn" href="#">
+                    💬 Join Free WhatsApp Group
+                </a>
+                <span class="btn-sub">1,000+ traders already inside</span>
+            </div>
+            
+            <div class="trust-banner">
+                <div class="trust-text">TRUSTED BY TRADERS IN</div>
+                <div class="trust-logos">
+                    <span>🇳🇬 Nigeria</span>
+                    <span>🇿🇦 South Africa</span>
+                    <span>🇬🇭 Ghana</span>
+                    <span>🇰🇪 Kenya</span>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                Trading involves risk. Past performance does not guarantee future results. 
+                Signals are for educational purposes. Always do your own research.
             </div>
         </div>
-        
-        <div class="features">
-            <div class="feature-item">📊 Real-time Signals</div>
-            <div class="feature-item">🤖 AI-Powered Analysis</div>
-            <div class="feature-item">💰 Free Forever</div>
-            <div class="feature-item">👥 Active Community</div>
-        </div>
-        
-        <a class="whatsapp-btn" id="whatsappBtn" href="#">
-            💬 Join Free WhatsApp Group
-        </a>
     </div>
 
     <script>
-        document.getElementById('whatsappBtn').addEventListener('click', function(e) {
+        document.getElementById('joinBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Generate unique event_id for dedup
             const eventId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
             
-            // Browser-side Pixel Lead event
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead', {
-                    content_name: 'WhatsApp Group Join - Root',
+                    content_name: 'WhatsApp Group - Root',
                     lead_type: 'WhatsApp Button',
                     event_id: eventId
                 });
             }
             
-            // Server-side CAPI (same event_id for dedup)
             try {
                 const fbp = document.cookie.split('; ').find(r => r.startsWith('_fbp='))?.split('=')[1] || '';
                 const fbc = document.cookie.split('; ').find(r => r.startsWith('_fbc='))?.split('=')[1] || '';
-                
-                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', 
+                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead',
                     new Blob([JSON.stringify({
-                        content_name: 'WhatsApp Group Join - Root',
-                        event_id: eventId,
-                        fbp: fbp,
-                        fbc: fbc
+                        content_name: 'WhatsApp Group - Root',
+                        event_id: eventId, fbp: fbp, fbc: fbc
                     })], { type: 'application/json' })
                 );
             } catch(e) {}
             
-            window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx', '_blank');
+            window.open('https://chat.whatsapp.com/CZXA9hgo2ChJ8MwTG7Zh3n?s=cl&p=i&mlu=1', '_blank');
         });
     </script>
 </body>
