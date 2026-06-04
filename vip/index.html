@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP — Exclusive Trading Access</title>
+    <title>VIP — Premium AI Trading Signals</title>
     
     <!-- Facebook Open Graph -->
-    <meta property="og:title" content="VIP Exclusive — Limited Spots Available" />
-    <meta property="og:description" content="Exclusive VIP access to premium AI trading signals. Limited spots — act now!" />
+    <meta property="og:title" content="VIP Premium Signals — Limited Entry" />
+    <meta property="og:description" content="Get premium AI trading signals used by top performers. Limited VIP spots open now." />
     <meta property="og:image" content="https://images.pexels.com/photos/7567442/pexels-photo-7567442.jpeg?w=1200&h=630&fit=crop" />
     <meta property="og:url" content="https://www.spatrevbot.online/vip/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Spatrev VIP" />
     
     <!-- Meta Pixel -->
     <script>
@@ -29,284 +28,936 @@
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1674222590397905&ev=PageView&noscript=1"/></noscript>
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.85; }
+        :root {
+            --gold: #fbbf24;
+            --gold-light: #fde68a;
+            --gold-dark: #d97706;
+            --dark: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
         }
         
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(2px, -1px); }
-            60% { transform: translate(-1px, 1px); }
-            80% { transform: translate(1px, -2px); }
-            100% { transform: translate(0); }
-        }
-        
-        @keyframes borderPulse {
-            0%, 100% { border-color: rgba(239, 68, 68, 0.4); }
-            50% { border-color: rgba(239, 68, 68, 0.8); }
-        }
+        html { scroll-behavior: smooth; }
         
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: #0d0d0d;
-            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--dark);
             color: white;
+            overflow-x: hidden;
         }
         
-        .vip-container {
+        /* ─── 3D Background Particles ─── */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* ─── Sections ─── */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 1rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem 1rem;
-            text-align: center;
-            position: relative;
         }
         
-        .vip-border {
-            position: absolute;
-            inset: 0.5rem;
-            border: 1px solid rgba(239, 68, 68, 0.15);
-            border-radius: 0.5rem;
-            pointer-events: none;
-        }
-        
-        .vip-content {
-            position: relative;
-            z-index: 1;
-            max-width: 600px;
+        .container {
+            max-width: 700px;
             width: 100%;
+            text-align: center;
         }
         
-        .vip-stamp {
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
-            color: #ef4444;
-            border: 1px solid #ef4444;
+        /* ─── 3D Hero ─── */
+        .hero-3d-wrap {
+            perspective: 1000px;
+            margin-bottom: 2rem;
             display: inline-block;
-            padding: 0.35rem 0.75rem;
-            margin-bottom: 1.5rem;
-            animation: flicker 2s ease-in-out infinite;
         }
         
-        .vip-title {
-            font-size: 2rem;
+        .hero-3d-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            display: inline-block;
+            cursor: default;
+        }
+        
+        .hero-3d-card .glow {
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--gold), #a855f7, var(--gold));
+            background-size: 300% 300%;
+            animation: glowShift 4s ease infinite;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.6;
+        }
+        
+        @keyframes glowShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .vip-badge-3d {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            transform: translateZ(30px);
+        }
+        
+        .main-title {
+            font-size: 2.75rem;
             font-weight: 900;
-            color: #ef4444;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            animation: glitch 3s ease-in-out infinite;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
+            transform: translateZ(50px);
+            background: linear-gradient(135deg, white 30%, var(--gold) 70%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         @media (min-width: 768px) {
-            .vip-title { font-size: 3rem; }
+            .main-title { font-size: 4rem; }
         }
         
-        .vip-sub {
+        .main-sub {
             font-size: 1rem;
             color: #9ca3af;
             margin-bottom: 2rem;
-            font-style: italic;
+            line-height: 1.6;
+            transform: translateZ(20px);
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .spot-counter {
-            background: #111;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            animation: borderPulse 2s ease-in-out infinite;
-        }
-        
-        .spot-number {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #ef4444;
-        }
-        
-        @media (min-width: 768px) {
-            .spot-number { font-size: 4rem; }
-        }
-        
-        .spot-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: #6b7280;
-            text-transform: uppercase;
-        }
-        
-        .timer-section {
+        /* ─── 3D Stats Cube ─── */
+        .stats-3d {
             display: flex;
             gap: 0.75rem;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            perspective: 800px;
+            flex-wrap: wrap;
         }
         
-        .timer-block {
-            background: #111;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            min-width: 60px;
+        .stat-3d-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            min-width: 140px;
+            flex: 1;
+            max-width: 180px;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
         
-        .timer-num {
+        .stat-3d-item:hover {
+            transform: translateZ(20px) rotateX(5deg) rotateY(-5deg);
+            box-shadow: 0 20px 60px rgba(251, 191, 36, 0.15);
+        }
+        
+        .stat-3d-number {
             font-size: 1.5rem;
             font-weight: 900;
-            color: #ef4444;
-            font-family: system-ui, sans-serif;
+            color: var(--gold);
         }
         
         @media (min-width: 768px) {
-            .timer-num { font-size: 2rem; }
+            .stat-3d-number { font-size: 2rem; }
         }
         
-        .timer-lbl {
-            font-size: 0.55rem;
+        .stat-3d-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+        
+        /* ─── Pain → Solution ─── */
+        .pivot-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(251, 191, 36, 0.03) 50%, transparent 100%);
+        }
+        
+        .pivot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 480px) {
+            .pivot-grid { grid-template-columns: 1fr; }
+        }
+        
+        .pivot-card {
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .pivot-card.pain {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+        }
+        
+        .pivot-card.solution {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+        }
+        
+        .pivot-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .pivot-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pivot-title {
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+        
+        .pivot-card.pain .pivot-title { color: #ef4444; }
+        .pivot-card.solution .pivot-title { color: #22c55e; }
+        
+        .pivot-desc {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+        
+        .pivot-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        
+        .pivot-divider::before,
+        .pivot-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+        }
+        
+        /* ─── VIP Benefits (3D flip cards) ─── */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        @media (max-width: 480px) {
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+        
+        .benefit-3d {
+            perspective: 600px;
+            height: 120px;
+        }
+        
+        .benefit-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .benefit-3d:hover .benefit-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .benefit-front, .benefit-back {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            backface-visibility: hidden;
+            padding: 1rem;
+        }
+        
+        .benefit-front {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.1);
+        }
+        
+        .benefit-front .emoji {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .benefit-front .label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: white;
+        }
+        
+        .benefit-back {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            transform: rotateY(180deg);
+        }
+        
+        .benefit-back .detail {
+            font-size: 0.75rem;
+            color: #d1d5db;
+            line-height: 1.4;
+            text-align: center;
+        }
+        
+        /* ─── Testimonials ─── */
+        .testimonial-carousel {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+        
+        .testimonial-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: left;
+            animation: fadeSlide 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .testimonial-text {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--gold);
+        }
+        
+        .testimonial-result {
+            font-size: 0.75rem;
+            color: #22c55e;
+            font-weight: 600;
+        }
+        
+        .testimonial-dots {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .testimonial-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .testimonial-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+        }
+        
+        /* ─── Scarcity Section ─── */
+        .scarcity-wrap {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .scarcity-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            min-width: 100px;
+            transition: transform 0.3s;
+        }
+        
+        .scarcity-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .scarcity-num {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        @media (min-width: 768px) {
+            .scarcity-num { font-size: 2.5rem; }
+        }
+        
+        .scarcity-lbl {
+            font-size: 0.6rem;
             color: #6b7280;
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
         
-        .vip-features {
-            list-style: none;
-            margin-bottom: 2rem;
+        .spots-bar {
+            width: 100%;
+            max-width: 350px;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 999px;
+            margin: 0 auto 2rem;
+            overflow: hidden;
         }
         
-        .vip-features li {
-            padding: 0.5rem 0;
-            color: #d1d5db;
-            font-size: 0.9rem;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+        .spots-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, var(--gold));
+            border-radius: 999px;
+            transition: width 1s ease;
+            width: 40%;
         }
         
-        .vip-features li:last-child { border: none; }
+        /* ─── CTA ─── */
+        .cta-wrap {
+            position: relative;
+            perspective: 600px;
+        }
         
-        .vip-btn {
+        .vip-btn-3d {
+            position: relative;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: #ef4444;
-            color: white;
-            font-weight: 800;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #030712;
+            font-weight: 900;
             font-size: 1.125rem;
-            padding: 1rem 2.5rem;
+            padding: 1.25rem 2.5rem;
             border: none;
-            border-radius: 0.25rem;
+            border-radius: 999px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             text-decoration: none;
-            letter-spacing: 0.02em;
-            font-family: 'Georgia', serif;
+            transform-style: preserve-3d;
+            box-shadow: 0 8px 32px rgba(251, 191, 36, 0.3);
         }
         
-        .vip-btn:hover {
-            background: #dc2626;
-            transform: scale(1.03);
+        .vip-btn-3d::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, var(--gold), #a855f7, var(--gold-dark));
+            background-size: 300% 300%;
+            animation: glowShift 3s ease infinite;
+            z-index: -1;
+            filter: blur(12px);
+            opacity: 0.5;
+            transition: opacity 0.3s;
         }
         
-        .vip-footer {
+        .vip-btn-3d:hover {
+            transform: translateY(-3px) translateZ(20px) rotateX(3deg);
+            box-shadow: 0 12px 48px rgba(251, 191, 36, 0.45);
+        }
+        
+        .vip-btn-3d:hover::before {
+            opacity: 0.8;
+        }
+        
+        .vip-btn-3d:active {
+            transform: translateY(0) translateZ(5px);
+        }
+        
+        .btn-subtext {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.75rem;
+        }
+        
+        .btn-subtext strong {
+            color: #ef4444;
+        }
+        
+        .footer-note {
             margin-top: 2rem;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #374151;
-            max-width: 400px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
             line-height: 1.5;
+        }
+        
+        /* ─── Entrance Animations ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* ─── Section Label ─── */
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .section-title { font-size: 2.25rem; }
         }
     </style>
 </head>
 <body>
-    <div class="vip-container">
-        <div class="vip-border"></div>
-        <div class="vip-content">
-            <div class="vip-stamp">★ LIMITED ENTRY ★</div>
-            
-            <div class="vip-title">VIP ACCESS</div>
-            <p class="vip-sub">Exclusive premium signals reserved for serious traders</p>
-            
-            <div class="spot-counter">
-                <div class="spot-number" id="spotCount">12</div>
-                <div class="spot-label">Spots Remaining</div>
-            </div>
-            
-            <div class="timer-section">
-                <div class="timer-block">
-                    <div class="timer-num" id="hours">04</div>
-                    <div class="timer-lbl">Hours</div>
-                </div>
-                <div class="timer-block">
-                    <div class="timer-num" id="minutes">59</div>
-                    <div class="timer-lbl">Minutes</div>
-                </div>
-                <div class="timer-block">
-                    <div class="timer-num" id="seconds">32</div>
-                    <div class="timer-lbl">Seconds</div>
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- ═══ HERO ═══ -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-3d-wrap">
+                <div class="hero-3d-card" id="heroCard">
+                    <div class="glow"></div>
+                    <div class="vip-badge-3d">👑 Premium Access</div>
+                    <h1 class="main-title">VIP Trading<br>Signals</h1>
+                    <p class="main-sub">
+                        Exclusive premium signals used by our top-performing members. 
+                        Limited to serious traders only.
+                    </p>
                 </div>
             </div>
             
-            <p style="color:#9ca3af; font-size:0.85rem; margin-bottom:1.5rem; font-style:italic;">
-                ⏳ Offer expires when all spots are filled
-            </p>
+            <div class="stats-3d" id="statsRow">
+                <div class="stat-3d-item">
+                    <div class="stat-3d-number">$50→$225</div>
+                    <div class="stat-3d-label">DAILY RESULT</div>
+                </div>
+                <div class="stat-3d-item">
+                    <div class="stat-3d-number">$200→$857</div>
+                    <div class="stat-3d-label">MORNING RESULT</div>
+                </div>
+                <div class="stat-3d-item">
+                    <div class="stat-3d-number">92%</div>
+                    <div class="stat-3d-label">WIN RATE</div>
+                </div>
+            </div>
             
-            <ul class="vip-features">
-                <li>🔥 Exclusive VIP Signals (not available on free tier)</li>
-                <li>⚡ Priority Buy/Sell Alerts</li>
-                <li>🎯 High-Confidence Trade Setups</li>
-                <li>👑 Direct Access to Coach Justin</li>
-            </ul>
-            
-            <button class="vip-btn" id="claimBtn">
-                🔴 Claim Your VIP Spot
-            </button>
-            
-            <div class="vip-footer">
-                VIP group is strictly monitored. Spammers will be removed immediately.
-                Trading involves financial risk.
+            <div class="cta-wrap reveal">
+                <button class="vip-btn-3d" id="claimBtn">
+                    👑 Claim Your VIP Spot
+                </button>
+                <div class="btn-subtext"><strong>⏳ Only 12 spots left</strong> — moving fast</div>
             </div>
         </div>
-    </div>
+    </section>
+    
+    <!-- ═══ PIVOT: PAIN → SOLUTION ═══ -->
+    <section class="pivot-section reveal">
+        <div class="container">
+            <div class="section-label">The Reality</div>
+            <h2 class="section-title">Stop Losing, Start Winning</h2>
+            
+            <div class="pivot-grid">
+                <div class="pivot-card pain">
+                    <div class="pivot-icon">😫</div>
+                    <div class="pivot-title">Without VIP</div>
+                    <div class="pivot-desc">Guessing the market, emotional trades, watching your account drain. No plan, no edge.</div>
+                </div>
+                <div class="pivot-card solution">
+                    <div class="pivot-icon">🚀</div>
+                    <div class="pivot-title">With VIP</div>
+                    <div class="pivot-desc">AI-powered precision signals, clear entry/exit, proven strategy. Real results daily.</div>
+                </div>
+            </div>
+            
+            <div class="pivot-divider">⬇ YOUR EDGE WAITS BELOW ⬇</div>
+        </div>
+    </section>
+    
+    <!-- ═══ BENEFITS ═══ -->
+    <section class="reveal">
+        <div class="container">
+            <div class="section-label">What You Get</div>
+            <h2 class="section-title">The VIP Advantage</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-3d">
+                    <div class="benefit-inner">
+                        <div class="benefit-front">
+                            <div class="emoji">📡</div>
+                            <div class="label">Premium Signals</div>
+                        </div>
+                        <div class="benefit-back">
+                            <div class="detail">Exclusive VIP-only signals not available on free tier. Higher confidence setups with clear TP/SL levels.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-3d">
+                    <div class="benefit-inner">
+                        <div class="benefit-front">
+                            <div class="emoji">⚡</div>
+                            <div class="label">Priority Alerts</div>
+                        </div>
+                        <div class="benefit-back">
+                            <div class="detail">Get signals first — before the public. Real-time push notifications straight to your phone.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-3d">
+                    <div class="benefit-inner">
+                        <div class="benefit-front">
+                            <div class="emoji">🎯</div>
+                            <div class="label">Pro Analysis</div>
+                        </div>
+                        <div class="benefit-back">
+                            <div class="detail">AI + human oversight. Every signal analyzed across ADX, RSI, EMA, and price action.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="benefit-3d">
+                    <div class="benefit-inner">
+                        <div class="benefit-front">
+                            <div class="emoji">👑</div>
+                            <div class="label">Coach Justin</div>
+                        </div>
+                        <div class="benefit-back">
+                            <div class="detail">Direct mentorship. Ask questions, learn the strategy, trade with confidence.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ═══ TESTIMONIALS ═══ -->
+    <section class="reveal">
+        <div class="container">
+            <div class="section-label">Real Results</div>
+            <h2 class="section-title">What Members Say</h2>
+            
+            <div class="testimonial-carousel" id="testimonialCarousel">
+                <div class="testimonial-card" id="testimonialCard">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text" id="testimonialText">
+                        "I turned $50 into $225 in one session. The signals are incredibly accurate. VIP is worth every second."
+                    </div>
+                    <div class="testimonial-author" id="testimonialAuthor">— Michael O.</div>
+                    <div class="testimonial-result" id="testimonialResult">💰 +$175 in 1 day</div>
+                </div>
+                <div class="testimonial-dots" id="testimonialDots"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- ═══ SCARCITY ═══ -->
+    <section class="reveal">
+        <div class="container">
+            <div class="section-label">⏳ Limited Time</div>
+            <h2 class="section-title">Offer Closing Soon</h2>
+            
+            <div class="scarcity-wrap">
+                <div class="scarcity-item">
+                    <div class="scarcity-num" id="scarcityHours">06</div>
+                    <div class="scarcity-lbl">HOURS</div>
+                </div>
+                <div class="scarcity-item">
+                    <div class="scarcity-num" id="scarcityMinutes">00</div>
+                    <div class="scarcity-lbl">MINUTES</div>
+                </div>
+                <div class="scarcity-item">
+                    <div class="scarcity-num" id="scarcitySeconds">00</div>
+                    <div class="scarcity-lbl">SECONDS</div>
+                </div>
+                <div class="scarcity-item">
+                    <div class="scarcity-num" id="spotCount">12</div>
+                    <div class="scarcity-lbl">SPOTS</div>
+                </div>
+            </div>
+            
+            <div class="spots-bar">
+                <div class="spots-fill" id="spotsFill"></div>
+            </div>
+            <p style="color:#6b7280; font-size:0.8rem; margin-bottom:2rem;">
+                <span id="filledText">60%</span> of VIP spots already taken
+            </p>
+            
+            <div class="cta-wrap">
+                <button class="vip-btn-3d" id="claimBtn2">
+                    🔴 Secure Your Spot Now
+                </button>
+                <div class="btn-subtext">🚪 Door closes when all spots fill</div>
+            </div>
+            
+            <div class="footer-note">
+                VIP group is strictly monitored — serious traders only. Spammers removed immediately.
+                Trading involves financial risk. Past results don't guarantee future performance.
+            </div>
+        </div>
+    </section>
     
     <script>
-        // Countdown timer (resets every 6 hours)
-        function startTimer() {
-            let total = 6 * 60 * 60;
-            const stored = localStorage.getItem('vip_timer');
+        // ─── PARTICLE BACKGROUND ───
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = document.body.scrollHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+            window.addEventListener('scroll', resize);
+            
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.3;
+                    this.speedY = (Math.random() - 0.5) * 0.3;
+                    this.opacity = Math.random() * 0.5 + 0.1;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                        this.reset();
+                    }
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(251, 191, 36, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+            
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                
+                // Draw connections
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(251, 191, 36, ${0.05 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+        
+        // ─── 3D MOUSE PARALLAX ───
+        (function() {
+            const card = document.getElementById('heroCard');
+            if (!card) return;
+            document.getElementById('hero').addEventListener('mousemove', function(e) {
+                const rect = card.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const deltaX = (e.clientX - centerX) / rect.width;
+                const deltaY = (e.clientY - centerY) / rect.height;
+                const rotateY = deltaX * 15;
+                const rotateX = -deltaY * 15;
+                card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            });
+            document.getElementById('hero').addEventListener('mouseleave', function() {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+        })();
+        
+        // ─── SCROLL REVEAL ───
+        (function() {
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+            reveals.forEach(el => observer.observe(el));
+        })();
+        
+        // ─── TIMER ───
+        (function() {
+            let total = 6 * 3600;
+            const stored = localStorage.getItem('vip_timer_base');
             if (stored) {
                 const elapsed = Math.floor((Date.now() - parseInt(stored)) / 1000);
-                total = Math.max(0, 6 * 60 * 60 - elapsed);
+                total = Math.max(0, 6 * 3600 - elapsed);
             } else {
-                localStorage.setItem('vip_timer', Date.now().toString());
+                localStorage.setItem('vip_timer_base', Date.now().toString());
             }
             
             function tick() {
                 const h = Math.floor(total / 3600);
                 const m = Math.floor((total % 3600) / 60);
                 const s = total % 60;
-                document.getElementById('hours').textContent = String(h).padStart(2, '0');
-                document.getElementById('minutes').textContent = String(m).padStart(2, '0');
-                document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+                document.getElementById('scarcityHours').textContent = String(h).padStart(2, '0');
+                document.getElementById('scarcityMinutes').textContent = String(m).padStart(2, '0');
+                document.getElementById('scarcitySeconds').textContent = String(s).padStart(2, '0');
                 if (total > 0) total--;
             }
             tick();
             setInterval(tick, 1000);
-        }
-        startTimer();
+        })();
         
-        // Spot count decreases (randomly)
-        let spots = 12;
-        setInterval(() => {
-            if (spots > 3 && Math.random() < 0.15) {
-                spots--;
-                document.getElementById('spotCount').textContent = spots;
+        // ─── SPOT COUNTER ───
+        (function() {
+            let spots = 12;
+            const maxSpots = 30;
+            const el = document.getElementById('spotCount');
+            const fill = document.getElementById('spotsFill');
+            const filledText = document.getElementById('filledText');
+            
+            function updateSpots() {
+                el.textContent = spots;
+                const pct = ((1 - spots / maxSpots) * 100);
+                fill.style.width = Math.min(pct, 95) + '%';
+                filledText.textContent = `${Math.round(pct)}%`;
             }
-        }, 30000);
+            updateSpots();
+            
+            setInterval(() => {
+                if (spots > 2 && Math.random() < 0.12) {
+                    spots--;
+                    updateSpots();
+                }
+            }, 25000);
+        })();
         
-        // WhatsApp button
-        document.getElementById('claimBtn').addEventListener('click', function() {
+        // ─── TESTIMONIAL CAROUSEL ───
+        (function() {
+            const testimonials = [
+                { text: '"I turned $50 into $225 in one session. The signals are incredibly accurate. VIP is worth every second."', author: '— Michael O.', result: '💰 +$175 in 1 day' },
+                { text: '"Made $857 in one morning following VIP signals. This is the best decision I made for my trading journey."', author: '— Sarah K.', result: '💰 +$857 in 1 morning' },
+                { text: '"I was losing money for months. Since joining VIP, I\'m consistently profitable. Coach Justin is a legend."', author: '— David A.', result: '💰 Consistent profits' },
+                { text: '"The AI signals are scary accurate. 92% win rate this week. Thank you Spatrev team!"', author: '— Emmanuel T.', result: '📊 92% win rate' },
+            ];
+            
+            let current = 0;
+            const textEl = document.getElementById('testimonialText');
+            const authorEl = document.getElementById('testimonialAuthor');
+            const resultEl = document.getElementById('testimonialResult');
+            const dotsEl = document.getElementById('testimonialDots');
+            
+            testimonials.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'testimonial-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => show(i));
+                dotsEl.appendChild(dot);
+            });
+            
+            function show(index) {
+                current = index;
+                const t = testimonials[current];
+                textEl.textContent = t.text;
+                authorEl.textContent = t.author;
+                resultEl.textContent = t.result;
+                document.querySelectorAll('.testimonial-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+                // Re-trigger animation
+                const card = document.getElementById('testimonialCard');
+                card.style.animation = 'none';
+                card.offsetHeight; // reflow
+                card.style.animation = 'fadeSlide 0.5s ease';
+            }
+            
+            setInterval(() => show((current + 1) % testimonials.length), 5000);
+        })();
+        
+        // ─── WHATSAPP BUTTON ───
+        function handleClaim() {
             const eventId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
             
             if (typeof fbq !== 'undefined') {
@@ -329,7 +980,10 @@
             } catch(e) {}
             
             window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx?s=cl&p=i&mlu=1', '_blank');
-        });
+        }
+        
+        document.getElementById('claimBtn').addEventListener('click', handleClaim);
+        document.getElementById('claimBtn2').addEventListener('click', handleClaim);
     </script>
 </body>
 </html>
