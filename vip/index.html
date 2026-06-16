@@ -604,7 +604,7 @@
                 const fbc = (document.cookie.split('; ').find(r => r.startsWith('_fbc=')) || '').split('=')[1] || '';
                 navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', new Blob([JSON.stringify({ content_name: 'WhatsApp Group - VIP', event_id: eid, fbp, fbc })], { type: 'application/json' }));
             } catch(e) {}
-            window.open('https://chat.whatsapp.com/CnVx50kthEwKXQ4GMO8frx?s=cl&p=i&mlu=1', '_blank');
+            window.location.href = 'https://chat.whatsapp.com/KKZ2hEpmZnjJgAB5MIC7j3';
         }
         document.getElementById('claimBtn1').addEventListener('click', claim);
         document.getElementById('claimBtn2').addEventListener('click', claim);
