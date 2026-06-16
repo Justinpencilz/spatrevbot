@@ -44,7 +44,7 @@ function LandingPage() {
       console.log('Facebook Lead event fired');
     }
     // Open WhatsApp in new tab
-    window.open('https://chat.whatsapp.com/KKZ2hEpmZnjJgAB5MIC7j3', '_blank');
+    window.location.href = 'https://chat.whatsapp.com/KKZ2hEpmZnjJgAB5MIC7j3';
   }
 
   return (
