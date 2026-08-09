@@ -74,67 +74,14 @@
         @keyframes glowSpin{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
         .cta-sub{font-size:0.5rem;color:var(--text2);margin-top:0.3rem;text-align:center}.cta-sub strong{color:var(--gold)}
 
-        /* ═══════════ TV CHART MOCKUP ═══════════ */
-        .tv-chart{width:100%;max-width:500px;margin-bottom:1rem;background:#fff;border-radius:0.6rem;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.06)}
-        .tv-header{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.5rem;background:#f8f9fa;border-bottom:1px solid #e0e0e0}
-        .tv-header .tv-name{font-size:0.6rem;font-weight:700;color:#131722}
-        .tv-header .tv-price{font-size:0.65rem;font-weight:800}
-        .tv-header .tv-change{font-size:0.5rem;margin-left:0.25rem}
-        .tv-body{position:relative;height:240px;background:#fff;overflow:hidden}
-        @media(min-width:500px){.tv-body{height:300px}}
-
-        /* Candles */
-        .tv-candles{position:absolute;bottom:30px;left:40px;right:40px;top:10px;display:flex;align-items:flex-end;gap:3px}
-        .tv-candle{flex:1;position:relative;min-width:6px}
-        .tv-candle .wick{position:absolute;left:50%;transform:translateX(-50%);width:1px;background:#333}
-        .tv-candle .body{position:absolute;left:0;right:0}
-        .tv-candle .body.green{background:#22c55e}.tv-candle .body.red{background:#ef4444}
-
-        /* Price axis */
-        .tv-yaxis{position:absolute;right:4px;top:8px;bottom:30px;display:flex;flex-direction:column;justify-content:space-between;font-size:0.45rem;color:#787b86;text-align:right}
-        .tv-xaxis{position:absolute;bottom:4px;left:40px;right:40px;display:flex;justify-content:space-between;font-size:0.4rem;color:#787b86}
-        .tv-grid{position:absolute;left:40px;right:6px;top:8px;bottom:30px}
-        .tv-grid-line{position:absolute;left:0;right:0;height:1px;background:rgba(0,0,0,0.05)}
-
-        /* Signal overlay box */
-        .tv-signal-box{position:absolute;top:6px;right:6px;background:rgba(30,30,40,0.92);border-radius:0.35rem;padding:0.35rem 0.45rem;font-size:0.45rem;color:#d1d5db;z-index:3;backdrop-filter:blur(4px);min-width:90px}
-        .tv-signal-box .sig-row{display:flex;justify-content:space-between;gap:0.5rem;padding:1px 0}
-        .tv-signal-box .sig-row .sig-val{font-weight:700}
-        .tv-signal-box .sig-row .sig-val.long{color:#22c55e}.tv-signal-box .sig-row .sig-val.short{color:#ef4444}
-        .tv-signal-box .sig-row .sig-val.bull{color:#22c55e}.tv-signal-box .sig-row .sig-val.bear{color:#ef4444}
-
-        /* Level lines */
-        .tv-level{position:absolute;left:4px;right:30px;height:1px;z-index:2;pointer-events:none}
-        .tv-level .lv-label{position:absolute;right:-28px;top:-7px;font-size:0.4rem;font-weight:700;padding:0.08rem 0.2rem;border-radius:2px;white-space:nowrap}
-        .tv-level.tp4{border-top:1px dashed #f7c948}.tv-level.tp4 .lv-label{background:#f7c948;color:#000}
-        .tv-level.tp3{border-top:1px dashed #f97316}.tv-level.tp3 .lv-label{background:#f97316;color:#fff}
-        .tv-level.tp2{border-top:1px dashed #3b82f6}.tv-level.tp2 .lv-label{background:#3b82f6;color:#fff}
-        .tv-level.tp1{border-top:1px dashed #22c55e}.tv-level.tp1 .lv-label{background:#22c55e;color:#fff}
-        .tv-level.entry{border-top:1px solid #fff;opacity:0.7}.tv-level.entry .lv-label{background:var(--cyan);color:#000}
-        .tv-level.sl{border-top:1px dashed #a855f7}.tv-level.sl .lv-label{background:#a855f7;color:#fff}
-
-        /* Zone shading */
-        .tv-zone{position:absolute;left:6px;right:6px;z-index:1;pointer-events:none;opacity:0.15}
-        .tv-zone.profit{background:rgba(34,197,94,0.5)}
-        .tv-zone.loss{background:rgba(239,68,68,0.5)}
-
-        /* Entry marker */
-        .tv-entry-marker{position:absolute;left:4px;z-index:3;pointer-events:none}
-        .tv-entry-marker .em-tag{font-size:0.4rem;font-weight:800;padding:0.08rem 0.25rem;border-radius:2px;white-space:nowrap}
-        .tv-entry-marker .em-tag.long{background:#22c55e;color:#fff}
-        .tv-entry-marker .em-tag.short{background:#ef4444;color:#fff}
-
-        /* Bottom toolbar */
-        .tv-bbar{display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.5rem;background:#1e1e2e;border-top:1px solid rgba(255,255,255,0.06)}
-        .tv-tf{font-size:0.4rem;font-weight:700;padding:0.15rem 0.35rem;border-radius:3px;color:#787b86;background:transparent;border:none;cursor:pointer}
-        .tv-tf.active{color:#fff;background:rgba(255,255,255,0.1)}
-        .tv-tools{margin-left:auto;display:flex;gap:0.3rem}
-        .tv-tool{width:14px;height:14px;border-radius:3px;background:rgba(255,255,255,0.1)}
-
-        /* Navigator dots */
-        .tv-chart-nav{display:flex;gap:0.25rem;justify-content:center;padding:0.3rem}
-        .tv-chart-nav button{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;padding:0;cursor:pointer}
-        .tv-chart-nav button.active{background:var(--cyan);transform:scale(1.4)}
+        /* ═══════════ SCANNER IMAGES ═══════════ */
+        .scanner-carousel{width:100%;max-width:500px;margin-bottom:1rem;position:relative;border-radius:0.6rem;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:#000}
+        .scanner-carousel img{width:100%;display:block;transition:opacity 0.5s ease}
+        .scanner-carousel .sc-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.6));padding:1.5rem 0.6rem 0.5rem;pointer-events:none}
+        .scanner-carousel .sc-tag{font-size:0.55rem;font-weight:800;color:var(--cyan)}
+        .scanner-nav{display:flex;gap:0.3rem;justify-content:center;padding:0.35rem}
+        .scanner-nav button{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;padding:0;cursor:pointer;transition:all 0.3s}
+        .scanner-nav button.active{background:var(--cyan);transform:scale(1.4)}
 
         /* SIGNAL CARDS */
         .signals-grid{display:grid;grid-template-columns:1fr;gap:0.4rem;width:100%;max-width:500px;margin-bottom:1rem}
@@ -237,28 +184,15 @@
         </div>
     </section>
 
-    <!-- TV CHART MOCKUP -->
+    <!-- SCANNER IMAGES -->
     <section class="section reveal" style="padding-top:0">
         <div class="container">
-            <div class="label">🔍 AI Scanner — Real Chart Signals</div>
-            <div class="tv-chart" id="tvChart">
-                <div class="tv-header">
-                    <div><span class="tv-name" id="tvName">Constant Volatility of 25%</span></div>
-                    <div><span class="tv-price" id="tvPrice" style="color:#22c55e">2,641.909</span><span class="tv-change" style="color:#22c55e">+0.11%</span></div>
-                </div>
-                <div class="tv-body" id="tvBody">
-                    <!-- Candles rendered by JS -->
-                    <div class="tv-signal-box" id="tvSigBox"></div>
-                    <div class="tv-yaxis" id="tvYaxis"></div>
-                    <div class="tv-xaxis" id="tvXaxis"></div>
-                    <!-- Level lines rendered by JS -->
-                </div>
-                <div class="tv-bbar">
-                    <button class="tv-tf">1m</button><button class="tv-tf">5m</button><button class="tv-tf active">15m</button><button class="tv-tf">30m</button><button class="tv-tf">1h</button>
-                    <div class="tv-tools"><div class="tv-tool"></div><div class="tv-tool"></div><div class="tv-tool"></div></div>
-                </div>
-                <div class="tv-chart-nav" id="tvNav"></div>
+            <div class="label">🔍 AI Scanner — Real Signals</div>
+            <div class="scanner-carousel" id="scannerCarousel">
+                <img src="images/scanner-long.jpg" alt="Volatility 25% LONG Signal" id="scannerImg" style="opacity:1">
+                <div class="sc-overlay"><span class="sc-tag" id="scannerTag">LONG — Constant Volatility of 25%</span></div>
             </div>
+            <div class="scanner-nav" id="scannerNav"></div>
         </div>
     </section>
 
@@ -340,217 +274,36 @@
         // TICKER
         (function(){const signals=[{pair:'SPX500',dir:'BUY',dirClass:'buy',pips:'+70,625'},{pair:'XLM/USDT',dir:'SELL',dirClass:'sell',pips:'+5.5'},{pair:'PORTAL/USDT',dir:'BUY',dirClass:'buy',pips:'+1.5'},{pair:'MEME/USDT',dir:'BUY',dirClass:'buy',pips:'+1.0'},{pair:'ONDO/USDT',dir:'SELL',dirClass:'sell',pips:'+61.6'},{pair:'NEAR/USDT',dir:'SELL',dirClass:'sell',pips:'+63.6'},{pair:'SPX500',dir:'BUY',dirClass:'buy',pips:'+77,678'},{pair:'WTI',dir:'BUY',dirClass:'buy',pips:'+42,500'}],items=[...signals,...signals],track=document.getElementById('tickerTrack');track.innerHTML=items.map(s=>`<div class="ticker-item"><span class="pair">${s.pair}</span><span class="direction ${s.dirClass}">${s.dir}</span><span class="pips">${s.pips} pips</span><span class="dot">●</span></div>`).join('');const wrap=document.getElementById('tickerWrap');wrap.addEventListener('mouseenter',()=>track.classList.add('paused'));wrap.addEventListener('mouseleave',()=>track.classList.remove('paused'));wrap.addEventListener('touchstart',()=>track.classList.add('paused'),{passive:true});wrap.addEventListener('touchend',()=>track.classList.remove('paused'),{passive:true})})();
 
-        // TV CHART MOCKUP — cycles through real scanner screenshots
+        // SCANNER IMAGE CAROUSEL
         (function(){
-            const charts = [
-                {
-                    name: 'Constant Volatility of 25%',
-                    price: '2,641.909', change: '+0.11%', changeColor: '#22c55e',
-                    signal: 'LONG', signalClass: 'long', entry: '2642.230',
-                    tfs: {daily:'BEAR',h4:'BEAR',h1:'BULL',m15:'BULL',m5:'BULL'},
-                    levels: [
-                        {type:'tp4',label:'TP4',price:2731.366},
-                        {type:'tp3',label:'TP3',price:2709.082},
-                        {type:'tp2',label:'TP2',price:2686.798},
-                        {type:'tp1',label:'TP1',price:2664.514},
-                        {type:'entry',label:'ENTRY',price:2642.230},
-                        {type:'sl',label:'SL',price:2619.946},
-                    ],
-                    priceRange: [2610, 2750],
-                    candles: generateCandles(30, 2610, 2750, 'up'),
-                },
-                {
-                    name: 'Constant Volatility of 25%',
-                    price: '2,643.721', change: '+0.16%', changeColor: '#22c55e',
-                    signal: 'SHORT', signalClass: 'short', entry: '2647.225',
-                    tfs: {daily:'BEAR',h4:'BEAR',h1:'BULL',m15:'BULL',m5:'BULL'},
-                    levels: [
-                        {type:'sl',label:'SL',price:2652.266},
-                        {type:'entry',label:'ENTRY',price:2647.225},
-                        {type:'tp1',label:'TP1',price:2642.184},
-                        {type:'tp2',label:'TP2',price:2637.143},
-                        {type:'tp3',label:'TP3',price:2632.102},
-                        {type:'tp4',label:'TP4',price:2627.061},
-                    ],
-                    priceRange: [2620, 2660],
-                    candles: generateCandles(30, 2620, 2660, 'down'),
-                },
-                {
-                    name: 'SharkNinja, Inc.',
-                    price: '185.54', change: '+3.11%', changeColor: '#22c55e',
-                    signal: 'LONG', signalClass: 'long', entry: '152.60',
-                    tfs: {daily:'BULL',h4:'BULL',h1:'BULL',m15:'BULL',m5:'BEAR'},
-                    levels: [
-                        {type:'tp4',label:'TP4',price:195.71},
-                        {type:'tp3',label:'TP3',price:184.93},
-                        {type:'tp2',label:'TP2',price:174.15},
-                        {type:'tp1',label:'TP1',price:163.38},
-                        {type:'entry',label:'ENTRY',price:152.60},
-                        {type:'sl',label:'SL',price:141.82},
-                    ],
-                    priceRange: [135, 210],
-                    candles: generateCandles(30, 135, 210, 'up'),
-                },
+            const images = [
+                { src: 'images/scanner-long.jpg', tag: 'LONG — Constant Volatility of 25%' },
+                { src: 'images/scanner-short.jpg', tag: 'SHORT — Constant Volatility of 25%' },
+                { src: 'images/scanner-sharkninja.jpg', tag: 'LONG — SharkNinja, Inc. (SN)' },
             ];
+            const imgEl = document.getElementById('scannerImg');
+            const tagEl = document.getElementById('scannerTag');
+            const nav = document.getElementById('scannerNav');
 
-            function generateCandles(n, low, high, trend) {
-                const candles = [];
-                let price = low + (high - low) * (trend === 'up' ? 0.25 : 0.7);
-                for (let i = 0; i < n; i++) {
-                    const range = (high - low) * 0.04;
-                    const drift = trend === 'up' ? range * 0.3 : -range * 0.3;
-                    const noise = (Math.random() - 0.5) * range * 2;
-                    const open = price;
-                    const close = open + drift + noise;
-                    const wickHigh = Math.max(open, close) + Math.random() * range * 0.6;
-                    const wickLow = Math.min(open, close) - Math.random() * range * 0.6;
-                    candles.push({open, close: Math.max(close, low + 1), high: wickHigh, low: wickLow});
-                    price = close;
-                }
-                return candles;
-            }
-
-            function renderChart(chart) {
-                const body = document.getElementById('tvBody');
-                document.getElementById('tvName').textContent = chart.name;
-                document.getElementById('tvPrice').textContent = chart.price;
-                document.getElementById('tvPrice').style.color = chart.changeColor;
-                document.querySelector('.tv-change').textContent = chart.change;
-                document.querySelector('.tv-change').style.color = chart.changeColor;
-
-                // Signal box
-                document.getElementById('tvSigBox').innerHTML = `
-                    <div class="sig-row"><span>Signal</span><span class="sig-val ${chart.signalClass}">${chart.signal}</span></div>
-                    <div class="sig-row"><span>Entry</span><span class="sig-val">${chart.entry}</span></div>
-                    <div class="sig-row"><span>Daily</span><span class="sig-val ${chart.tfs.daily.toLowerCase()}">${chart.tfs.daily}</span></div>
-                    <div class="sig-row"><span>4H</span><span class="sig-val ${chart.tfs.h4.toLowerCase()}">${chart.tfs.h4}</span></div>
-                    <div class="sig-row"><span>1H</span><span class="sig-val ${chart.tfs.h1.toLowerCase()}">${chart.tfs.h1}</span></div>
-                    <div class="sig-row"><span>15M</span><span class="sig-val ${chart.tfs.m15.toLowerCase()}">${chart.tfs.m15}</span></div>
-                    <div class="sig-row"><span>5M</span><span class="sig-val ${chart.tfs.m5.toLowerCase()}">${chart.tfs.m5}</span></div>
-                `;
-
-                // Y axis
-                const [ylo, yhi] = chart.priceRange;
-                const ysteps = 6;
-                const yaxis = document.getElementById('tvYaxis');
-                yaxis.innerHTML = Array.from({length: ysteps}, (_, i) => {
-                    const v = yhi - ((yhi - ylo) / (ysteps - 1)) * i;
-                    return `<div>${v.toFixed(v > 100 ? 1 : 3)}</div>`;
-                }).join('');
-
-                // X axis
-                const now = new Date();
-                document.getElementById('tvXaxis').innerHTML = Array.from({length: 5}, (_, i) => {
-                    const t = new Date(now - (4 - i) * 60000);
-                    return `<div>${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}</div>`;
-                }).join('');
-
-                // Clear old candles/levels
-                body.querySelectorAll('.tv-candles,.tv-level,.tv-zone,.tv-entry-marker,.tv-grid').forEach(el => el.remove());
-
-                // Grid lines
-                const gridEl = document.createElement('div'); gridEl.className = 'tv-grid';
-                for (let i = 0; i < ysteps; i++) {
-                    const line = document.createElement('div');
-                    line.className = 'tv-grid-line';
-                    line.style.top = ((i / (ysteps - 1)) * 100) + '%';
-                    gridEl.appendChild(line);
-                }
-                body.appendChild(gridEl);
-
-                // Candles
-                const candlesEl = document.createElement('div'); candlesEl.className = 'tv-candles';
-                const absLow = Math.min(...chart.candles.map(c => c.low));
-                const absHigh = Math.max(...chart.candles.map(c => c.high));
-                const range = absHigh - absLow || 1;
-
-                chart.candles.forEach(c => {
-                    const div = document.createElement('div'); div.className = 'tv-candle';
-                    const wickTop = ((absHigh - Math.max(c.open, c.close)) / range) * 100;
-                    const wickH = ((Math.abs(c.high - c.low)) / range) * 100;
-                    const bodyTop = ((absHigh - Math.max(c.open, c.close)) / range) * 100;
-                    const bodyH = Math.max((Math.abs(c.open - c.close) / range) * 100, 0.5);
-
-                    div.innerHTML = `<div class="wick" style="top:${wickTop}%;height:${wickH}%"></div>`;
-                    const body = document.createElement('div');
-                    body.className = 'body ' + (c.close >= c.open ? 'green' : 'red');
-                    body.style.top = bodyTop + '%';
-                    body.style.height = bodyH + '%';
-                    div.appendChild(body);
-                    candlesEl.appendChild(div);
-                });
-                body.appendChild(candlesEl);
-
-                // Level lines + zones
-                const entryLevel = chart.levels.find(l => l.type === 'entry');
-                const slLevel = chart.levels.find(l => l.type === 'sl');
-                const tp1Level = chart.levels.find(l => l.type === 'tp1');
-
-                // Profit/loss zones
-                if (entryLevel && tp1Level) {
-                    const zone = document.createElement('div');
-                    zone.className = 'tv-zone profit';
-                    const ePct = ((absHigh - entryLevel.price) / range) * 100;
-                    const tpPct = chart.signal === 'LONG'
-                        ? ((absHigh - tp1Level.price) / range) * 100
-                        : ((absHigh - entryLevel.price) / range) * 100;
-                    zone.style.top = Math.min(ePct, tpPct) + '%';
-                    zone.style.height = Math.abs(tpPct - ePct) + '%';
-                    body.appendChild(zone);
-                }
-                if (entryLevel && slLevel) {
-                    const zone = document.createElement('div');
-                    zone.className = 'tv-zone loss';
-                    const ePct = ((absHigh - entryLevel.price) / range) * 100;
-                    const slPct = ((absHigh - slLevel.price) / range) * 100;
-                    zone.style.top = Math.min(ePct, slPct) + '%';
-                    zone.style.height = Math.abs(slPct - ePct) + '%';
-                    body.appendChild(zone);
-                }
-
-                // Level lines
-                chart.levels.forEach(l => {
-                    const pct = ((absHigh - l.price) / range) * 100;
-                    if (pct < 0 || pct > 100) return;
-                    const line = document.createElement('div');
-                    line.className = 'tv-level ' + l.type;
-                    line.style.top = pct + '%';
-                    line.innerHTML = `<span class="lv-label">${l.label} ${l.price}</span>`;
-                    body.appendChild(line);
-                });
-
-                // Entry marker
-                if (entryLevel) {
-                    const pct = ((absHigh - entryLevel.price) / range) * 100;
-                    const marker = document.createElement('div');
-                    marker.className = 'tv-entry-marker';
-                    marker.style.top = (pct - 1.5) + '%';
-                    marker.innerHTML = `<span class="em-tag ${chart.signalClass}">${chart.signal} ${entryLevel.price}</span>`;
-                    body.appendChild(marker);
-                }
-            }
-
-            // Nav dots
-            const nav = document.getElementById('tvNav');
-            charts.forEach((_, i) => {
+            images.forEach((_, i) => {
                 const btn = document.createElement('button');
                 btn.className = i === 0 ? 'active' : '';
-                btn.addEventListener('click', () => { goChart(i); resetAuto(); });
+                btn.addEventListener('click', () => go(i));
                 nav.appendChild(btn);
             });
 
-            let chartIdx = 0;
-            let autoTimer;
-
-            function goChart(i) {
-                chartIdx = i;
-                renderChart(charts[i]);
-                document.querySelectorAll('.tv-chart-nav button').forEach((b, j) => b.className = j === i ? 'active' : '');
+            let idx = 0;
+            function go(i) {
+                idx = i;
+                imgEl.style.opacity = '0.3';
+                setTimeout(() => {
+                    imgEl.src = images[i].src;
+                    tagEl.textContent = images[i].tag;
+                    imgEl.style.opacity = '1';
+                }, 300);
+                document.querySelectorAll('.scanner-nav button').forEach((b, j) => b.className = j === i ? 'active' : '');
             }
-            function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(() => { chartIdx = (chartIdx + 1) % charts.length; goChart(chartIdx); }, 4000); }
-
-            goChart(0);
-            autoTimer = setInterval(() => { chartIdx = (chartIdx + 1) % charts.length; goChart(chartIdx); }, 4000);
+            setInterval(() => go((idx + 1) % images.length), 4000);
         })();
 
         // SIGNAL CARDS
