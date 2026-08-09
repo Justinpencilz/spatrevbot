@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP — Free Premium AI Signals</title>
+    <title>Sniper Pro AI — Forex AI Scanner & Signal Bot</title>
 
-    <meta property="og:title" content="VIP Free Premium AI Signals — Limited Entry" />
-    <meta property="og:description" content="100% FREE premium AI trading signals used by top performers. Limited VIP spots — claim yours free." />
+    <meta property="og:title" content="Sniper Pro AI — Forex & Crypto Signals" />
+    <meta property="og:description" content="AI-powered scanner + signal bot. Real-time BUY/SELL with precision TP/SL. 84%+ win rate. DM @Justinfx_T to start." />
     <meta property="og:image" content="https://images.pexels.com/photos/7567442/pexels-photo-7567442.jpeg?w=1200&h=630&fit=crop" />
     <meta property="og:url" content="https://www.spatrevbot.online/vip/" />
     <meta property="og:type" content="website" />
@@ -37,13 +37,12 @@
             --bg: #05070a;
             --gold: #f7c948;
             --gold2: #e8a838;
+            --green: #22c55e;
+            --red: #ef4444;
             --purple: #8b5cf6;
-            --pink: #ec4899;
-            --glow: rgba(247, 201, 72, 0.35);
+            --cyan: #00f0ff;
             --glass: rgba(255,255,255,0.04);
             --glass2: rgba(255,255,255,0.07);
-            --surface: #0c0f16;
-            --text: #ffffff;
             --text2: #9098a8;
         }
 
@@ -51,25 +50,17 @@
         body {
             font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg);
-            color: var(--text);
+            color: #fff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ─── FLOATING ORBS ─── */
         .orb-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
         }
 
-        /* ─── UTILITY ─── */
-        .section { position: relative; z-index: 1; padding: 3.5rem 1rem; }
-        .container {
-            max-width: 680px; margin: 0 auto;
-            display: flex; flex-direction: column; align-items: center;
-        }
+        .section { position: relative; z-index: 1; padding: 3rem 1rem; }
+        .container { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
         .label {
             font-size: 0.6rem; font-weight: 700; letter-spacing: 0.25em;
             text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
@@ -80,9 +71,9 @@
         .hero-badge {
             display: inline-flex; align-items: center; gap: 0.4rem;
             background: rgba(247,201,72,0.08); border: 1px solid rgba(247,201,72,0.2);
-            padding: 0.4rem 1rem; border-radius: 999px;
-            font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em;
-            color: var(--gold); text-transform: uppercase; margin-bottom: 1.25rem;
+            padding: 0.35rem 0.9rem; border-radius: 999px;
+            font-size: 0.55rem; font-weight: 700; letter-spacing: 0.15em;
+            color: var(--gold); text-transform: uppercase; margin-bottom: 1rem;
         }
         .hero-badge .pulse-dot {
             width: 6px; height: 6px; border-radius: 50%;
@@ -93,52 +84,100 @@
             50% { opacity:0.6; box-shadow:0 0 0 6px rgba(34,197,94,0); }
         }
 
+        .hero-logo {
+            font-size: 1.2rem; font-weight: 900; letter-spacing: 0.04em;
+            margin-bottom: 0.5rem;
+        }
+        .hero-logo .sniper { color: var(--gold); }
+        .hero-logo .pro { color: var(--cyan); }
+
         .hero-title {
-            font-size: 3rem; font-weight: 900; line-height: 1.05;
+            font-size: 2.5rem; font-weight: 900; line-height: 1.08;
             text-align: center; margin-bottom: 0.75rem;
         }
         .hero-title .gradient {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 40%, var(--purple) 80%);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 35%, var(--cyan) 75%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        @media (min-width: 640px) { .hero-title { font-size: 4rem; } }
+        @media (min-width: 640px) { .hero-title { font-size: 3.5rem; } }
 
         .hero-sub {
-            font-size: 0.95rem; color: var(--text2); text-align: center;
-            line-height: 1.7; max-width: 480px; margin-bottom: 2rem;
+            font-size: 0.9rem; color: var(--text2); text-align: center;
+            line-height: 1.7; max-width: 500px; margin-bottom: 1.5rem;
         }
 
-        /* ─── STAT ROW ─── */
+        /* ─── LIVE TICKER ─── */
+        .ticker-wrap {
+            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.6rem; padding: 0.7rem 1rem;
+            overflow: hidden; position: relative;
+        }
+        .ticker-label {
+            font-size: 0.5rem; font-weight: 700; letter-spacing: 0.15em;
+            color: var(--cyan); text-transform: uppercase; margin-bottom: 0.4rem;
+        }
+        .ticker-track {
+            display: flex; gap: 1.5rem;
+            animation: tickerScroll 20s linear infinite;
+            width: max-content;
+        }
+        .ticker-track.paused { animation-play-state: paused; }
+        .ticker-item {
+            display: flex; align-items: center; gap: 0.35rem;
+            font-size: 0.7rem; white-space: nowrap;
+        }
+        .ticker-item .pair { font-weight: 700; font-size: 0.65rem; }
+        .ticker-item .direction { font-weight: 800; }
+        .ticker-item .direction.buy { color: var(--green); }
+        .ticker-item .direction.sell { color: var(--red); }
+        .ticker-item .pips { color: var(--green); font-weight: 600; font-size: 0.6rem; }
+        .ticker-item .dot { color: var(--text2); font-size: 0.4rem; }
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ─── STATS ROW ─── */
         .stat-row {
             display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
-            margin-bottom: 2rem; width: 100%; max-width: 500px;
+            margin-bottom: 1.5rem; width: 100%; max-width: 520px;
         }
         .stat-tile {
-            flex: 1; min-width: 100px; padding: 0.9rem 0.5rem;
+            flex: 1; min-width: 85px; padding: 0.8rem 0.4rem;
             background: var(--glass); backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem;
             text-align: center; transition: transform 0.25s, background 0.25s;
         }
         .stat-tile:hover { transform: translateY(-3px); background: var(--glass2); }
         .stat-num {
-            font-size: 1.15rem; font-weight: 800;
+            font-size: 1.1rem; font-weight: 800;
             background: linear-gradient(135deg, var(--gold), var(--gold2));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .stat-desc { font-size: 0.55rem; color: var(--text2); letter-spacing: 0.08em; margin-top: 0.2rem; font-weight: 600; text-transform: uppercase; }
-        @media (min-width: 640px) { .stat-num { font-size: 1.35rem; } }
+        .stat-num.green { background: linear-gradient(135deg, var(--green), #16a34a); -webkit-background-clip: text; background-clip: text; }
+        @media (min-width: 640px) { .stat-num { font-size: 1.3rem; } }
+        .stat-desc { font-size: 0.5rem; color: var(--text2); letter-spacing: 0.08em; margin-top: 0.15rem; font-weight: 600; text-transform: uppercase; }
 
         /* ─── CTA ─── */
+        .cta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
         .cta-btn {
-            position: relative; display: inline-flex; align-items: center; gap: 0.6rem;
+            position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
             background: linear-gradient(135deg, var(--gold), var(--gold2));
-            color: #05070a; font-weight: 800; font-size: 1rem;
-            padding: 1rem 2.25rem; border: none; border-radius: 999px;
+            color: #05070a; font-weight: 800; font-size: 0.9rem;
+            padding: 0.85rem 1.8rem; border: none; border-radius: 999px;
             cursor: pointer; text-decoration: none;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 6px 30px rgba(247,201,72,0.25);
+        }
+        .cta-btn.alt {
+            background: transparent;
+            border: 1.5px solid rgba(0,240,255,0.3);
+            color: var(--cyan);
+            box-shadow: 0 4px 20px rgba(0,240,255,0.1);
+            padding: 0.8rem 1.5rem; font-size: 0.8rem;
         }
         .cta-btn::after {
             content: ''; position: absolute; inset: -2px; border-radius: inherit;
@@ -149,70 +188,123 @@
         .cta-btn:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 10px 40px rgba(247,201,72,0.4); }
         .cta-btn:hover::after { opacity: 0.7; }
         .cta-btn:active { transform: scale(0.97); }
+        .cta-btn.alt:hover { box-shadow: 0 8px 30px rgba(0,240,255,0.25); transform: scale(1.05) translateY(-2px); }
         @keyframes glowSpin { 0%,100% { background-position:0% 50%; } 50% { background-position:100% 50%; } }
         .cta-sub {
-            font-size: 0.65rem; color: var(--text2); margin-top: 0.75rem;
+            font-size: 0.6rem; color: var(--text2); margin-top: 0.5rem;
         }
         .cta-sub strong { color: var(--gold); }
 
-        /* ─── PAIN → GAIN ─── */
-        .pivot-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+        /* ─── SAMPLE SIGNALS ─── */
+        .signals-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
             width: 100%; max-width: 520px; margin-bottom: 1.5rem;
         }
-        @media (max-width: 420px) { .pivot-row { grid-template-columns: 1fr; } }
-        .pivot-card {
-            padding: 1.25rem; border-radius: 0.75rem; text-align: left;
-            transition: transform 0.25s;
-        }
-        .pivot-card.pain {
-            background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.12);
-        }
-        .pivot-card.gain {
-            background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.12);
-        }
-        .pivot-card:hover { transform: translateY(-3px); }
-        .pivot-card .icon { font-size: 1.25rem; margin-bottom: 0.35rem; }
-        .pivot-card h4 {
-            font-size: 0.85rem; font-weight: 800; margin-bottom: 0.25rem;
-        }
-        .pivot-card.pain h4 { color: #ef4444; }
-        .pivot-card.gain h4 { color: #22c55e; }
-        .pivot-card p { font-size: 0.75rem; color: var(--text2); line-height: 1.5; }
-        .pivot-divider {
-            display: flex; align-items: center; gap: 0.75rem;
-            font-size: 0.7rem; font-weight: 800; color: var(--gold);
-            letter-spacing: 0.15em; width: 100%; max-width: 400px;
-        }
-        .pivot-divider::before, .pivot-divider::after {
-            content: ''; flex:1; height:1px;
-            background: linear-gradient(90deg,transparent,rgba(247,201,72,0.2),transparent);
-        }
-
-        /* ─── BENEFITS ─── */
-        .benefits-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
-            width: 100%; max-width: 520px; margin-bottom: 2rem;
-        }
-        @media (max-width: 420px) { .benefits-grid { grid-template-columns: 1fr; } }
-        .benefit-card {
-            padding: 1.25rem; border-radius: 0.75rem;
+        @media (max-width: 420px) { .signals-grid { grid-template-columns: 1fr; } }
+        .signal-card {
+            padding: 0.9rem; border-radius: 0.65rem;
             background: var(--glass); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.04);
-            text-align: center; transition: all 0.3s; cursor: default;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s; cursor: default;
+            animation: signalIn 0.5s ease-out;
         }
-        .benefit-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(247,201,72,0.2);
-            box-shadow: 0 8px 30px rgba(247,201,72,0.06);
+        .signal-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0,240,255,0.2);
+            box-shadow: 0 8px 25px rgba(0,240,255,0.05);
         }
-        .benefit-card .emoji { font-size: 1.75rem; margin-bottom: 0.5rem; }
-        .benefit-card h4 { font-size: 0.8rem; font-weight: 800; margin-bottom: 0.3rem; }
-        .benefit-card p { font-size: 0.7rem; color: var(--text2); line-height: 1.5; }
+        @keyframes signalIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .signal-card .s-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .signal-card .s-pair { font-weight: 800; font-size: 0.75rem; }
+        .signal-card .s-status { font-size: 0.55rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 999px; }
+        .signal-card .s-status.hit { background: rgba(34,197,94,0.15); color: var(--green); }
+        .signal-card .s-status.live { background: rgba(0,240,255,0.12); color: var(--cyan); animation: pulseStatus 2s ease-in-out infinite; }
+        @keyframes pulseStatus { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .signal-card .s-badge {
+            font-size: 0.5rem; font-weight: 700; padding: 0.12rem 0.4rem;
+            border-radius: 999px; letter-spacing: 0.05em;
+        }
+        .signal-card .s-badge.buy { background: rgba(34,197,94,0.12); color: var(--green); }
+        .signal-card .s-badge.sell { background: rgba(239,68,68,0.12); color: var(--red); }
+        .signal-card .s-row {
+            display: flex; justify-content: space-between; font-size: 0.6rem;
+            color: var(--text2); margin-top: 0.2rem;
+        }
+        .signal-card .s-row .val { color: #d1d5db; font-weight: 600; }
+        .signal-card .s-pips {
+            margin-top: 0.5rem; font-size: 0.65rem; font-weight: 700;
+            color: var(--green);
+        }
 
-        /* ─── TESTIMONIAL TWIST ─── */
+        /* ─── HOW IT WORKS ─── */
+        .steps-row {
+            display: flex; gap: 0.5rem; width: 100%; max-width: 520px;
+            margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .step-card {
+            flex: 1; min-width: 100px; padding: 1rem 0.6rem;
+            background: var(--glass); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem;
+            text-align: center; transition: all 0.3s;
+        }
+        .step-card:hover { transform: translateY(-4px); border-color: rgba(247,201,72,0.2); }
+        .step-card .step-num {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            color: #05070a; font-weight: 900; font-size: 0.75rem;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 0.5rem;
+        }
+        .step-card h4 { font-size: 0.7rem; font-weight: 800; margin-bottom: 0.2rem; }
+        .step-card p { font-size: 0.6rem; color: var(--text2); line-height: 1.5; }
+
+        /* ─── DAILY REPORT PREVIEW ─── */
+        .report-card {
+            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(0,240,255,0.03), rgba(139,92,246,0.04));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,240,255,0.1);
+            border-radius: 1rem; padding: 1.25rem;
+        }
+        .report-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .report-header h4 { font-size: 0.75rem; font-weight: 800; }
+        .report-header .date { font-size: 0.55rem; color: var(--text2); }
+        .report-stats {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .report-stat { text-align: center; }
+        .report-stat .val { font-size: 1rem; font-weight: 900; color: var(--gold); }
+        .report-stat .lbl { font-size: 0.45rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; }
+        .report-breakdown {
+            display: flex; gap: 0.4rem; flex-wrap: wrap; font-size: 0.55rem;
+        }
+        .report-breakdown span {
+            padding: 0.15rem 0.4rem; border-radius: 999px;
+            font-weight: 600;
+        }
+        .report-breakdown .hit { background: rgba(34,197,94,0.12); color: var(--green); }
+        .report-breakdown .miss { background: rgba(239,68,68,0.12); color: var(--red); }
+        .wr-badge {
+            margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.3rem;
+            font-size: 0.7rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ─── TESTIMONIALS ─── */
         .testimonial-wrap {
-            width: 100%; max-width: 520px; margin-bottom: 2rem;
+            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
         }
         .testimonial-card {
             background: linear-gradient(135deg, var(--glass), rgba(139,92,246,0.04));
@@ -227,15 +319,14 @@
             margin-bottom: 0.25rem;
         }
         .testimonial-card .text {
-            font-size: 0.85rem; color: #d1d5db; line-height: 1.6;
+            font-size: 0.82rem; color: #d1d5db; line-height: 1.6;
             margin-bottom: 1rem;
         }
         .testimonial-card .author {
-            font-weight: 700; font-size: 0.75rem; color: var(--gold);
+            font-weight: 700; font-size: 0.72rem; color: var(--gold);
         }
         .testimonial-card .result {
-            font-size: 0.7rem; color: #22c55e; font-weight: 600;
-            margin-top: 0.2rem;
+            font-size: 0.65rem; color: #22c55e; font-weight: 600; margin-top: 0.2rem;
         }
         .testimonial-nav {
             display: flex; gap: 0.4rem; justify-content: center; margin-top: 0.75rem;
@@ -247,26 +338,26 @@
         }
         .testimonial-nav button.active { background: var(--gold); transform: scale(1.4); }
 
-        /* ─── SCARCITY ─── */
+        /* ─── COUNTDOWN ─── */
         .scarcity-row {
             display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;
             margin-bottom: 1rem; width: 100%; max-width: 420px;
         }
         .scarcity-block {
-            padding: 0.75rem 1rem; min-width: 70px;
+            padding: 0.7rem 0.9rem; min-width: 65px;
             background: var(--glass); backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.04); border-radius: 0.5rem;
             text-align: center;
         }
         .scarcity-block .num {
-            font-size: 1.5rem; font-weight: 900; color: var(--gold);
+            font-size: 1.4rem; font-weight: 900; color: var(--gold);
             font-variant-numeric: tabular-nums;
         }
         .scarcity-block .lbl {
-            font-size: 0.5rem; color: var(--text2); letter-spacing: 0.1em;
+            font-size: 0.45rem; color: var(--text2); letter-spacing: 0.1em;
             text-transform: uppercase; margin-top: 0.1rem;
         }
-        @media (min-width: 640px) { .scarcity-block .num { font-size: 1.75rem; } }
+        @media (min-width: 640px) { .scarcity-block .num { font-size: 1.6rem; } }
 
         .progress-track {
             width: 100%; max-width: 360px; height: 4px;
@@ -279,7 +370,7 @@
             border-radius: 999px; transition: width 1s ease; width: 0%;
         }
 
-        /* ─── ENTRANCE ─── */
+        /* ─── SCROLL REVEAL ─── */
         .reveal {
             opacity: 0; transform: translateY(24px);
             transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23,1,0.32,1);
@@ -288,8 +379,19 @@
 
         /* ─── FOOTER ─── */
         .footer-note {
-            font-size: 0.55rem; color: #20242e; text-align: center;
-            max-width: 400px; line-height: 1.5; margin-top: 1.5rem;
+            font-size: 0.5rem; color: #20242e; text-align: center;
+            max-width: 400px; line-height: 1.5; margin-top: 1rem;
+        }
+
+        /* ─── FLOATING COUNTER ─── */
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+        }
+        .float-counter {
+            position: fixed; z-index: 10; pointer-events: none;
+            font-weight: 900; font-size: 0.65rem;
+            animation: floatUp 2s ease-out forwards;
         }
     </style>
 </head>
@@ -301,88 +403,126 @@
         <div class="container">
             <div class="hero-badge reveal">
                 <span class="pulse-dot"></span>
-                🆓 100% Free VIP Access
+                🟢 AI SCANNER LIVE
+            </div>
+
+            <div class="hero-logo reveal">
+                <span class="sniper">SNIPER</span> <span class="pro">PRO AI</span>
             </div>
 
             <h1 class="hero-title reveal">
-                Free <span class="gradient">Premium AI</span><br>Trading Signals
+                <span class="gradient">Forex AI Scanner</span><br>& Signal Bot
             </h1>
 
             <p class="hero-sub reveal">
-                <strong style="color:var(--gold)">100% free.</strong> Exclusive VIP signals used by our top performers. Real-time BUY/SELL alerts with precision entry, TP, and SL levels delivered straight to your phone. <strong style="color:var(--gold)">Zero cost.</strong>
+                AI-powered scanner scans <strong style="color:var(--cyan)">Forex + Crypto</strong> markets 24/7. Get real-time BUY/SELL signals with precision entry, TP & SL delivered straight to Telegram. <strong style="color:var(--gold)">100% free.</strong>
             </p>
 
+            <!-- Live signal ticker -->
+            <div class="ticker-wrap reveal" id="tickerWrap">
+                <div class="ticker-label">🔴 LIVE SIGNALS</div>
+                <div class="ticker-track" id="tickerTrack"></div>
+            </div>
+
+            <!-- Stats -->
             <div class="stat-row reveal">
                 <div class="stat-tile">
-                    <div class="stat-num">$50→$225</div>
-                    <div class="stat-desc">Member Result</div>
+                    <div class="stat-num green">84.6%</div>
+                    <div class="stat-desc">Crypto Win Rate</div>
                 </div>
                 <div class="stat-tile">
-                    <div class="stat-num">$200→$857</div>
-                    <div class="stat-desc">Member Result</div>
+                    <div class="stat-num green">100%</div>
+                    <div class="stat-desc">Forex Win Rate</div>
                 </div>
                 <div class="stat-tile">
-                    <div class="stat-num">92%</div>
-                    <div class="stat-desc">Win Rate</div>
+                    <div class="stat-num">+38,626</div>
+                    <div class="stat-desc">Pips (Crypto)</div>
                 </div>
                 <div class="stat-tile">
-                    <div class="stat-num">1K+</div>
-                    <div class="stat-desc">Members</div>
+                    <div class="stat-num">+190,803</div>
+                    <div class="stat-desc">Pips (Forex)</div>
                 </div>
             </div>
 
+            <!-- CTAs -->
             <div class="reveal" style="text-align:center">
-                <button class="cta-btn" id="claimBtn1">JOIN FREE WHATSAPP COMMUNITY</button>
-                <div class="cta-sub">✅ <strong>100% free</strong> — no payment needed · <strong>⏳ 12 spots left</strong></div>
+                <div class="cta-row">
+                    <a class="cta-btn" href="https://t.me/Justinfx_T" target="_blank" id="dmBtn">
+                        💬 DM @Justinfx_T
+                    </a>
+                    <a class="cta-btn alt" href="https://t.me/sniperproadmin" target="_blank" id="chBtn">
+                        📢 Join Channel
+                    </a>
+                </div>
+                <div class="cta-sub">
+                    ✅ <strong>DM to trade with me live</strong> · 📢 <strong>@sniperproadmin</strong> for signals
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ═══ PAIN → GAIN ═══ -->
+    <!-- ═══ SAMPLE SIGNALS ═══ -->
     <section class="section reveal" style="padding-top:0">
         <div class="container">
-            <div class="label">The Difference</div>
-            <div class="pivot-row">
-                <div class="pivot-card pain">
-                    <div class="icon">😣</div>
-                    <h4>Trading Alone</h4>
-                    <p>Guessing entries, emotional exits, no edge. Watching your account drain while others profit.</p>
-                </div>
-                <div class="pivot-card gain">
-                    <div class="icon">🚀</div>
-                    <h4>VIP Edge</h4>
-                    <p>AI-powered precision signals with clear entry, TP &amp; SL. Proven strategy. Real results daily.</p>
-                </div>
-            </div>
-            <div class="pivot-divider">YOUR EDGE STARTS HERE</div>
+            <div class="label">🎯 Recent Signal Hits</div>
+            <div class="signals-grid" id="signalsGrid"></div>
         </div>
     </section>
 
-    <!-- ═══ BENEFITS ═══ -->
+    <!-- ═══ HOW IT WORKS ═══ -->
     <section class="section reveal" style="padding-top:0">
         <div class="container">
-            <div class="label">What You Get</div>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="emoji">📡</div>
-                    <h4>VIP Signals</h4>
-                    <p>Exclusive premium signals. <strong style="color:#22c55e">Completely free.</strong> Higher confidence with clear levels.</p>
+            <div class="label">⚡ How It Works</div>
+            <div class="steps-row">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h4>DM @Justinfx_T</h4>
+                    <p>Message to join the VIP signals group. Instant access.</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="emoji">⚡</div>
-                    <h4>Real-time Alerts</h4>
-                    <p>Get notified instantly. Never miss a move.</p>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h4>Get Signals</h4>
+                    <p>Receive real-time BUY/SELL alerts on Telegram with entry, TP & SL.</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="emoji">🎯</div>
-                    <h4>Pro Analysis</h4>
-                    <p>AI + human oversight. Every signal verified.</p>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h4>Trade & Profit</h4>
+                    <p>Execute trades. TP hits daily. Proven 84%+ win rate.</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="emoji">👑</div>
-                    <h4>Coach Justin</h4>
-                    <p>Direct access. Ask questions, learn the strategy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ DAILY REPORT PREVIEW ═══ -->
+    <section class="section reveal" style="padding-top:0">
+        <div class="container">
+            <div class="label">📊 Daily Report Preview</div>
+            <div class="report-card" id="reportCard">
+                <div class="report-header">
+                    <h4>📈 Daily Forex Report [FOREX]</h4>
+                    <span class="date" id="reportDate">AUG 8</span>
                 </div>
+                <div class="report-stats">
+                    <div class="report-stat">
+                        <div class="val">3</div>
+                        <div class="lbl">Signals</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="val">+190K</div>
+                        <div class="lbl">Pips</div>
+                    </div>
+                    <div class="report-stat">
+                        <div class="val">63.6K</div>
+                        <div class="lbl">Avg/Trade</div>
+                    </div>
+                </div>
+                <div class="report-breakdown">
+                    <span class="hit">✅ TP2: 0</span>
+                    <span class="hit">✅ TP1: 3</span>
+                    <span>⚪ BE: 0</span>
+                    <span class="miss">❌ SL: 0</span>
+                </div>
+                <div class="wr-badge">🏆 100% Win Rate (3W / 0L) · 🔥 Win Streak: 3</div>
             </div>
         </div>
     </section>
@@ -390,25 +530,25 @@
     <!-- ═══ TESTIMONIALS ═══ -->
     <section class="section reveal" style="padding-top:0">
         <div class="container">
-            <div class="label">📢 100% Free — Real Results</div>
+            <div class="label">💬 What Traders Say</div>
             <div class="testimonial-wrap" id="testimonialWrap">
                 <div class="testimonial-card" id="testimonialCard">
                     <div class="quote-icon">"</div>
                     <div class="text" id="testimonialText">
-                        I turned $50 into $225 in one session. The signals are incredibly accurate. This VIP group changed everything for me.
+                        I was losing money for 6 months straight. Since joining Sniper Pro, I'm consistently green. The AI signals are a game changer.
                     </div>
-                    <div class="author" id="testimonialAuthor">— Michael O.</div>
-                    <div class="result" id="testimonialResult">💰 +$175 in one day</div>
+                    <div class="author" id="testimonialAuthor">— David A.</div>
+                    <div class="result" id="testimonialResult">📈 Consistent weekly profits</div>
                 </div>
                 <div class="testimonial-nav" id="testimonialNav"></div>
             </div>
         </div>
     </section>
 
-    <!-- ═══ SCARCITY + CTA ═══ -->
+    <!-- ═══ FINAL CTA ═══ -->
     <section class="section reveal" style="padding-top:0;padding-bottom:5rem">
         <div class="container">
-            <div class="label">⏳ Limited Time</div>
+            <div class="label">⏳ Start Trading Now</div>
 
             <div class="scarcity-row">
                 <div class="scarcity-block">
@@ -424,7 +564,7 @@
                     <div class="lbl">Seconds</div>
                 </div>
                 <div class="scarcity-block">
-                    <div class="num" id="spotsLeft">12</div>
+                    <div class="num" id="spotsLeft">8</div>
                     <div class="lbl">Spots</div>
                 </div>
             </div>
@@ -434,23 +574,32 @@
             </div>
 
             <div style="text-align:center">
-                <button class="cta-btn" id="claimBtn2">JOIN FREE WHATSAPP COMMUNITY</button>
-                <div class="cta-sub">🚪 Doors close when all <strong>12 spots</strong> are filled · ✅ <strong>Zero cost</strong></div>
+                <div class="cta-row">
+                    <a class="cta-btn" href="https://t.me/Justinfx_T" target="_blank" id="dmBtn2">
+                        💬 DM @Justinfx_T — Trade With Me Live
+                    </a>
+                    <a class="cta-btn alt" href="https://t.me/sniperproadmin" target="_blank" id="chBtn2">
+                        📢 @sniperproadmin
+                    </a>
+                </div>
+                <div class="cta-sub">🚪 Spots fill fast · ✅ <strong>100% Free</strong> · Trade with Coach Justin live</div>
             </div>
 
             <div class="footer-note">
-                <strong>🆓 100% free to join.</strong> VIP group is strictly monitored — serious traders only. Trading involves risk. Past results don't guarantee future performance.
+                <strong>🆓 Free to join.</strong> Trading involves risk. Past results don't guarantee future performance.
             </div>
         </div>
     </section>
 
+    <!-- Floating pips counter element -->
+    <div id="floatContainer" style="position:fixed;inset:0;pointer-events:none;z-index:10;"></div>
+
     <script>
-        // ─── ORB BACKGROUND ───
+        // ═══ ORB BACKGROUND ═══
         (function() {
             const c = document.getElementById('orbCanvas');
             const ctx = c.getContext('2d');
             let w, h;
-
             function resize() {
                 w = c.width = window.innerWidth;
                 h = c.height = Math.max(document.body.scrollHeight, window.innerHeight);
@@ -460,20 +609,15 @@
             window.addEventListener('scroll', resize);
 
             const orbs = [];
-            const colors = [
-                'rgba(247,201,72,',
-                'rgba(139,92,246,',
-                'rgba(236,72,153,',
-            ];
-            for (let i = 0; i < 4; i++) {
+            const colors = ['rgba(0,240,255,', 'rgba(139,92,246,', 'rgba(247,201,72,', 'rgba(236,72,153,'];
+            for (let i = 0; i < 5; i++) {
                 orbs.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    r: 80 + Math.random() * 160,
-                    dx: (Math.random() - 0.5) * 0.2,
-                    dy: (Math.random() - 0.5) * 0.2,
+                    x: Math.random() * w, y: Math.random() * h,
+                    r: 60 + Math.random() * 140,
+                    dx: (Math.random() - 0.5) * 0.25,
+                    dy: (Math.random() - 0.5) * 0.25,
                     color: colors[i % colors.length],
-                    alpha: 0.03 + Math.random() * 0.04,
+                    alpha: 0.02 + Math.random() * 0.04,
                 });
             }
 
@@ -488,9 +632,7 @@
                     ctx.beginPath();
                     ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
                     ctx.fill();
-
-                    o.x += o.dx;
-                    o.y += o.dy;
+                    o.x += o.dx; o.y += o.dy;
                     if (o.x < -o.r) o.x = w + o.r;
                     if (o.x > w + o.r) o.x = -o.r;
                     if (o.y < -o.r) o.y = h + o.r;
@@ -501,7 +643,7 @@
             draw();
         })();
 
-        // ─── SCROLL REVEAL ───
+        // ═══ SCROLL REVEAL ═══
         (function() {
             const els = document.querySelectorAll('.reveal');
             const obs = new IntersectionObserver(ents => {
@@ -510,7 +652,91 @@
             els.forEach(el => obs.observe(el));
         })();
 
-        // ─── TIMER ───
+        // ═══ LIVE SIGNAL TICKER ═══
+        (function() {
+            const signals = [
+                { pair: 'SPX500', dir: 'BUY', dirClass: 'buy', pips: '+70,625' },
+                { pair: 'XLM/USDT', dir: 'SELL', dirClass: 'sell', pips: '+5.5' },
+                { pair: 'PORTAL/USDT', dir: 'BUY', dirClass: 'buy', pips: '+1.5' },
+                { pair: 'MEME/USDT', dir: 'BUY', dirClass: 'buy', pips: '+1.0' },
+                { pair: 'ONDO/USDT', dir: 'SELL', dirClass: 'sell', pips: '+61.6' },
+                { pair: 'NEAR/USDT', dir: 'SELL', dirClass: 'sell', pips: '+63.6' },
+                { pair: 'SPX500', dir: 'BUY', dirClass: 'buy', pips: '+77,678' },
+                { pair: 'WTI', dir: 'BUY', dirClass: 'buy', pips: '+42,500' },
+            ];
+            // Double for seamless loop
+            const items = [...signals, ...signals];
+            const track = document.getElementById('tickerTrack');
+            track.innerHTML = items.map(s => `
+                <div class="ticker-item">
+                    <span class="pair">${s.pair}</span>
+                    <span class="direction ${s.dirClass}">${s.dir}</span>
+                    <span class="pips">${s.pips} pips</span>
+                    <span class="dot">●</span>
+                </div>
+            `).join('');
+
+            // Pause on hover
+            const wrap = document.getElementById('tickerWrap');
+            wrap.addEventListener('mouseenter', () => track.classList.add('paused'));
+            wrap.addEventListener('mouseleave', () => track.classList.remove('paused'));
+            wrap.addEventListener('touchstart', () => track.classList.add('paused'));
+            wrap.addEventListener('touchend', () => track.classList.remove('paused'));
+        })();
+
+        // ═══ SAMPLE SIGNAL CARDS ═══
+        (function() {
+            const signals = [
+                { pair: 'SPX500', tf: '5m', dir: 'BUY', dirClass: 'buy', entry: '7774.5', sl: '7766.73', tp1: '7782.27', tp2: '7793.92', status: 'hit', pips: '+77,678', conf: 'LOW' },
+                { pair: 'XLM/USDT', tf: '5m', dir: 'SELL', dirClass: 'sell', entry: '0.1636', sl: '0.16415', tp1: '0.16305', tp2: '0.16223', status: 'hit', pips: '+5.5', conf: 'LOW' },
+                { pair: 'PORTAL/USDT', tf: '1h', dir: 'BUY', dirClass: 'buy', entry: '0.01163', sl: '0.01125', tp1: '0.01201', tp2: '0.01258', status: 'live', pips: '—', conf: 'MEDIUM' },
+                { pair: 'NEAR/USDT', tf: '3m', dir: 'SELL', dirClass: 'sell', entry: '1.601', sl: '1.60736', tp1: '1.59464', tp2: '1.5851', status: 'hit', pips: '+63.6', conf: 'LOW' },
+            ];
+
+            const grid = document.getElementById('signalsGrid');
+            grid.innerHTML = signals.map(s => `
+                <div class="signal-card">
+                    <div class="s-header">
+                        <span class="s-pair">📊 ${s.pair} · ${s.tf}</span>
+                        <span class="s-badge ${s.dirClass}">${s.dir}</span>
+                    </div>
+                    <div class="s-row"><span>💵 Entry</span><span class="val">${s.entry}</span></div>
+                    <div class="s-row"><span>🔴 SL</span><span class="val">${s.sl}</span></div>
+                    <div class="s-row"><span>✅ TP1</span><span class="val">${s.tp1}</span></div>
+                    <div class="s-row"><span>🏁 TP2</span><span class="val">${s.tp2}</span></div>
+                    <div class="s-row"><span>🎯 Confidence</span><span class="val" style="color:${s.conf==='LOW'?'#22c55e':s.conf==='MEDIUM'?'#f7c948':'#ef4444'}">🟢 ${s.conf}</span></div>
+                    ${s.status === 'hit' ? `<div class="s-pips">✅ TP1 HIT · ${s.pips} pips</div>` : `<div class="s-pips" style="color:var(--cyan)">🔄 LIVE — waiting for TP</div>`}
+                    <span class="s-status ${s.status}">${s.status === 'hit' ? '✅ HIT' : '🔄 LIVE'}</span>
+                </div>
+            `).join('');
+        })();
+
+        // ═══ FLOATING PIPS ANIMATION ═══
+        (function() {
+            const container = document.getElementById('floatContainer');
+            const messages = [
+                { text: 'TP1 HIT · +70625 pips', color: '#22c55e' },
+                { text: 'TP2 HIT · +77,678 pips', color: '#f7c948' },
+                { text: 'SL moved to BE ✅', color: '#00f0ff' },
+                { text: 'TP1 HIT · +63.6 pips', color: '#22c55e' },
+                { text: 'Win Streak: 8 🔥', color: '#f7c948' },
+            ];
+            function spawn() {
+                const msg = messages[Math.floor(Math.random() * messages.length)];
+                const el = document.createElement('div');
+                el.className = 'float-counter';
+                el.textContent = msg.text;
+                el.style.color = msg.color;
+                el.style.left = (10 + Math.random() * 70) + '%';
+                el.style.top = (40 + Math.random() * 40) + '%';
+                container.appendChild(el);
+                setTimeout(() => el.remove(), 2000);
+            }
+            setInterval(spawn, 3500);
+            spawn();
+        })();
+
+        // ═══ TIMER ═══
         (function() {
             let total = 6 * 3600;
             const k = 'vip_timer';
@@ -535,32 +761,30 @@
             setInterval(tick, 1000);
         })();
 
-        // ─── SPOT COUNTER ───
+        // ═══ SPOT COUNTER ═══
         (function() {
-            let spots = 12;
-            const maxSpots = 30;
+            let spots = 8;
+            const maxSpots = 20;
             const el = document.getElementById('spotsLeft');
             const fill = document.getElementById('progressFill');
-
             function update() {
                 el.textContent = spots;
-                const pct = Math.min(((1 - spots / maxSpots) * 100), 95);
-                fill.style.width = pct + '%';
+                fill.style.width = Math.min(((1 - spots / maxSpots) * 100), 95) + '%';
             }
             update();
-
             setInterval(() => {
-                if (spots > 2 && Math.random() < 0.12) { spots--; update(); }
-            }, 22000);
+                if (spots > 2 && Math.random() < 0.1) { spots--; update(); }
+            }, 25000);
         })();
 
-        // ─── TESTIMONIAL CAROUSEL ───
+        // ═══ TESTIMONIAL CAROUSEL ═══
         (function() {
             const data = [
-                { text: 'I turned $50 into $225 in one session. The signals are incredibly accurate. This VIP group changed everything for me.', author: '— Michael O.', result: '💰 +$175 in one day' },
-                { text: 'Made $857 in one morning following VIP signals. Best trading decision I\'ve ever made. Coach Justin knows his stuff.', author: '— Sarah K.', result: '💰 +$857 in one morning' },
-                { text: 'I was losing money for 6 months straight. Since joining VIP, I\'m consistently green. The AI signals are a game changer.', author: '— David A.', result: '📈 Consistent weekly profits' },
-                { text: '92% win rate my first week. I didn\'t believe it until I saw it myself. This is the real deal.', author: '— Emmanuel T.', result: '📊 92% win rate' },
+                { text: 'I turned $50 into $225 in one session following Sniper Pro signals. The accuracy is unreal. DM\'d Justin and he walked me through everything.', author: '— Michael O.', result: '💰 +$175 in one day' },
+                { text: 'Made $857 in one morning. The SPX500 signals are deadly accurate. Best trading community I\'ve ever joined.', author: '— Sarah K.', result: '💰 +$857 in one morning' },
+                { text: 'I was losing money for 6 months straight. Since joining, I\'m consistently green. The AI scanner is a game changer — it does all the heavy lifting.', author: '— David A.', result: '📈 Consistent weekly profits' },
+                { text: '84% win rate my first week. The confidence levels on each signal help me manage risk. Coach Justin is always available on DM.', author: '— Emmanuel T.', result: '📊 84% win rate' },
+                { text: 'The TP hits come daily. SPX500, crypto, forex — all covered. DM @Justinfx_T and you\'ll see for yourself.', author: '— Chidi N.', result: '🏆 Daily TP hits' },
             ];
 
             let idx = 0;
@@ -591,23 +815,23 @@
                     card.style.transform = 'translateY(0)';
                 });
             }
-
             setInterval(() => go((idx + 1) % data.length), 5000);
         })();
 
-        // ─── WHATSAPP ───
-        function claim() {
+        // ═══ CAPI + PIXEL TRACKING ═══
+        function trackClick(label) {
             const eid = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
-            if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'WhatsApp Group - VIP', lead_type: 'VIP Button', event_id: eid });
+            if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Sniper Pro - ' + label, lead_type: 'Telegram CTA', event_id: eid });
             try {
                 const fbp = (document.cookie.split('; ').find(r => r.startsWith('_fbp=')) || '').split('=')[1] || '';
                 const fbc = (document.cookie.split('; ').find(r => r.startsWith('_fbc=')) || '').split('=')[1] || '';
-                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', new Blob([JSON.stringify({ content_name: 'WhatsApp Group - VIP', event_id: eid, fbp, fbc })], { type: 'application/json' }));
+                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', new Blob([JSON.stringify({ content_name: 'Sniper Pro - ' + label, event_id: eid, fbp, fbc })], { type: 'application/json' }));
             } catch(e) {}
-            window.location.href = 'https://chat.whatsapp.com/KKZ2hEpmZnjJgAB5MIC7j3';
         }
-        document.getElementById('claimBtn1').addEventListener('click', claim);
-        document.getElementById('claimBtn2').addEventListener('click', claim);
+        document.getElementById('dmBtn').addEventListener('click', () => trackClick('DM Justinfx_T'));
+        document.getElementById('dmBtn2').addEventListener('click', () => trackClick('DM Justinfx_T'));
+        document.getElementById('chBtn').addEventListener('click', () => trackClick('Channel'));
+        document.getElementById('chBtn2').addEventListener('click', () => trackClick('Channel'));
     </script>
 </body>
 </html>
