@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sniper Pro AI — Forex AI Scanner & Signal Bot</title>
 
     <meta property="og:title" content="Sniper Pro AI — Forex & Crypto Signals" />
@@ -46,94 +46,99 @@
             --text2: #9098a8;
         }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg);
             color: #fff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            font-size: 16px;
         }
 
-        .orb-canvas {
-            position: fixed; inset: 0; z-index: 0; pointer-events: none;
-        }
+        .orb-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-        .section { position: relative; z-index: 1; padding: 3rem 1rem; }
-        .container { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+        .section { position: relative; z-index: 1; padding: 2.5rem 0.75rem; }
+        .container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+        @media (min-width: 640px) { .section { padding: 3rem 1rem; } }
+
         .label {
             font-size: 0.6rem; font-weight: 700; letter-spacing: 0.25em;
-            text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
+            text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
         }
 
         /* ─── HERO ─── */
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem 0.75rem; }
+        @media (min-width: 640px) { .hero { padding: 2rem 1rem; } }
+
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 0.4rem;
+            display: inline-flex; align-items: center; gap: 0.35rem;
             background: rgba(247,201,72,0.08); border: 1px solid rgba(247,201,72,0.2);
-            padding: 0.35rem 0.9rem; border-radius: 999px;
-            font-size: 0.55rem; font-weight: 700; letter-spacing: 0.15em;
-            color: var(--gold); text-transform: uppercase; margin-bottom: 1rem;
+            padding: 0.3rem 0.75rem; border-radius: 999px;
+            font-size: 0.5rem; font-weight: 700; letter-spacing: 0.15em;
+            color: var(--gold); text-transform: uppercase; margin-bottom: 0.75rem;
         }
         .hero-badge .pulse-dot {
-            width: 6px; height: 6px; border-radius: 50%;
+            width: 5px; height: 5px; border-radius: 50%;
             background: #22c55e; animation: dotPulse 1.5s ease-in-out infinite;
         }
         @keyframes dotPulse {
             0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(34,197,94,0.5); }
-            50% { opacity:0.6; box-shadow:0 0 0 6px rgba(34,197,94,0); }
+            50% { opacity:0.6; box-shadow:0 0 0 5px rgba(34,197,94,0); }
         }
 
         .hero-logo {
-            font-size: 1.2rem; font-weight: 900; letter-spacing: 0.04em;
-            margin-bottom: 0.5rem;
+            font-size: 1rem; font-weight: 900; letter-spacing: 0.04em; margin-bottom: 0.4rem;
         }
+        @media (min-width: 640px) { .hero-logo { font-size: 1.2rem; } }
         .hero-logo .sniper { color: var(--gold); }
         .hero-logo .pro { color: var(--cyan); }
 
         .hero-title {
-            font-size: 2.5rem; font-weight: 900; line-height: 1.08;
-            text-align: center; margin-bottom: 0.75rem;
+            font-size: 1.8rem; font-weight: 900; line-height: 1.1;
+            text-align: center; margin-bottom: 0.6rem; padding: 0 0.25rem;
         }
+        @media (min-width: 400px) { .hero-title { font-size: 2.2rem; } }
+        @media (min-width: 640px) { .hero-title { font-size: 3.2rem; } }
         .hero-title .gradient {
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 35%, var(--cyan) 75%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        @media (min-width: 640px) { .hero-title { font-size: 3.5rem; } }
 
         .hero-sub {
-            font-size: 0.9rem; color: var(--text2); text-align: center;
-            line-height: 1.7; max-width: 500px; margin-bottom: 1.5rem;
+            font-size: 0.8rem; color: var(--text2); text-align: center;
+            line-height: 1.6; max-width: 480px; margin-bottom: 1.25rem; padding: 0 0.25rem;
         }
+        @media (min-width: 640px) { .hero-sub { font-size: 0.9rem; } }
 
         /* ─── LIVE TICKER ─── */
         .ticker-wrap {
-            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
+            width: 100%; max-width: 520px; margin-bottom: 1.25rem;
             background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 0.6rem; padding: 0.7rem 1rem;
+            border-radius: 0.5rem; padding: 0.5rem 0.75rem;
             overflow: hidden; position: relative;
         }
         .ticker-label {
-            font-size: 0.5rem; font-weight: 700; letter-spacing: 0.15em;
-            color: var(--cyan); text-transform: uppercase; margin-bottom: 0.4rem;
+            font-size: 0.45rem; font-weight: 700; letter-spacing: 0.15em;
+            color: var(--cyan); text-transform: uppercase; margin-bottom: 0.3rem;
         }
         .ticker-track {
-            display: flex; gap: 1.5rem;
-            animation: tickerScroll 20s linear infinite;
+            display: flex; gap: 1.2rem;
+            animation: tickerScroll 18s linear infinite;
             width: max-content;
         }
         .ticker-track.paused { animation-play-state: paused; }
         .ticker-item {
-            display: flex; align-items: center; gap: 0.35rem;
-            font-size: 0.7rem; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.3rem;
+            font-size: 0.62rem; white-space: nowrap;
         }
-        .ticker-item .pair { font-weight: 700; font-size: 0.65rem; }
+        .ticker-item .pair { font-weight: 700; font-size: 0.6rem; }
         .ticker-item .direction { font-weight: 800; }
         .ticker-item .direction.buy { color: var(--green); }
         .ticker-item .direction.sell { color: var(--red); }
-        .ticker-item .pips { color: var(--green); font-weight: 600; font-size: 0.6rem; }
-        .ticker-item .dot { color: var(--text2); font-size: 0.4rem; }
+        .ticker-item .pips { color: var(--green); font-weight: 600; font-size: 0.55rem; }
+        .ticker-item .dot { color: var(--text2); font-size: 0.35rem; }
         @keyframes tickerScroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -141,77 +146,143 @@
 
         /* ─── STATS ROW ─── */
         .stat-row {
-            display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
-            margin-bottom: 1.5rem; width: 100%; max-width: 520px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;
+            margin-bottom: 1.25rem; width: 100%; max-width: 500px;
         }
+        @media (min-width: 420px) { .stat-row { grid-template-columns: 1fr 1fr 1fr 1fr; } }
         .stat-tile {
-            flex: 1; min-width: 85px; padding: 0.8rem 0.4rem;
+            padding: 0.65rem 0.3rem;
             background: var(--glass); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.65rem;
             text-align: center; transition: transform 0.25s, background 0.25s;
         }
-        .stat-tile:hover { transform: translateY(-3px); background: var(--glass2); }
+        .stat-tile:active { transform: scale(0.97); background: var(--glass2); }
         .stat-num {
-            font-size: 1.1rem; font-weight: 800;
+            font-size: 0.95rem; font-weight: 800;
             background: linear-gradient(135deg, var(--gold), var(--gold2));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        @media (min-width: 640px) { .stat-num { font-size: 1.2rem; } }
         .stat-num.green { background: linear-gradient(135deg, var(--green), #16a34a); -webkit-background-clip: text; background-clip: text; }
-        @media (min-width: 640px) { .stat-num { font-size: 1.3rem; } }
-        .stat-desc { font-size: 0.5rem; color: var(--text2); letter-spacing: 0.08em; margin-top: 0.15rem; font-weight: 600; text-transform: uppercase; }
+        .stat-desc { font-size: 0.45rem; color: var(--text2); letter-spacing: 0.06em; margin-top: 0.12rem; font-weight: 600; text-transform: uppercase; }
 
         /* ─── CTA ─── */
-        .cta-row { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+        .cta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; width: 100%; }
         .cta-btn {
-            position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+            position: relative; display: inline-flex; align-items: center; gap: 0.4rem;
             background: linear-gradient(135deg, var(--gold), var(--gold2));
-            color: #05070a; font-weight: 800; font-size: 0.9rem;
-            padding: 0.85rem 1.8rem; border: none; border-radius: 999px;
-            cursor: pointer; text-decoration: none;
+            color: #05070a; font-weight: 800; font-size: 0.8rem;
+            padding: 0.75rem 1.4rem; border: none; border-radius: 999px;
+            cursor: pointer; text-decoration: none; flex: 1; justify-content: center; min-width: 130px;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 6px 30px rgba(247,201,72,0.25);
+            box-shadow: 0 4px 20px rgba(247,201,72,0.25);
+            -webkit-tap-highlight-color: transparent;
         }
+        @media (max-width: 380px) { .cta-btn { flex: 1 1 100%; min-width: 100%; } }
+        @media (min-width: 640px) { .cta-btn { font-size: 0.9rem; padding: 0.85rem 1.8rem; } }
         .cta-btn.alt {
             background: transparent;
             border: 1.5px solid rgba(0,240,255,0.3);
             color: var(--cyan);
             box-shadow: 0 4px 20px rgba(0,240,255,0.1);
-            padding: 0.8rem 1.5rem; font-size: 0.8rem;
         }
         .cta-btn::after {
             content: ''; position: absolute; inset: -2px; border-radius: inherit;
             background: linear-gradient(135deg, var(--gold), var(--purple), var(--gold2));
             background-size: 300% 300%; animation: glowSpin 4s ease infinite;
-            z-index: -1; filter: blur(10px); opacity: 0; transition: opacity 0.4s;
+            z-index: -1; filter: blur(8px); opacity: 0; transition: opacity 0.4s;
         }
-        .cta-btn:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 10px 40px rgba(247,201,72,0.4); }
-        .cta-btn:hover::after { opacity: 0.7; }
-        .cta-btn:active { transform: scale(0.97); }
-        .cta-btn.alt:hover { box-shadow: 0 8px 30px rgba(0,240,255,0.25); transform: scale(1.05) translateY(-2px); }
+        .cta-btn:active { transform: scale(0.96); }
+        .cta-btn:active::after { opacity: 0.7; }
+        @media (hover: hover) {
+            .cta-btn:hover { transform: scale(1.04) translateY(-2px); box-shadow: 0 10px 35px rgba(247,201,72,0.4); }
+            .cta-btn:hover::after { opacity: 0.7; }
+            .cta-btn.alt:hover { box-shadow: 0 8px 30px rgba(0,240,255,0.25); }
+        }
         @keyframes glowSpin { 0%,100% { background-position:0% 50%; } 50% { background-position:100% 50%; } }
         .cta-sub {
-            font-size: 0.6rem; color: var(--text2); margin-top: 0.5rem;
+            font-size: 0.55rem; color: var(--text2); margin-top: 0.4rem; text-align: center; padding: 0 0.25rem;
         }
         .cta-sub strong { color: var(--gold); }
 
+        /* ═══════════════ SCANNER VISUAL ═══════════════ */
+        .scanner-wrap {
+            width: 100%; max-width: 520px; margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(0,240,255,0.03));
+            border: 1px solid rgba(0,240,255,0.08);
+            border-radius: 0.75rem; padding: 0.75rem; position: relative; overflow: hidden;
+        }
+        .scanner-sweep {
+            position: absolute; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0,240,255,0.4), transparent);
+            animation: sweepDown 2.5s ease-in-out infinite;
+            pointer-events: none; z-index: 2;
+        }
+        @keyframes sweepDown {
+            0% { top: -2px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .scanner-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 0.5rem; padding-bottom: 0.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .scanner-header .sc-title { font-size: 0.65rem; font-weight: 800; color: var(--cyan); }
+        .scanner-header .sc-live {
+            font-size: 0.5rem; font-weight: 700; color: var(--green);
+            animation: pulseStatus 2s ease-in-out infinite;
+        }
+        @keyframes pulseStatus { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .scanner-asset {
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.4rem;
+            border-radius: 0.4rem; margin-bottom: 0.3rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: all 0.3s;
+        }
+        .scanner-asset:active { background: rgba(0,240,255,0.04); border-color: rgba(0,240,255,0.1); }
+        .scanner-asset .sa-pair { font-weight: 800; font-size: 0.65rem; min-width: 70px; }
+        .scanner-asset .sa-tf-row {
+            display: flex; gap: 0.2rem; flex-wrap: wrap; flex: 1; justify-content: center;
+        }
+        .sa-tf {
+            font-size: 0.4rem; font-weight: 700; padding: 0.15rem 0.25rem;
+            border-radius: 3px; min-width: 18px; text-align: center;
+        }
+        .sa-tf.bull { background: rgba(34,197,94,0.15); color: var(--green); }
+        .sa-tf.bear { background: rgba(239,68,68,0.15); color: var(--red); }
+        .sa-signal {
+            font-size: 0.5rem; font-weight: 800; padding: 0.2rem 0.4rem;
+            border-radius: 4px; min-width: 40px; text-align: center;
+        }
+        .sa-signal.long { background: rgba(34,197,94,0.18); color: var(--green); }
+        .sa-signal.short { background: rgba(239,68,68,0.18); color: var(--red); }
+        .scanner-asset .sa-entry {
+            font-size: 0.5rem; color: var(--text2); margin-left: auto; text-align: right;
+        }
+        .scanner-asset .sa-entry span { color: #d1d5db; font-weight: 600; }
+
         /* ─── SAMPLE SIGNALS ─── */
         .signals-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
-            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
+            display: grid; grid-template-columns: 1fr; gap: 0.5rem;
+            width: 100%; max-width: 520px; margin-bottom: 1.25rem;
         }
-        @media (max-width: 420px) { .signals-grid { grid-template-columns: 1fr; } }
+        @media (min-width: 460px) { .signals-grid { grid-template-columns: 1fr 1fr; } }
         .signal-card {
-            padding: 0.9rem; border-radius: 0.65rem;
+            padding: 0.7rem; border-radius: 0.6rem;
             background: var(--glass); backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.3s; cursor: default;
             animation: signalIn 0.5s ease-out;
         }
-        .signal-card:hover {
-            transform: translateY(-3px);
+        .signal-card:active {
+            transform: translateY(-2px);
             border-color: rgba(0,240,255,0.2);
-            box-shadow: 0 8px 25px rgba(0,240,255,0.05);
+            box-shadow: 0 6px 20px rgba(0,240,255,0.05);
         }
         @keyframes signalIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -219,150 +290,148 @@
         }
         .signal-card .s-header {
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
-        .signal-card .s-pair { font-weight: 800; font-size: 0.75rem; }
-        .signal-card .s-status { font-size: 0.55rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 999px; }
+        .signal-card .s-pair { font-weight: 800; font-size: 0.7rem; }
+        .signal-card .s-status { font-size: 0.5rem; font-weight: 700; padding: 0.12rem 0.35rem; border-radius: 999px; }
         .signal-card .s-status.hit { background: rgba(34,197,94,0.15); color: var(--green); }
         .signal-card .s-status.live { background: rgba(0,240,255,0.12); color: var(--cyan); animation: pulseStatus 2s ease-in-out infinite; }
-        @keyframes pulseStatus { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
         .signal-card .s-badge {
-            font-size: 0.5rem; font-weight: 700; padding: 0.12rem 0.4rem;
+            font-size: 0.45rem; font-weight: 700; padding: 0.1rem 0.35rem;
             border-radius: 999px; letter-spacing: 0.05em;
         }
         .signal-card .s-badge.buy { background: rgba(34,197,94,0.12); color: var(--green); }
         .signal-card .s-badge.sell { background: rgba(239,68,68,0.12); color: var(--red); }
         .signal-card .s-row {
-            display: flex; justify-content: space-between; font-size: 0.6rem;
-            color: var(--text2); margin-top: 0.2rem;
+            display: flex; justify-content: space-between; font-size: 0.55rem;
+            color: var(--text2); margin-top: 0.15rem;
         }
         .signal-card .s-row .val { color: #d1d5db; font-weight: 600; }
         .signal-card .s-pips {
-            margin-top: 0.5rem; font-size: 0.65rem; font-weight: 700;
+            margin-top: 0.4rem; font-size: 0.6rem; font-weight: 700;
             color: var(--green);
         }
 
         /* ─── HOW IT WORKS ─── */
         .steps-row {
-            display: flex; gap: 0.5rem; width: 100%; max-width: 520px;
-            margin-bottom: 1.5rem; flex-wrap: wrap;
+            display: flex; gap: 0.4rem; width: 100%; max-width: 520px;
+            margin-bottom: 1.25rem; flex-wrap: wrap;
         }
+        @media (max-width: 380px) { .steps-row { flex-direction: column; } }
         .step-card {
-            flex: 1; min-width: 100px; padding: 1rem 0.6rem;
+            flex: 1; min-width: 90px; padding: 0.8rem 0.5rem;
             background: var(--glass); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.65rem;
             text-align: center; transition: all 0.3s;
         }
-        .step-card:hover { transform: translateY(-4px); border-color: rgba(247,201,72,0.2); }
+        .step-card:active { transform: translateY(-3px); border-color: rgba(247,201,72,0.2); }
         .step-card .step-num {
-            width: 28px; height: 28px; border-radius: 50%;
+            width: 24px; height: 24px; border-radius: 50%;
             background: linear-gradient(135deg, var(--gold), var(--gold2));
-            color: #05070a; font-weight: 900; font-size: 0.75rem;
+            color: #05070a; font-weight: 900; font-size: 0.65rem;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 0.5rem;
+            margin: 0 auto 0.4rem;
         }
-        .step-card h4 { font-size: 0.7rem; font-weight: 800; margin-bottom: 0.2rem; }
-        .step-card p { font-size: 0.6rem; color: var(--text2); line-height: 1.5; }
+        .step-card h4 { font-size: 0.65rem; font-weight: 800; margin-bottom: 0.15rem; }
+        .step-card p { font-size: 0.55rem; color: var(--text2); line-height: 1.4; }
 
-        /* ─── DAILY REPORT PREVIEW ─── */
+        /* ─── DAILY REPORT ─── */
         .report-card {
-            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
+            width: 100%; max-width: 520px; margin-bottom: 1.25rem;
             background: linear-gradient(135deg, rgba(0,240,255,0.03), rgba(139,92,246,0.04));
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0,240,255,0.1);
-            border-radius: 1rem; padding: 1.25rem;
+            border-radius: 0.8rem; padding: 1rem;
         }
         .report-header {
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
         }
-        .report-header h4 { font-size: 0.75rem; font-weight: 800; }
-        .report-header .date { font-size: 0.55rem; color: var(--text2); }
+        .report-header h4 { font-size: 0.68rem; font-weight: 800; }
+        .report-header .date { font-size: 0.5rem; color: var(--text2); }
         .report-stats {
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;
-            margin-bottom: 0.75rem;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem;
+            margin-bottom: 0.6rem;
         }
         .report-stat { text-align: center; }
-        .report-stat .val { font-size: 1rem; font-weight: 900; color: var(--gold); }
-        .report-stat .lbl { font-size: 0.45rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.08em; }
+        .report-stat .val { font-size: 0.85rem; font-weight: 900; color: var(--gold); }
+        @media (min-width: 640px) { .report-stat .val { font-size: 1rem; } }
+        .report-stat .lbl { font-size: 0.4rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; }
         .report-breakdown {
-            display: flex; gap: 0.4rem; flex-wrap: wrap; font-size: 0.55rem;
+            display: flex; gap: 0.3rem; flex-wrap: wrap; font-size: 0.5rem;
         }
         .report-breakdown span {
-            padding: 0.15rem 0.4rem; border-radius: 999px;
-            font-weight: 600;
+            padding: 0.12rem 0.35rem; border-radius: 999px; font-weight: 600;
         }
         .report-breakdown .hit { background: rgba(34,197,94,0.12); color: var(--green); }
         .report-breakdown .miss { background: rgba(239,68,68,0.12); color: var(--red); }
         .wr-badge {
-            margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.3rem;
-            font-size: 0.7rem; font-weight: 800;
+            margin-top: 0.4rem; display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.6rem; font-weight: 800;
             background: linear-gradient(135deg, var(--gold), var(--gold2));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        @media (min-width: 640px) { .wr-badge { font-size: 0.7rem; } }
 
         /* ─── TESTIMONIALS ─── */
-        .testimonial-wrap {
-            width: 100%; max-width: 520px; margin-bottom: 1.5rem;
-        }
+        .testimonial-wrap { width: 100%; max-width: 520px; margin-bottom: 1.25rem; }
         .testimonial-card {
             background: linear-gradient(135deg, var(--glass), rgba(139,92,246,0.04));
             backdrop-filter: blur(8px);
             border: 1px solid rgba(139,92,246,0.1);
-            border-radius: 1rem; padding: 1.5rem;
+            border-radius: 0.8rem; padding: 1.2rem;
             text-align: left; position: relative;
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
+        @media (min-width: 640px) { .testimonial-card { padding: 1.5rem; } }
         .testimonial-card .quote-icon {
-            font-size: 2.5rem; line-height: 0.8; color: rgba(139,92,246,0.2);
-            margin-bottom: 0.25rem;
+            font-size: 2rem; line-height: 0.8; color: rgba(139,92,246,0.2);
+            margin-bottom: 0.2rem;
         }
         .testimonial-card .text {
-            font-size: 0.82rem; color: #d1d5db; line-height: 1.6;
-            margin-bottom: 1rem;
+            font-size: 0.75rem; color: #d1d5db; line-height: 1.55;
+            margin-bottom: 0.75rem;
         }
-        .testimonial-card .author {
-            font-weight: 700; font-size: 0.72rem; color: var(--gold);
-        }
-        .testimonial-card .result {
-            font-size: 0.65rem; color: #22c55e; font-weight: 600; margin-top: 0.2rem;
-        }
+        @media (min-width: 640px) { .testimonial-card .text { font-size: 0.82rem; } }
+        .testimonial-card .author { font-weight: 700; font-size: 0.65rem; color: var(--gold); }
+        .testimonial-card .result { font-size: 0.6rem; color: #22c55e; font-weight: 600; margin-top: 0.15rem; }
         .testimonial-nav {
-            display: flex; gap: 0.4rem; justify-content: center; margin-top: 0.75rem;
+            display: flex; gap: 0.35rem; justify-content: center; margin-top: 0.6rem;
         }
         .testimonial-nav button {
-            width: 7px; height: 7px; border-radius: 50%;
+            width: 6px; height: 6px; border-radius: 50%;
             background: rgba(255,255,255,0.12); border: none;
-            cursor: pointer; transition: all 0.3s;
+            cursor: pointer; transition: all 0.3s; padding: 0;
         }
         .testimonial-nav button.active { background: var(--gold); transform: scale(1.4); }
 
         /* ─── COUNTDOWN ─── */
         .scarcity-row {
-            display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;
-            margin-bottom: 1rem; width: 100%; max-width: 420px;
+            display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap;
+            margin-bottom: 0.75rem; width: 100%; max-width: 400px;
         }
         .scarcity-block {
-            padding: 0.7rem 0.9rem; min-width: 65px;
+            padding: 0.55rem 0.7rem; min-width: 55px;
             background: var(--glass); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.04); border-radius: 0.4rem;
             text-align: center;
         }
+        @media (min-width: 640px) { .scarcity-block { padding: 0.7rem 0.9rem; min-width: 65px; } }
         .scarcity-block .num {
-            font-size: 1.4rem; font-weight: 900; color: var(--gold);
+            font-size: 1.2rem; font-weight: 900; color: var(--gold);
             font-variant-numeric: tabular-nums;
         }
+        @media (min-width: 640px) { .scarcity-block .num { font-size: 1.4rem; } }
         .scarcity-block .lbl {
-            font-size: 0.45rem; color: var(--text2); letter-spacing: 0.1em;
-            text-transform: uppercase; margin-top: 0.1rem;
+            font-size: 0.4rem; color: var(--text2); letter-spacing: 0.08em;
+            text-transform: uppercase; margin-top: 0.08rem;
         }
-        @media (min-width: 640px) { .scarcity-block .num { font-size: 1.6rem; } }
 
         .progress-track {
-            width: 100%; max-width: 360px; height: 4px;
+            width: 100%; max-width: 320px; height: 3px;
             background: rgba(255,255,255,0.04); border-radius: 999px;
-            overflow: hidden; margin-bottom: 1.5rem;
+            overflow: hidden; margin-bottom: 1.25rem;
         }
         .progress-fill {
             height: 100%;
@@ -370,29 +439,35 @@
             border-radius: 999px; transition: width 1s ease; width: 0%;
         }
 
-        /* ─── SCROLL REVEAL ─── */
         .reveal {
-            opacity: 0; transform: translateY(24px);
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23,1,0.32,1);
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23,1,0.32,1);
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* ─── FOOTER ─── */
         .footer-note {
-            font-size: 0.5rem; color: #20242e; text-align: center;
-            max-width: 400px; line-height: 1.5; margin-top: 1rem;
+            font-size: 0.45rem; color: #20242e; text-align: center;
+            max-width: 380px; line-height: 1.4; margin-top: 0.75rem; padding: 0 0.5rem;
         }
 
         /* ─── FLOATING COUNTER ─── */
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+            100% { opacity: 0; transform: translateY(-50px) scale(0.75); }
         }
         .float-counter {
             position: fixed; z-index: 10; pointer-events: none;
-            font-weight: 900; font-size: 0.65rem;
+            font-weight: 900; font-size: 0.6rem;
             animation: floatUp 2s ease-out forwards;
         }
+
+        /* ─── SCANNER GRID ANIMATION ─── */
+        @keyframes scanLine {
+            0% { box-shadow: inset 0 0 0 rgba(0,240,255,0); }
+            50% { box-shadow: inset 0 0 8px rgba(0,240,255,0.08); }
+            100% { box-shadow: inset 0 0 0 rgba(0,240,255,0); }
+        }
+        .scanner-wrap { animation: scanLine 2s ease-in-out infinite; }
     </style>
 </head>
 <body>
@@ -415,7 +490,7 @@
             </h1>
 
             <p class="hero-sub reveal">
-                AI-powered scanner scans <strong style="color:var(--cyan)">Forex + Crypto</strong> markets 24/7. Get real-time BUY/SELL signals with precision entry, TP & SL delivered straight to Telegram. <strong style="color:var(--gold)">100% free.</strong>
+                AI scanner scans <strong style="color:var(--cyan)">Forex + Crypto</strong> 24/7. Real-time BUY/SELL with entry, TP & SL delivered to Telegram. <strong style="color:var(--gold)">100% free.</strong>
             </p>
 
             <!-- Live signal ticker -->
@@ -428,24 +503,24 @@
             <div class="stat-row reveal">
                 <div class="stat-tile">
                     <div class="stat-num green">84.6%</div>
-                    <div class="stat-desc">Crypto Win Rate</div>
+                    <div class="stat-desc">Crypto WR</div>
                 </div>
                 <div class="stat-tile">
                     <div class="stat-num green">100%</div>
-                    <div class="stat-desc">Forex Win Rate</div>
+                    <div class="stat-desc">Forex WR</div>
                 </div>
                 <div class="stat-tile">
-                    <div class="stat-num">+38,626</div>
-                    <div class="stat-desc">Pips (Crypto)</div>
+                    <div class="stat-num">+38.6K</div>
+                    <div class="stat-desc">Crypto Pips</div>
                 </div>
                 <div class="stat-tile">
-                    <div class="stat-num">+190,803</div>
-                    <div class="stat-desc">Pips (Forex)</div>
+                    <div class="stat-num">+190K</div>
+                    <div class="stat-desc">Forex Pips</div>
                 </div>
             </div>
 
             <!-- CTAs -->
-            <div class="reveal" style="text-align:center">
+            <div class="reveal" style="text-align:center;width:100%">
                 <div class="cta-row">
                     <a class="cta-btn" href="https://t.me/Justinfx_T" target="_blank" id="dmBtn">
                         💬 DM @Justinfx_T
@@ -457,6 +532,21 @@
                 <div class="cta-sub">
                     ✅ <strong>DM to trade with me live</strong> · 📢 <strong>@sniperproadmin</strong> for signals
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ AI SCANNER VISUAL ═══ -->
+    <section class="section reveal" style="padding-top:0">
+        <div class="container">
+            <div class="label">🔍 AI Scanner — Live Market Analysis</div>
+            <div class="scanner-wrap" id="scannerWrap">
+                <div class="scanner-sweep"></div>
+                <div class="scanner-header">
+                    <span class="sc-title">📡 Multi-Timeframe Scanner</span>
+                    <span class="sc-live">● SCANNING</span>
+                </div>
+                <div id="scannerAssets"></div>
             </div>
         </div>
     </section>
@@ -482,7 +572,7 @@
                 <div class="step-card">
                     <div class="step-num">2</div>
                     <h4>Get Signals</h4>
-                    <p>Receive real-time BUY/SELL alerts on Telegram with entry, TP & SL.</p>
+                    <p>Real-time BUY/SELL alerts on Telegram with entry, TP & SL.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-num">3</div>
@@ -503,24 +593,13 @@
                     <span class="date" id="reportDate">AUG 8</span>
                 </div>
                 <div class="report-stats">
-                    <div class="report-stat">
-                        <div class="val">3</div>
-                        <div class="lbl">Signals</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="val">+190K</div>
-                        <div class="lbl">Pips</div>
-                    </div>
-                    <div class="report-stat">
-                        <div class="val">63.6K</div>
-                        <div class="lbl">Avg/Trade</div>
-                    </div>
+                    <div class="report-stat"><div class="val">3</div><div class="lbl">Signals</div></div>
+                    <div class="report-stat"><div class="val">+190K</div><div class="lbl">Pips</div></div>
+                    <div class="report-stat"><div class="val">63.6K</div><div class="lbl">Avg/Trade</div></div>
                 </div>
                 <div class="report-breakdown">
-                    <span class="hit">✅ TP2: 0</span>
-                    <span class="hit">✅ TP1: 3</span>
-                    <span>⚪ BE: 0</span>
-                    <span class="miss">❌ SL: 0</span>
+                    <span class="hit">✅ TP2: 0</span><span class="hit">✅ TP1: 3</span>
+                    <span>⚪ BE: 0</span><span class="miss">❌ SL: 0</span>
                 </div>
                 <div class="wr-badge">🏆 100% Win Rate (3W / 0L) · 🔥 Win Streak: 3</div>
             </div>
@@ -534,11 +613,9 @@
             <div class="testimonial-wrap" id="testimonialWrap">
                 <div class="testimonial-card" id="testimonialCard">
                     <div class="quote-icon">"</div>
-                    <div class="text" id="testimonialText">
-                        I was losing money for 6 months straight. Since joining Sniper Pro, I'm consistently green. The AI signals are a game changer.
-                    </div>
-                    <div class="author" id="testimonialAuthor">— David A.</div>
-                    <div class="result" id="testimonialResult">📈 Consistent weekly profits</div>
+                    <div class="text" id="testimonialText"></div>
+                    <div class="author" id="testimonialAuthor"></div>
+                    <div class="result" id="testimonialResult"></div>
                 </div>
                 <div class="testimonial-nav" id="testimonialNav"></div>
             </div>
@@ -546,37 +623,31 @@
     </section>
 
     <!-- ═══ FINAL CTA ═══ -->
-    <section class="section reveal" style="padding-top:0;padding-bottom:5rem">
+    <section class="section reveal" style="padding-top:0;padding-bottom:4rem">
         <div class="container">
             <div class="label">⏳ Start Trading Now</div>
 
             <div class="scarcity-row">
                 <div class="scarcity-block">
-                    <div class="num" id="timerHours">06</div>
-                    <div class="lbl">Hours</div>
+                    <div class="num" id="timerHours">06</div><div class="lbl">Hours</div>
                 </div>
                 <div class="scarcity-block">
-                    <div class="num" id="timerMins">00</div>
-                    <div class="lbl">Minutes</div>
+                    <div class="num" id="timerMins">00</div><div class="lbl">Mins</div>
                 </div>
                 <div class="scarcity-block">
-                    <div class="num" id="timerSecs">00</div>
-                    <div class="lbl">Seconds</div>
+                    <div class="num" id="timerSecs">00</div><div class="lbl">Secs</div>
                 </div>
                 <div class="scarcity-block">
-                    <div class="num" id="spotsLeft">8</div>
-                    <div class="lbl">Spots</div>
+                    <div class="num" id="spotsLeft">8</div><div class="lbl">Spots</div>
                 </div>
             </div>
 
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
-            <div style="text-align:center">
+            <div style="text-align:center;width:100%">
                 <div class="cta-row">
                     <a class="cta-btn" href="https://t.me/Justinfx_T" target="_blank" id="dmBtn2">
-                        💬 DM @Justinfx_T — Trade With Me Live
+                        💬 DM @Justinfx_T — Trade Live
                     </a>
                     <a class="cta-btn alt" href="https://t.me/sniperproadmin" target="_blank" id="chBtn2">
                         📢 @sniperproadmin
@@ -591,11 +662,9 @@
         </div>
     </section>
 
-    <!-- Floating pips counter element -->
     <div id="floatContainer" style="position:fixed;inset:0;pointer-events:none;z-index:10;"></div>
 
     <script>
-        // ═══ ORB BACKGROUND ═══
         (function() {
             const c = document.getElementById('orbCanvas');
             const ctx = c.getContext('2d');
@@ -613,14 +682,13 @@
             for (let i = 0; i < 5; i++) {
                 orbs.push({
                     x: Math.random() * w, y: Math.random() * h,
-                    r: 60 + Math.random() * 140,
-                    dx: (Math.random() - 0.5) * 0.25,
-                    dy: (Math.random() - 0.5) * 0.25,
+                    r: 50 + Math.random() * 120,
+                    dx: (Math.random() - 0.5) * 0.2,
+                    dy: (Math.random() - 0.5) * 0.2,
                     color: colors[i % colors.length],
                     alpha: 0.02 + Math.random() * 0.04,
                 });
             }
-
             function draw() {
                 ctx.clearRect(0, 0, w, h);
                 orbs.forEach(o => {
@@ -643,58 +711,112 @@
             draw();
         })();
 
-        // ═══ SCROLL REVEAL ═══
+        // Scroll reveal
         (function() {
             const els = document.querySelectorAll('.reveal');
             const obs = new IntersectionObserver(ents => {
                 ents.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-            }, { threshold: 0.12 });
+            }, { threshold: 0.1 });
             els.forEach(el => obs.observe(el));
         })();
 
-        // ═══ LIVE SIGNAL TICKER ═══
+        // Live ticker
         (function() {
             const signals = [
-                { pair: 'SPX500', dir: 'BUY', dirClass: 'buy', pips: '+70,625' },
-                { pair: 'XLM/USDT', dir: 'SELL', dirClass: 'sell', pips: '+5.5' },
-                { pair: 'PORTAL/USDT', dir: 'BUY', dirClass: 'buy', pips: '+1.5' },
-                { pair: 'MEME/USDT', dir: 'BUY', dirClass: 'buy', pips: '+1.0' },
-                { pair: 'ONDO/USDT', dir: 'SELL', dirClass: 'sell', pips: '+61.6' },
-                { pair: 'NEAR/USDT', dir: 'SELL', dirClass: 'sell', pips: '+63.6' },
-                { pair: 'SPX500', dir: 'BUY', dirClass: 'buy', pips: '+77,678' },
-                { pair: 'WTI', dir: 'BUY', dirClass: 'buy', pips: '+42,500' },
+                { pair:'SPX500', dir:'BUY', dirClass:'buy', pips:'+70,625' },
+                { pair:'XLM/USDT', dir:'SELL', dirClass:'sell', pips:'+5.5' },
+                { pair:'PORTAL/USDT', dir:'BUY', dirClass:'buy', pips:'+1.5' },
+                { pair:'MEME/USDT', dir:'BUY', dirClass:'buy', pips:'+1.0' },
+                { pair:'ONDO/USDT', dir:'SELL', dirClass:'sell', pips:'+61.6' },
+                { pair:'NEAR/USDT', dir:'SELL', dirClass:'sell', pips:'+63.6' },
+                { pair:'SPX500', dir:'BUY', dirClass:'buy', pips:'+77,678' },
+                { pair:'WTI', dir:'BUY', dirClass:'buy', pips:'+42,500' },
             ];
-            // Double for seamless loop
             const items = [...signals, ...signals];
             const track = document.getElementById('tickerTrack');
-            track.innerHTML = items.map(s => `
-                <div class="ticker-item">
-                    <span class="pair">${s.pair}</span>
-                    <span class="direction ${s.dirClass}">${s.dir}</span>
-                    <span class="pips">${s.pips} pips</span>
-                    <span class="dot">●</span>
-                </div>
-            `).join('');
-
-            // Pause on hover
+            track.innerHTML = items.map(s =>
+                `<div class="ticker-item"><span class="pair">${s.pair}</span><span class="direction ${s.dirClass}">${s.dir}</span><span class="pips">${s.pips} pips</span><span class="dot">●</span></div>`
+            ).join('');
             const wrap = document.getElementById('tickerWrap');
             wrap.addEventListener('mouseenter', () => track.classList.add('paused'));
             wrap.addEventListener('mouseleave', () => track.classList.remove('paused'));
-            wrap.addEventListener('touchstart', () => track.classList.add('paused'));
-            wrap.addEventListener('touchend', () => track.classList.remove('paused'));
+            wrap.addEventListener('touchstart', () => track.classList.add('paused'), {passive:true});
+            wrap.addEventListener('touchend', () => track.classList.remove('paused'), {passive:true});
         })();
 
-        // ═══ SAMPLE SIGNAL CARDS ═══
+        // AI Scanner visualization
+        (function() {
+            const assets = [
+                { pair:'SPX500', tfs:['bull','bull','bull','bull','bear'], signal:'LONG', entry:'7,774.5' },
+                { pair:'Constant Vol 25%', tfs:['bear','bear','bear','bull','bull'], signal:'SHORT', entry:'2,647.2' },
+                { pair:'SharkNinja', tfs:['bull','bull','bull','bull','bear'], signal:'LONG', entry:'152.60' },
+                { pair:'WTI', tfs:['bull','bull','bear','bull','bull'], signal:'LONG', entry:'76.42' },
+            ];
+            const tfLabels = ['1D','4H','1H','15m','5m'];
+            const container = document.getElementById('scannerAssets');
+            container.innerHTML = assets.map(a => `
+                <div class="scanner-asset">
+                    <span class="sa-pair">${a.pair}</span>
+                    <div class="sa-tf-row">
+                        ${a.tfs.map((t, i) => `<span class="sa-tf ${t}">${tfLabels[i]}</span>`).join('')}
+                    </div>
+                    <span class="sa-signal ${a.signal.toLowerCase()}">${a.signal}</span>
+                    <span class="sa-entry">Entry <span>${a.entry}</span></span>
+                </div>
+            `).join('');
+
+            // Animate scanner entries cycling
+            let cycleIdx = 0;
+            const cycleAssets = [
+                [
+                    { pair:'SPX500', tfs:['bull','bull','bull','bull','bear'], signal:'LONG', entry:'7,774.5' },
+                    { pair:'Volatility 25%', tfs:['bear','bear','bear','bull','bull'], signal:'SHORT', entry:'2,647.2' },
+                    { pair:'SharkNinja', tfs:['bull','bull','bull','bull','bear'], signal:'LONG', entry:'152.60' },
+                    { pair:'NZD/USD', tfs:['bear','bull','bull','bull','bull'], signal:'LONG', entry:'0.5712' },
+                ],
+                [
+                    { pair:'PORTAL/USDT', tfs:['bull','bull','bear','bull','bull'], signal:'LONG', entry:'0.01163' },
+                    { pair:'NEAR/USDT', tfs:['bear','bear','bull','bear','bear'], signal:'SHORT', entry:'1.601' },
+                    { pair:'ONDO/USDT', tfs:['bear','bear','bear','bear','bull'], signal:'SHORT', entry:'0.352' },
+                    { pair:'MEME/USDT', tfs:['bull','bull','bull','bear','bull'], signal:'LONG', entry:'0.00051' },
+                ],
+                [
+                    { pair:'XLM/USDT', tfs:['bear','bear','bull','bear','bear'], signal:'SHORT', entry:'0.1636' },
+                    { pair:'SPX500', tfs:['bull','bull','bull','bear','bull'], signal:'LONG', entry:'7,776.0' },
+                    { pair:'Volatility 25%', tfs:['bull','bull','bear','bull','bull'], signal:'LONG', entry:'2,642.2' },
+                    { pair:'SharkNinja', tfs:['bull','bull','bull','bull','bull'], signal:'LONG', entry:'185.54' },
+                ],
+            ];
+            setInterval(() => {
+                cycleIdx = (cycleIdx + 1) % cycleAssets.length;
+                const a = cycleAssets[cycleIdx];
+                container.style.opacity = '0.3';
+                container.style.transform = 'translateY(5px)';
+                container.style.transition = 'all 0.4s ease';
+                setTimeout(() => {
+                    container.innerHTML = a.map(x => `
+                        <div class="scanner-asset">
+                            <span class="sa-pair">${x.pair}</span>
+                            <div class="sa-tf-row">${x.tfs.map((t,i)=>`<span class="sa-tf ${t}">${tfLabels[i]}</span>`).join('')}</div>
+                            <span class="sa-signal ${x.signal.toLowerCase()}">${x.signal}</span>
+                            <span class="sa-entry">Entry <span>${x.entry}</span></span>
+                        </div>
+                    `).join('');
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0)';
+                }, 400);
+            }, 5000);
+        })();
+
+        // Signal cards
         (function() {
             const signals = [
-                { pair: 'SPX500', tf: '5m', dir: 'BUY', dirClass: 'buy', entry: '7774.5', sl: '7766.73', tp1: '7782.27', tp2: '7793.92', status: 'hit', pips: '+77,678', conf: 'LOW' },
-                { pair: 'XLM/USDT', tf: '5m', dir: 'SELL', dirClass: 'sell', entry: '0.1636', sl: '0.16415', tp1: '0.16305', tp2: '0.16223', status: 'hit', pips: '+5.5', conf: 'LOW' },
-                { pair: 'PORTAL/USDT', tf: '1h', dir: 'BUY', dirClass: 'buy', entry: '0.01163', sl: '0.01125', tp1: '0.01201', tp2: '0.01258', status: 'live', pips: '—', conf: 'MEDIUM' },
-                { pair: 'NEAR/USDT', tf: '3m', dir: 'SELL', dirClass: 'sell', entry: '1.601', sl: '1.60736', tp1: '1.59464', tp2: '1.5851', status: 'hit', pips: '+63.6', conf: 'LOW' },
+                { pair:'SPX500', tf:'5m', dir:'BUY', dirClass:'buy', entry:'7774.5', sl:'7766.73', tp1:'7782.27', tp2:'7793.92', status:'hit', pips:'+77,678', conf:'LOW' },
+                { pair:'XLM/USDT', tf:'5m', dir:'SELL', dirClass:'sell', entry:'0.1636', sl:'0.16415', tp1:'0.16305', tp2:'0.16223', status:'hit', pips:'+5.5', conf:'LOW' },
+                { pair:'PORTAL/USDT', tf:'1h', dir:'BUY', dirClass:'buy', entry:'0.01163', sl:'0.01125', tp1:'0.01201', tp2:'0.01258', status:'live', pips:'—', conf:'MEDIUM' },
+                { pair:'NEAR/USDT', tf:'3m', dir:'SELL', dirClass:'sell', entry:'1.601', sl:'1.60736', tp1:'1.59464', tp2:'1.5851', status:'hit', pips:'+63.6', conf:'LOW' },
             ];
-
-            const grid = document.getElementById('signalsGrid');
-            grid.innerHTML = signals.map(s => `
+            document.getElementById('signalsGrid').innerHTML = signals.map(s => `
                 <div class="signal-card">
                     <div class="s-header">
                         <span class="s-pair">📊 ${s.pair} · ${s.tf}</span>
@@ -704,31 +826,31 @@
                     <div class="s-row"><span>🔴 SL</span><span class="val">${s.sl}</span></div>
                     <div class="s-row"><span>✅ TP1</span><span class="val">${s.tp1}</span></div>
                     <div class="s-row"><span>🏁 TP2</span><span class="val">${s.tp2}</span></div>
-                    <div class="s-row"><span>🎯 Confidence</span><span class="val" style="color:${s.conf==='LOW'?'#22c55e':s.conf==='MEDIUM'?'#f7c948':'#ef4444'}">🟢 ${s.conf}</span></div>
-                    ${s.status === 'hit' ? `<div class="s-pips">✅ TP1 HIT · ${s.pips} pips</div>` : `<div class="s-pips" style="color:var(--cyan)">🔄 LIVE — waiting for TP</div>`}
-                    <span class="s-status ${s.status}">${s.status === 'hit' ? '✅ HIT' : '🔄 LIVE'}</span>
+                    <div class="s-row"><span>🎯 Confidence</span><span class="val" style="color:${s.conf==='LOW'?'#22c55e':s.conf==='MEDIUM'?'#f7c948':'#ef4444'}">${s.conf==='LOW'?'🟢':'🟡'} ${s.conf}</span></div>
+                    ${s.status==='hit'?`<div class="s-pips">✅ TP1 HIT · ${s.pips} pips</div>`:`<div class="s-pips" style="color:var(--cyan)">🔄 LIVE — waiting for TP</div>`}
+                    <span class="s-status ${s.status}">${s.status==='hit'?'✅ HIT':'🔄 LIVE'}</span>
                 </div>
             `).join('');
         })();
 
-        // ═══ FLOATING PIPS ANIMATION ═══
+        // Floating pips
         (function() {
             const container = document.getElementById('floatContainer');
             const messages = [
-                { text: 'TP1 HIT · +70625 pips', color: '#22c55e' },
-                { text: 'TP2 HIT · +77,678 pips', color: '#f7c948' },
-                { text: 'SL moved to BE ✅', color: '#00f0ff' },
-                { text: 'TP1 HIT · +63.6 pips', color: '#22c55e' },
-                { text: 'Win Streak: 8 🔥', color: '#f7c948' },
+                { text:'TP1 HIT · +70,625 pips', color:'#22c55e' },
+                { text:'TP2 HIT · +77,678 pips', color:'#f7c948' },
+                { text:'SL moved to BE ✅', color:'#00f0ff' },
+                { text:'TP1 HIT · +63.6 pips', color:'#22c55e' },
+                { text:'Win Streak: 8 🔥', color:'#f7c948' },
             ];
             function spawn() {
-                const msg = messages[Math.floor(Math.random() * messages.length)];
+                const msg = messages[Math.floor(Math.random()*messages.length)];
                 const el = document.createElement('div');
                 el.className = 'float-counter';
                 el.textContent = msg.text;
                 el.style.color = msg.color;
-                el.style.left = (10 + Math.random() * 70) + '%';
-                el.style.top = (40 + Math.random() * 40) + '%';
+                el.style.left = (5 + Math.random()*75) + '%';
+                el.style.top = (35 + Math.random()*40) + '%';
                 container.appendChild(el);
                 setTimeout(() => el.remove(), 2000);
             }
@@ -736,96 +858,79 @@
             spawn();
         })();
 
-        // ═══ TIMER ═══
+        // Timer
         (function() {
             let total = 6 * 3600;
             const k = 'vip_timer';
             const s = localStorage.getItem(k);
-            if (s) { const e = Math.floor((Date.now() - parseInt(s)) / 1000); total = Math.max(0, 6 * 3600 - e); }
+            if (s) { const e = Math.floor((Date.now()-parseInt(s))/1000); total = Math.max(0, 6*3600 - e); }
             else { localStorage.setItem(k, Date.now().toString()); }
-
-            const hEl = document.getElementById('timerHours');
-            const mEl = document.getElementById('timerMins');
-            const sEl = document.getElementById('timerSecs');
-
+            const hEl = document.getElementById('timerHours'),
+                  mEl = document.getElementById('timerMins'),
+                  sEl = document.getElementById('timerSecs');
             function tick() {
-                const h = Math.floor(total / 3600);
-                const m = Math.floor((total % 3600) / 60);
-                const sec = total % 60;
-                hEl.textContent = String(h).padStart(2, '0');
-                mEl.textContent = String(m).padStart(2, '0');
-                sEl.textContent = String(sec).padStart(2, '0');
+                const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), sec = total%60;
+                hEl.textContent = String(h).padStart(2,'0');
+                mEl.textContent = String(m).padStart(2,'0');
+                sEl.textContent = String(sec).padStart(2,'0');
                 if (total > 0) total--;
             }
-            tick();
-            setInterval(tick, 1000);
+            tick(); setInterval(tick, 1000);
         })();
 
-        // ═══ SPOT COUNTER ═══
+        // Spots
         (function() {
-            let spots = 8;
-            const maxSpots = 20;
-            const el = document.getElementById('spotsLeft');
-            const fill = document.getElementById('progressFill');
-            function update() {
-                el.textContent = spots;
-                fill.style.width = Math.min(((1 - spots / maxSpots) * 100), 95) + '%';
-            }
+            let spots = 8; const maxSpots = 20;
+            const el = document.getElementById('spotsLeft'), fill = document.getElementById('progressFill');
+            function update() { el.textContent = spots; fill.style.width = Math.min(((1-spots/maxSpots)*100), 95)+'%'; }
             update();
-            setInterval(() => {
-                if (spots > 2 && Math.random() < 0.1) { spots--; update(); }
-            }, 25000);
+            setInterval(() => { if (spots>2 && Math.random()<0.08) { spots--; update(); } }, 28000);
         })();
 
-        // ═══ TESTIMONIAL CAROUSEL ═══
+        // Testimonials
         (function() {
             const data = [
-                { text: 'I turned $50 into $225 in one session following Sniper Pro signals. The accuracy is unreal. DM\'d Justin and he walked me through everything.', author: '— Michael O.', result: '💰 +$175 in one day' },
-                { text: 'Made $857 in one morning. The SPX500 signals are deadly accurate. Best trading community I\'ve ever joined.', author: '— Sarah K.', result: '💰 +$857 in one morning' },
-                { text: 'I was losing money for 6 months straight. Since joining, I\'m consistently green. The AI scanner is a game changer — it does all the heavy lifting.', author: '— David A.', result: '📈 Consistent weekly profits' },
-                { text: '84% win rate my first week. The confidence levels on each signal help me manage risk. Coach Justin is always available on DM.', author: '— Emmanuel T.', result: '📊 84% win rate' },
-                { text: 'The TP hits come daily. SPX500, crypto, forex — all covered. DM @Justinfx_T and you\'ll see for yourself.', author: '— Chidi N.', result: '🏆 Daily TP hits' },
+                { text:'I turned $50 into $225 in one session following Sniper Pro signals. DM\'d Justin and he walked me through everything.', author:'— Michael O.', result:'💰 +$175 in one day' },
+                { text:'Made $857 in one morning. The SPX500 signals are deadly accurate. Best trading community I\'ve ever joined.', author:'— Sarah K.', result:'💰 +$857 in one morning' },
+                { text:'I was losing money for 6 months straight. Since joining I\'m consistently green. The AI scanner does all the heavy lifting.', author:'— David A.', result:'📈 Consistent weekly profits' },
+                { text:'84% win rate my first week. Coach Justin is always available on DM. This is the real deal.', author:'— Emmanuel T.', result:'📊 84% win rate' },
+                { text:'TP hits come daily. SPX500, crypto, forex — all covered. DM @Justinfx_T and see for yourself.', author:'— Chidi N.', result:'🏆 Daily TP hits' },
             ];
-
             let idx = 0;
-            const textEl = document.getElementById('testimonialText');
-            const authorEl = document.getElementById('testimonialAuthor');
-            const resultEl = document.getElementById('testimonialResult');
-            const nav = document.getElementById('testimonialNav');
+            const textEl = document.getElementById('testimonialText'),
+                  authorEl = document.getElementById('testimonialAuthor'),
+                  resultEl = document.getElementById('testimonialResult'),
+                  nav = document.getElementById('testimonialNav');
 
             data.forEach((_, i) => {
                 const btn = document.createElement('button');
-                btn.className = i === 0 ? 'active' : '';
+                btn.className = i===0?'active':'';
                 btn.addEventListener('click', () => go(i));
                 nav.appendChild(btn);
             });
 
             function go(i) {
-                idx = i;
-                const d = data[idx];
+                idx = i; const d = data[idx];
                 textEl.textContent = d.text;
                 authorEl.textContent = d.author;
                 resultEl.textContent = d.result;
-                document.querySelectorAll('.testimonial-nav button').forEach((b, j) => b.className = j === idx ? 'active' : '');
+                document.querySelectorAll('.testimonial-nav button').forEach((b,j)=>b.className=j===idx?'active':'');
                 const card = document.getElementById('testimonialCard');
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(8px)';
-                requestAnimationFrame(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                });
+                card.style.opacity='0'; card.style.transform='translateY(8px)';
+                requestAnimationFrame(()=>{ card.style.opacity='1'; card.style.transform='translateY(0)'; });
             }
-            setInterval(() => go((idx + 1) % data.length), 5000);
+            go(0);
+            setInterval(() => go((idx+1)%data.length), 5000);
         })();
 
-        // ═══ CAPI + PIXEL TRACKING ═══
+        // CAPI + Pixel tracking
         function trackClick(label) {
-            const eid = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
-            if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Sniper Pro - ' + label, lead_type: 'Telegram CTA', event_id: eid });
+            const eid = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2);
+            if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name:'Sniper Pro - '+label, lead_type:'Telegram CTA', event_id:eid });
             try {
-                const fbp = (document.cookie.split('; ').find(r => r.startsWith('_fbp=')) || '').split('=')[1] || '';
-                const fbc = (document.cookie.split('; ').find(r => r.startsWith('_fbc=')) || '').split('=')[1] || '';
-                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', new Blob([JSON.stringify({ content_name: 'Sniper Pro - ' + label, event_id: eid, fbp, fbc })], { type: 'application/json' }));
+                const fbp = (document.cookie.split('; ').find(r=>r.startsWith('_fbp='))||'').split('=')[1]||'';
+                const fbc = (document.cookie.split('; ').find(r=>r.startsWith('_fbc='))||'').split('=')[1]||'';
+                navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead', new Blob([JSON.stringify({ content_name:'Sniper Pro - '+label, event_id:eid, fbp, fbc })], { type:'application/json' }));
             } catch(e) {}
         }
         document.getElementById('dmBtn').addEventListener('click', () => trackClick('DM Justinfx_T'));
@@ -835,4 +940,3 @@
     </script>
 </body>
 </html>
-<!-- deploy: 1786317725 -->
