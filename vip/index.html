@@ -15,6 +15,21 @@
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1047586281254461&ev=PageView&noscript=1"/></noscript>
 
+    <!-- TikTok Pixel Code Start -->
+    <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+      ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+      ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+      for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+      ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+      ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+      ttq.load('D9V0HMRC77U9J4MAOPLG');
+      ttq.page();
+    }(window, document, 'ttq');
+    </script>
+    <!-- TikTok Pixel Code End -->
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
@@ -246,8 +261,13 @@
     // TESTIMONIALS
     (function(){const d=[{t:'I turned $50 into $225 in one session following Sniper Pro signals. DM\'d Justin and he walked me through everything.',a:'— Michael O.',r:'💰 +$175 in one day'},{t:'Made $857 in one morning. The SPX500 signals are deadly accurate. Best trading community I\'ve ever joined.',a:'— Sarah K.',r:'💰 +$857 in one morning'},{t:'I was losing money for 6 months straight. Since joining I\'m consistently green. The AI scanner does all the heavy lifting.',a:'— David A.',r:'📈 Consistent weekly profits'},{t:'84% win rate my first week. Coach Justin is always available on DM. This is the real deal.',a:'— Emmanuel T.',r:'📊 84% win rate'},{t:'TP hits come daily. SPX500, crypto, forex — all covered. DM @Justinfx_T and see for yourself.',a:'— Chidi N.',r:'🏆 Daily TP hits'}];let i=0;const tE=document.getElementById('testimonialText'),aE=document.getElementById('testimonialAuthor'),rE=document.getElementById('testimonialResult'),nav=document.getElementById('testimonialDots');d.forEach((_,j)=>{const b=document.createElement('button');b.className=j===0?'active':'';b.addEventListener('click',()=>go(j));nav.appendChild(b)});function go(j){i=j;const x=d[i];tE.textContent=x.t;aE.textContent=x.a;rE.textContent=x.r;document.querySelectorAll('.testimonial-dots button').forEach((b,k)=>b.className=k===i?'active':'');const c=document.getElementById('testimonialCard');c.style.opacity='0';c.style.transform='translateY(4px)';requestAnimationFrame(()=>{c.style.opacity='1';c.style.transform='translateY(0)'})}go(0);setInterval(()=>go((i+1)%d.length),5000)})();
 
-    // TRACKING
-    function trackClick(l){const eid=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);if(typeof fbq!=='undefined')fbq('track','Lead',{content_name:'Sniper Pro - '+l,lead_type:'Telegram CTA',event_id:eid});try{const fbp=(document.cookie.split('; ').find(r=>r.startsWith('_fbp='))||'').split('=')[1]||'',fbc=(document.cookie.split('; ').find(r=>r.startsWith('_fbc='))||'').split('=')[1]||'';navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead',new Blob([JSON.stringify({content_name:'Sniper Pro - '+l,event_id:eid,fbp,fbc})],{type:'application/json'}))}catch(e){}}
+    // TRACKING (Facebook + TikTok)
+    function trackClick(l){const eid=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
+        // Facebook
+        if(typeof fbq!=='undefined')fbq('track','Lead',{content_name:'Sniper Pro - '+l,lead_type:'Telegram CTA',event_id:eid});
+        // TikTok — Contact for DM, CompleteRegistration for channel join
+        if(typeof ttq!=='undefined'){if(l==='DM'){ttq.track('Contact',{content_name:'Sniper Pro - DM',event_id:eid});}else{ttq.track('CompleteRegistration',{content_name:'Sniper Pro - Channel',event_id:eid});}}
+        try{const fbp=(document.cookie.split('; ').find(r=>r.startsWith('_fbp='))||'').split('=')[1]||'',fbc=(document.cookie.split('; ').find(r=>r.startsWith('_fbc='))||'').split('=')[1]||'';navigator.sendBeacon('https://capi.spatrevbot.online/capi/lead',new Blob([JSON.stringify({content_name:'Sniper Pro - '+l,event_id:eid,fbp,fbc})],{type:'application/json'}))}catch(e){}}
     document.getElementById('dmBtn').addEventListener('click',()=>trackClick('DM'));
     document.getElementById('dmBtn2').addEventListener('click',()=>trackClick('DM'));
     document.getElementById('chBtn').addEventListener('click',()=>trackClick('Channel'));
@@ -256,3 +276,4 @@
 </body>
 </html>
 <!-- deploy: 1786398442 -->
+<!-- deploy: 1786644777 -->
