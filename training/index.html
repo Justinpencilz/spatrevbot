@@ -6,118 +6,218 @@
   <title>Free Trading Education — Learn Basic to Advanced</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #f7f9fc;
-      color: #1a1c22;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
+    :root {
+      --blue: #1a7bd4;
+      --blue-dark: #1264b0;
+      --ink: #1a1c22;
+      --muted: #5a6070;
     }
-    .wrap { max-width: 640px; margin: 0 auto; padding: 28px 20px 60px; }
-    header { text-align: center; margin-bottom: 24px; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(180deg, #f2f7fd 0%, #f7f9fc 100%);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 22px 18px 60px; }
+
+    /* ===== reveal-on-scroll ===== */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ===== hero ===== */
+    header { text-align: center; margin-bottom: 20px; }
     .badge {
       display: inline-block;
       background: #e8f4ff;
-      color: #1a7bd4;
-      font-size: 13px;
+      color: var(--blue);
+      font-size: 12.5px;
       font-weight: 700;
       padding: 6px 14px;
       border-radius: 20px;
       margin-bottom: 12px;
+      animation: float 3s ease-in-out infinite;
     }
-    h1 { font-size: 28px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
-    .sub { color: #4a5568; font-size: 16px; }
-    .card {
-      background: #fff;
-      border: 1px solid #e6ebf2;
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 16px;
-    }
-    h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-    .free-banner {
-      background: #eefaf1;
-      border: 1px solid #cdeeda;
-      border-radius: 12px;
-      padding: 14px 18px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 700;
-      color: #177245;
-      margin-bottom: 16px;
-    }
-    ol { padding-left: 22px; margin: 6px 0; }
-    li { margin-bottom: 10px; font-size: 15px; }
-    li b { color: #1a1c22; }
-    .steps li { margin-bottom: 14px; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    h1 { font-size: 27px; font-weight: 800; line-height: 1.22; margin-bottom: 8px; }
+    .sub { color: var(--muted); font-size: 15px; }
+    .hero-emoji { font-size: 40px; animation: pop 1.6s ease infinite; display: inline-block; }
+    @keyframes pop { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+    /* ===== CTA buttons ===== */
     .cta {
       display: block;
       text-align: center;
-      background: #1a7bd4;
+      background: linear-gradient(135deg, #2b9df4, #1a7bd4);
       color: #fff;
-      font-size: 17px;
-      font-weight: 700;
-      padding: 18px 20px;
+      font-size: 16.5px;
+      font-weight: 800;
+      padding: 16px 18px;
       border-radius: 14px;
       text-decoration: none;
-      margin: 20px 0 8px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(26,123,212,.28);
+      transition: transform .15s ease, box-shadow .3s ease;
+      animation: pulse 2.2s ease-in-out infinite;
     }
-    .cta:active { transform: scale(0.98); }
-    .cta-note { text-align: center; color: #6b7280; font-size: 13px; margin-bottom: 8px; }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(26,123,212,.4); }
+    .cta:active { transform: scale(.97); }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 6px 18px rgba(26,123,212,.28); }
+      50% { box-shadow: 0 8px 30px rgba(26,123,212,.55); }
+    }
+    .cta .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.45);
+      transform: scale(0); animation: ripple .6s linear; pointer-events: none;
+    }
+    @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+    .cta-note { text-align: center; color: #8a93a3; font-size: 12.5px; margin: 6px 0 18px; }
+
+    /* ===== cards ===== */
+    .free-banner {
+      background: #eefaf1; border: 1px solid #cdeeda;
+      border-radius: 12px; padding: 13px 16px; text-align: center;
+      font-size: 15px; font-weight: 700; color: #177245; margin-bottom: 14px;
+      animation: flash 3s ease-in-out infinite;
+    }
+    @keyframes flash { 0%,100% { background: #eefaf1; } 50% { background: #dcf7e6; } }
+    .card {
+      background: #fff; border: 1px solid #e6ebf2; border-radius: 16px;
+      padding: 18px 20px; margin-bottom: 14px;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(20,40,70,.10); }
+    h2 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #f3f6fa; border: 1px solid #e6ebf2; border-radius: 30px;
+      padding: 8px 13px; margin: 3px 4px 3px 0; font-size: 13.5px; font-weight: 600;
+      transition: transform .2s ease, background .2s ease; cursor: default;
+    }
+    .pill:hover { transform: scale(1.06); background: #eaf3fd; }
+    .step { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+    .step-num {
+      flex: 0 0 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, #2b9df4, #1a7bd4); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px;
+    }
+    .step b { display: block; }
+
+    /* ===== interactive level selector ===== */
+    .levels { display: flex; gap: 8px; margin: 8px 0 6px; }
+    .lvl {
+      flex: 1; text-align: center; padding: 12px 6px; border-radius: 12px;
+      border: 2px solid #e0e6ef; background: #fff; cursor: pointer;
+      font-weight: 700; font-size: 14px; color: var(--muted);
+      transition: all .2s ease;
+    }
+    .lvl:hover { border-color: #9fc7ef; }
+    .lvl.active { border-color: var(--blue); background: #eaf3fd; color: var(--blue-dark); transform: scale(1.04); }
+    .lvl-feedback { min-height: 40px; font-size: 13.5px; color: var(--muted); padding: 8px 2px 0; opacity: 0; transition: opacity .3s ease; }
+    .lvl-feedback.show { opacity: 1; }
+
+    /* ===== disclaimer ===== */
     .disclaimer {
-      background: #fbfbfd;
-      border: 1px solid #e6e6ef;
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 12.5px;
-      color: #5a6070;
-      line-height: 1.6;
-      margin-top: 20px;
+      background: #fbfbfd; border: 1px solid #e6e6ef; border-radius: 12px;
+      padding: 14px 16px; font-size: 12px; color: #5a6070; line-height: 1.6; margin-top: 16px;
     }
     .disclaimer b { color: #3a3f4a; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
+    <header class="reveal in">
       <span class="badge">100% Free · Educational Only</span>
-      <h1>Learn Trading — Basic to Advanced</h1>
-      <p class="sub">Simple, step-by-step trading education with live examples and live sessions.</p>
+      <h1><span class="hero-emoji">📚</span><br>Learn Trading — Basic to Advanced</h1>
+      <p class="sub">Simple steps with live examples &amp; live sessions.</p>
     </header>
 
-    <div class="free-banner">
-      ✅ Free training — no payment needed, ever.
-    </div>
-
-    <div class="card">
-      <h2>What you'll learn</h2>
-      <ol>
-        <li><b>Trading fundamentals</b> — how the market works, from the basics</li>
-        <li><b>Chart reading</b> — understand candles, trends, and structure</li>
-        <li><b>Strategy building</b> — advanced concepts explained simply</li>
-        <li><b>Live examples</b> — real market walk-throughs</li>
-        <li><b>Live sessions</b> — interactive training where you follow along</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h2>How it works</h2>
-      <ol class="steps">
-        <li><b>Join the free training channel</b> — tap the button below</li>
-        <li><b>Follow the lessons</b> — new educational content regularly</li>
-        <li><b>Learn with live examples &amp; sessions</b> — see it in action</li>
-      </ol>
-    </div>
-
-    <a class="cta" href="https://t.me/+S69eBKQVVEc2Mzhk">Join Free Training</a>
+    <a class="cta reveal in" href="https://t.me/+S69eBKQVVEc2Mzhk" id="cta1">Join Free Training →</a>
     <p class="cta-note">No payment · No card · Just education</p>
 
-    <div class="disclaimer">
+    <div class="free-banner reveal">✅ 100% free — no payment needed, ever.</div>
+
+    <div class="card reveal">
+      <h2>What you'll learn</h2>
+      <span class="pill">📈 Fundamentals</span>
+      <span class="pill">📊 Chart reading</span>
+      <span class="pill">🧠 Strategy building</span>
+      <span class="pill">🎯 Live examples</span>
+      <span class="pill">🔴 Live sessions</span>
+    </div>
+
+    <div class="card reveal">
+      <h2>How it works</h2>
+      <div class="step"><div class="step-num">1</div><div><b>Join the free channel</b> — tap any button below</div></div>
+      <div class="step"><div class="step-num">2</div><div><b>Follow the lessons</b> — new content regularly</div></div>
+      <div class="step"><div class="step-num">3</div><div><b>Learn live</b> — examples &amp; sessions, see it in action</div></div>
+    </div>
+
+    <a class="cta reveal" href="https://t.me/+S69eBKQVVEc2Mzhk" id="cta2">Start Learning Free →</a>
+    <p class="cta-note">Takes 30 seconds to join</p>
+
+    <div class="card reveal">
+      <h2>What's your level?</h2>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:4px;">Tap to choose — all levels welcome:</p>
+      <div class="levels">
+        <div class="lvl" data-lvl="beginner">🌱 Beginner</div>
+        <div class="lvl" data-lvl="intermediate">🚀 Intermediate</div>
+        <div class="lvl" data-lvl="advanced">💎 Advanced</div>
+      </div>
+      <div class="lvl-feedback" id="lvlFeedback"></div>
+    </div>
+
+    <a class="cta reveal" href="https://t.me/+S69eBKQVVEc2Mzhk" id="cta3">Join Free Training →</a>
+    <p class="cta-note">No payment · No card · Just education</p>
+
+    <div class="disclaimer reveal">
       <b>Disclaimer:</b> All content is provided for <b>educational purposes only</b> and does not constitute financial advice, investment advice, or a recommendation to buy or sell any financial instrument. Trading and investing involve substantial risk, including the possible loss of your capital. Past performance is not indicative of future results. We do not promise or guarantee any financial outcome, profit, or earnings. Always do your own research and consult a licensed financial professional before making any financial decisions.
     </div>
   </div>
 
-  <!-- TikTok Pixel -->
   <script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Ripple on CTA click
+  document.querySelectorAll('.cta').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      const r = document.createElement('span');
+      r.className = 'ripple';
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      r.style.width = r.style.height = size + 'px';
+      r.style.left = (e.clientX - rect.left - size/2) + 'px';
+      r.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(r);
+      setTimeout(() => r.remove(), 600);
+    });
+  });
+
+  // Interactive level selector
+  const fb = document.getElementById('lvlFeedback');
+  const msgs = {
+    beginner: "Perfect — we start from zero. You'll learn the fundamentals first. 🌱",
+    intermediate: "Great — we'll sharpen your strategy and take you further. 🚀",
+    advanced: "Nice — advanced concepts, live examples and sessions await. 💎"
+  };
+  document.querySelectorAll('.lvl').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.lvl').forEach(x => x.classList.remove('active'));
+      el.classList.add('active');
+      fb.textContent = msgs[el.dataset.lvl];
+      fb.classList.add('show');
+    });
+  });
+
+  // TikTok Pixel
   !function (w, d, t) {
     w.TiktokAnalyticsObject = t;
     var ttq = w[t] = w[t] || [];
@@ -134,13 +234,19 @@
   }(window, document, 'ttq');
   ttq.load('DA2CKK3C77U575JEEHJG');
   ttq.page();
-  </script>
 
-  <!-- Facebook Pixel -->
-  <script>
+  // Track CTA clicks
+  document.querySelectorAll('.cta').forEach(b => {
+    b.addEventListener('click', () => { try { ttq.track('ClickButton'); } catch(e){} });
+  });
+
+  // Facebook Pixel
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init','1047586281254461');
   fbq('track','PageView');
+  document.querySelectorAll('.cta').forEach(b => {
+    b.addEventListener('click', () => { try { fbq('track', 'Lead'); } catch(e){} });
+  });
   </script>
 </body>
 </html>
